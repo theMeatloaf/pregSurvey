@@ -18,18 +18,22 @@
       <div class="row">
         <h2 class="text-center lead">Please Login below</h2>
       </div>
+
+      <div class="row">
+        <p id="errorMessage" class="text-danger"></p>
+      </div>
       
       <div class="row">
-        <form>
+        <form id="loginForm">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            <div class="form-group form-group-lg">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            <div class="form-group form-group-lg has-feedback" id="emailFormGroup">
+              <label class="control-label" for="emailInput">Email address</label>
+              <input type="email" class="form-control" id="emailInput" placeholder="Email">
             </div>
-            <div class="form-group form-group-lg">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <div class="form-group form-group-lg" id="passwordFormGroup">
+              <label class="control-label" for="passwordInput">Password</label>
+              <input type="password" class="form-control" id="passwordInput" placeholder="Password">
             </div>
             <button type="submit" class="btn-lg btn-default">Submit</button>
           </form>

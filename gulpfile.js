@@ -29,25 +29,10 @@ gulp.task('scripts', () => {
   return gulp.src('public/javascripts/**/*.js')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
-    .pipe($.babel())
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('.tmp/javascripts'))
     .pipe(reload({stream: true}));
 });
-
-// function lint(files, options) {
-//   return gulp.src(files)
-//     .pipe($.eslint({ fix: true }))
-//     .pipe(reload({stream: true, once: true}))
-//     .pipe($.eslint.format())
-//     .pipe(lint({configFile: './eslint.json'}))
-//     .pipe($.if(!browserSync.active, $.eslint.failAfterError()));
-// }
-
-// gulp.task('lint', () => {
-//   return lint('public/javascripts/**/*.js')
-//     .pipe(gulp.dest('public/javascripts'));
-// });
 
 gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('public/*.html')
@@ -85,7 +70,7 @@ gulp.task('serve', () => {
     var server = gls.new('./bin/www',['.tmp','public']);
     server.start();
 
-    gulp.watch(['public/*.html', 'public/images/**/*', '.tmp/fonts/**/*'], function (file) {
+    gulp.watch(['public/*.html', 'public/images/**/*', '.tmp/fonts/**/*','public/javascripts/**/*.js'], function (file) {
       server.notify.apply(server, [file]);
     });
 
@@ -96,13 +81,8 @@ gulp.task('serve', () => {
 });
 
 gulp.task('serve:dist', ['default'], () => {
-  browserSync.init({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['dist']
-    }
-  });
+    var server = gls.new('./bin/www',['dist']);
+    server.start();
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'extras'], () => {
