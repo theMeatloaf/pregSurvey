@@ -11,6 +11,11 @@ router.get('/api/puppies', getAllPuppies);
 const db = require('../server/db').db()
 
 function getAllPuppies(req, res, next) {
+  if (!req.isAuthenticated()) {
+    res.status(500).json({error:'not logged in'})
+  }
+
+
   db.any('select * from pups')
     .then(function (data) {
       res.status(200)

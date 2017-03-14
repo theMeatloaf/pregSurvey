@@ -15,7 +15,11 @@ $( "#loginForm" ).submit(function( event ) {
             function(data,status){
             	window.location.href = '/dash.html'
             }).fail(function(data,status) {
-            	$("#errorMessage").html(data.responseJSON['error']);
+            	if (data.responseJSON){
+            		$("#errorMessage").html(data.responseJSON['error']);
+            	} else {
+            		$("#errorMessage").html(data);
+            	}
   			});
 		}
 

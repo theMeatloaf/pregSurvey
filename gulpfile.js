@@ -70,8 +70,14 @@ gulp.task('serve', () => {
     var server = gls.new('./bin/www',['.tmp','public']);
     server.start();
 
-    gulp.watch(['public/*.html', 'public/images/**/*', '.tmp/fonts/**/*','public/javascripts/**/*.js'], function (file) {
+    gulp.watch(['public/*.html', 'public/images/**/*', '.tmp/fonts/**/*','public/javascripts/**/*.js','routes/**/*.js'], function (file) {
       server.notify.apply(server, [file]);
+    });
+    
+    //restart my server for server related files
+    gulp.watch('routes/**/*.js', function() {
+      server.stop();
+      server.start();
     });
 
     gulp.watch('public/stylesheets/**/*.scss', ['styles']);
