@@ -21,7 +21,6 @@
     "serve-favicon": "~2.4.1"
   },
   "devDependencies": {
-    "connect-livereload": "^0.6.0",
     "nodemon": "^1.11.0"
   }
 }
