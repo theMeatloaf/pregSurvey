@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "pug": "^2.0.0-beta11",
@@ -21,17 +21,7 @@
     "serve-favicon": "~2.4.1"
   },
   "devDependencies": {
-    "browser-sync": "^2.2.1",
     "connect-livereload": "^0.6.0",
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-if": "^2.0.2",
-    "gulp-live-server": "0.0.30",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-plumber": "^1.1.0",
-    "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.4.1",
-    "run-sequence": "^1.2.2"
+    "nodemon": "^1.11.0"
   }
 }
