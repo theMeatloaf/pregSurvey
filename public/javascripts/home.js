@@ -1,5 +1,17 @@
 //homepage controls
 
+function autoLogin(){
+
+	$.get('/api/loggedIn',function(data,status) {
+		location.replace('/settings.html');
+	}).fail(function(data,status){
+		//unhide login form
+		$("#formDiv").removeClass('hidden');
+		$("#loginHeader").removeClass('hidden');
+	});
+
+};
+
 $( "#loginForm" ).submit(function( event ) {
 
 		if (checkValidation()) {
@@ -13,7 +25,7 @@ $( "#loginForm" ).submit(function( event ) {
                 password: password
             },
             function(data,status){
-            	window.location.href = '/dash.html'
+            	window.location.href = '/settings.html'
             }).fail(function(data,status) {
             	if (data.responseJSON){
             		$("#errorMessage").html(data.responseJSON['error']);

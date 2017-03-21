@@ -9,6 +9,7 @@ function loadInuser(){
 	}).fail(function(data,status){
 		if (data.responseJSON){
         		$("#errorMessage").html(data.responseJSON['error']);
+        		location.replace('/');
         	} else {
         		$("#errorMessage").html(data);
         	}

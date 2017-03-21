@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('pregSurvey:server');
 var http = require('http');
+var fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
@@ -82,6 +83,8 @@ function onError(error) {
  */
 
 function onListening() {
+  fs.writeFile(__dirname + '/start.log', (new Date().getTime() / 1000));
+
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr

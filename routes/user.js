@@ -9,6 +9,7 @@ router.post('/api/register',register);
 router.get('/api/puppies', getAllPuppies);
 router.get('/api/loggedIn',getCurrentUser);
 router.post('/api/updateUser',updateUser);
+router.get('/api/logout',logout);
 
 const db = require('../server/db').db()
 
@@ -31,7 +32,6 @@ function getAllPuppies(req, res, next) {
 }
 
 function updateUser(req,res,next) {
-
   if (req.user) {
     let id = req.user.id;
     db.none('update users set phone=$1 where id=$2',
@@ -55,6 +55,16 @@ function getCurrentUser(req, res, next) {
   } else {
     res.status(500).json({error:'not logged in'});
   }
+}
+
+function logout (req, res, next){
+  req.session.destroy(function (err) {
+    res.status(200)
+        .json({
+          status: 'success',
+          message: 'Logged Out User'
+        });
+  });
 }
 
 function login(req, res, next) {

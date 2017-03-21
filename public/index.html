@@ -9,13 +9,13 @@
     <!-- Bootstrap -->
     <link href="stylesheets/bootstrap.css" rel="stylesheet">
   </head>
-  <body>
+  <body onload="autoLogin();">
     <div class="container">
       <div class="row">
         <h1 class="text-center">Welcome!</h1>
       </div>
         
-      <div class="row">
+      <div class="row hidden" id="loginHeader">
         <h2 class="text-center lead">Please Login below</h2>
       </div>
 
@@ -23,7 +23,7 @@
         <p id="errorMessage" class="text-danger"></p>
       </div>
       
-      <div class="row">
+      <div class="row hidden" id="formDiv">
         <form id="loginForm">
           <div class="col-md-2"></div>
           <div class="col-md-8">
