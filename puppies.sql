@@ -14,8 +14,9 @@ CREATE TABLE pups (
 CREATE TABLE users (
 	ID SERIAL PRIMARY KEY,
 	username VARCHAR NOT NULL UNIQUE,
-	password VARCHAR
-); 
+	password VARCHAR,
+	phone VARCHAR
+);
 
 INSERT INTO pups (name, breed, age, sex)
   VALUES ('Tyler', 'Retrieved', 3, 'M');

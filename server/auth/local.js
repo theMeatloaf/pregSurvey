@@ -10,6 +10,7 @@ init();
 
 passport.use(new LocalStrategy({}, (username, password, done) => {
   // check to see if the username exists
+  username = username.toLowerCase();
   db.one('select * from users where username = $1', username)
     .then((user) => { 
       if (!user) return done(null, false);

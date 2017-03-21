@@ -7,15 +7,15 @@ const router = express.Router();
 router.post('/api/login',login);
 router.post('/api/register',register);
 router.get('/api/puppies', getAllPuppies);
+router.get('/api/loggedIn',getCurrentUser);
+router.post('/api/updateUser',updateUser);
 
 const db = require('../server/db').db()
 
 function getAllPuppies(req, res, next) {
   if (!req.isAuthenticated()) {
-    res.status(500).json({error:'not logged in'})
+    res.status(500).json({error:'not logged in'});
   }
-
-
   db.any('select * from pups')
     .then(function (data) {
       res.status(200)
@@ -28,6 +28,33 @@ function getAllPuppies(req, res, next) {
     .catch(function (err) {
       return next(err);
     });
+}
+
+function updateUser(req,res,next) {
+
+  if (req.user) {
+    let id = req.user.id;
+    db.none('update users set phone=$1 where id=$2',
+    [req.body.phone,id]).then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated User'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+  }
+
+}
+
+function getCurrentUser(req, res, next) {
+  if (req.user) {
+    res.status(200).json(req.user);
+  } else {
+    res.status(500).json({error:'not logged in'});
+  }
 }
 
 function login(req, res, next) {
@@ -47,6 +74,11 @@ function login(req, res, next) {
 }
 
 function register(req, res, next) {
+  if (!req.body.password || !req.body.username) {
+    res.status(500).json({error:'Please enter both a Username and Password'});
+    return;
+  }
+  
 authHelpers.createUser(req).then(function () {
     passport.authenticate('local', (err, user, info) => {
       if (user) { res.status(200).json(user); } 

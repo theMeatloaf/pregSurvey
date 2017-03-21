@@ -8,11 +8,13 @@ function comparePass(userPassword, databasePassword) {
 }
 
 function createUser(req) {
+  var username = req.body.username;
+  username = username.toLowerCase();
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
   return db.none(`insert into users(username,password)
       values($1, $2)`,
-      [req.body.username,hash])
+      [username,hash])
 }
 
 module.exports = {
