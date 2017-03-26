@@ -13,6 +13,7 @@ function autoLogin(){
 };
 
 $( "#loginForm" ).submit(function( event ) {
+		$("#errorMessage").html("");
 
 		if (checkValidation()) {
 			var email = $("#emailInput").val();

@@ -3,7 +3,6 @@
 function loadInuser(){
 
 	$.get('/api/loggedIn',function(data,status) {
-		console.log(data);
 		$("#emailInput").val(data["username"]);
 		$("#phoneInput").val(data["phone"]);
 	}).fail(function(data,status){
@@ -18,6 +17,8 @@ function loadInuser(){
 };
 
 $( "#editForm" ).submit(function( event ) {
+	     $("#successMessage").html("");
+        $("#errorMessage").html("");
 
 		if (checkValidation()) {
 			var phonenum = $("#phoneInput").val();
@@ -25,10 +26,10 @@ $( "#editForm" ).submit(function( event ) {
 			var loginURL = "/api/updateUser";
            $.post(loginURL,
             {
-                phone: phonenum,
+                phone: phonenum
             },
             function(data,status){
-            	window.location.href = '/settings.html'
+        		$("#successMessage").html("Info saved Successfully");
             }).fail(function(data,status) {
             	if (data.responseJSON){
             		$("#errorMessage").html(data.responseJSON['error']);
@@ -37,8 +38,46 @@ $( "#editForm" ).submit(function( event ) {
             	}
   			});
 		}
-
   		event.preventDefault();
+});
+
+$("#passForm").submit(function(event) {
+	$("#passErrorMessage").html('');
+	$(".passFormGroup").removeClass("has-error");
+
+	var oldPassword = $("#oldPasswordInput").val();
+	var newpass1 = $("#newPasswordInput1").val();
+	var newpass2 = $("#newPasswordInput2").val();
+
+	//validate a bit
+	if (newpass1 != newpass2 || !newpass1 || !newpass2) {
+		$("#passErrorMessage").html('New passwords dont match');
+		$(".passFormGroup").addClass("has-error");
+	} else if(newpass1 == oldPassword) {
+		$("#passErrorMessage").html('Password entered is not new');
+		$(".passFormGroup").addClass("has-error");
+	} else {
+		//lets change it
+		var passURL = '/api/changePassword';
+		$.post(passURL,{
+			oldPassword:oldPassword,
+			newPassword:newpass1
+		},function(data,status){
+			$("#oldPasswordInput").val('');
+			$("#newPasswordInput2").val('');
+			$("#newPasswordInput1").val('');
+
+        	$("#passSuccessMessage").html("Password changed successfully!");
+		}).fail(function(data,status) {
+			console.log(data);
+			if (data.responseJSON){
+	    		$("#passErrorMessage").html(data.responseJSON['message']);
+	    	} else {
+	    		$("#passErrorMessage").html(data);
+	    	}
+		});
+	}
+	 event.preventDefault();
 });
 
 function checkValidation() {

@@ -21,6 +21,7 @@
 
       <div class="row">
         <p id="errorMessage" class="text-danger"></p>
+        <p id="successMessage" class="text-success"></p>
       </div>
       
       <div class="row">
@@ -44,31 +45,7 @@
               </div>
             </div>
 
-           <div class="row">
-                <h4 class="lead">Update Password:</h4>
-          </div>
           <div class="form-group">
-              <label class="control-label col-sm-1" for="oldPasswordInput">Current:</label>
-              <div class="col-sm-6">
-                <input type="password" class="form-control" id="oldPasswordInput" placeholder="Current Password">
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-sm-1" for="cellInput">New:</label>
-              <div class="col-sm-6">
-                <input type="password" class="form-control" id="newPasswordInput1" placeholder="New Password">
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-sm-1" for="cellInput">Confirm:</label>
-              <div class="col-sm-6">
-                <input type="password" class="form-control" id="newPasswordInput2" placeholder="New Password">
-              </div>
-          </div>
-          <button type="button" id="updatePasswordButton" class="btn btn-primary">Update Password</button>
-
-          <div class="form-group">
-            <br>
             <h4 class="lead">Daily Notifications:</h4>
             <label class="checkbox-inline">
               <input type="checkbox" id="emailcheckbox" value="emailNotifications">Email
@@ -77,19 +54,46 @@
               <input type="checkbox" id="smsCheckbox" value="option1">Text
             </label>
           </div>
-
-          <br>
-          <div class="col-sm-2">
             <button type="submit" class="btn-lg btn-default">Save</button>
+        </form>
+        <br><br>
+        <div class="row">
+        <p id="passErrorMessage" class="text-danger"></p>
+        <p id="passSuccessMessage" class="text-success"></p>
+      </div>
+        <form id="passForm" class="form-horizontal"> 
+          <div class="row">
+                <h4 class="lead">Update Password:</h4>
           </div>
-          <div class="col-sm-10">
-            <button type="button" id="optOut" class="btn-lg btn-danger">Opt Out</button>
+          <div class="form-group">
+              <label class="control-label col-sm-1" for="oldPasswordInput">Current:</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="oldPasswordInput" placeholder="Current Password">
+              </div>
           </div>
-
+          <div class="form-group passFormGroup">
+              <label class="control-label col-sm-1" for="cellInput">New:</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="newPasswordInput1" placeholder="New Password">
+              </div>
+          </div>
+          <div class="form-group passFormGroup">
+              <label class="control-label col-sm-1" for="cellInput">Confirm:</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="newPasswordInput2" placeholder="New Password">
+              </div>
+          </div>
+          <button type="submit" id="updatePasswordButton" class="btn btn-primary">Update Password</button>
         </form>
         </div>
         <div class="col-md-2"></div>
       </div>
+
+        <br><br><br>
+        <div class="col-xs-1"></div>
+        <div class="col-xs-11 row">
+          <button type="button" id="optOut" class="btn-lg btn-danger">Opt Out</button>
+        </div>
    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

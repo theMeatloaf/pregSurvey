@@ -10,12 +10,13 @@ router.get('/api/puppies', getAllPuppies);
 router.get('/api/loggedIn',getCurrentUser);
 router.post('/api/updateUser',updateUser);
 router.get('/api/logout',logout);
+router.post('/api/changePassword',changePassword);
 
 const db = require('../server/db').db()
 
 function getAllPuppies(req, res, next) {
   if (!req.isAuthenticated()) {
-    res.status(500).json({error:'not logged in'});
+    res.status(401).json({error:'not logged in'});
   }
   db.any('select * from pups')
     .then(function (data) {
@@ -29,6 +30,26 @@ function getAllPuppies(req, res, next) {
     .catch(function (err) {
       return next(err);
     });
+}
+
+function changePassword(req,res,next) {
+    if (!req.isAuthenticated()) {
+      res.status(401).json({error:'not logged in'});
+    } else if (!req.body.oldPassword || !req.body.newPassword) {
+      res.status(400).json({error:'provide old and new password'});
+    }
+
+    if(authHelpers.comparePass(req.body.oldPassword,req.user.password)) {
+      authHelpers.updatePassword(req)
+          .then(function() {
+            res.status(200).json({status:'success',message:'password updated!'});
+          }).catch(function(err){
+            res.status(500).json(err);
+          });
+    } else {
+        res.status(400).json({status:'failed',message:'Old Password is incorrect'});
+    }
+
 }
 
 function updateUser(req,res,next) {
@@ -69,7 +90,7 @@ function logout (req, res, next){
 
 function login(req, res, next) {
   if (!req.body.password || !req.body.username) {
-    res.status(500).json({error:'Please enter both a Username and Password'});
+    res.status(400).json({error:'Please enter both a Username and Password'});
     return;
   }
   passport.authenticate('local', (err, user, info) => {
@@ -85,19 +106,19 @@ function login(req, res, next) {
 
 function register(req, res, next) {
   if (!req.body.password || !req.body.username) {
-    res.status(500).json({error:'Please enter both a Username and Password'});
+    res.status(400).json({error:'Please enter both a Username and Password'});
     return;
   }
   
-authHelpers.createUser(req).then(function () {
-    passport.authenticate('local', (err, user, info) => {
-      if (user) { res.status(200).json(user); } 
-      else if (err) { res.status(500).json(err); }
-    })(req, res, next);
-  })
-  .catch(function (err) {
-         res.status(500).json(err);
-  });
+  authHelpers.createUser(req).then(function () {
+      passport.authenticate('local', (err, user, info) => {
+        if (user) { res.status(200).json(user); } 
+        else if (err) { res.status(500).json(err); }
+      })(req, res, next);
+    })
+    .catch(function (err) {
+           res.status(500).json(err);
+    });
 }
 
 module.exports = router;
