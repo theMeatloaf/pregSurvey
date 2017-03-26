@@ -13,7 +13,6 @@ function loadInuser(){
         		$("#errorMessage").html(data);
         	}
 	});
-
 };
 
 $( "#editForm" ).submit(function( event ) {
@@ -39,6 +38,14 @@ $( "#editForm" ).submit(function( event ) {
   			});
 		}
   		event.preventDefault();
+});
+
+$("#logOut").click(function(){
+	$.get('/api/logout',null,function(){
+		window.location.href = '/';
+	}).fail(function(data,status){
+
+	});
 });
 
 $("#passForm").submit(function(event) {
