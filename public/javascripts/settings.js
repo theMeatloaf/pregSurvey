@@ -1,10 +1,17 @@
 //homepage controls
 
 function loadInuser(){
-
 	$.get('/api/loggedIn',function(data,status) {
+
 		$("#emailInput").val(data["username"]);
 		$("#phoneInput").val(data["phone"]);
+		if(data["notifications_email"] == true) {
+			$('#emailcheckbox').attr("checked","checked");
+		}
+		if(data["notifications_sms"] == true) {
+			$('#smsCheckbox').attr("checked","checked");
+		}
+
 	}).fail(function(data,status){
 		if (data.responseJSON){
         		$("#errorMessage").html(data.responseJSON['error']);
@@ -16,8 +23,11 @@ function loadInuser(){
 };
 
 $( "#editForm" ).submit(function( event ) {
-	     $("#successMessage").html("");
+	    $("#successMessage").html("");
         $("#errorMessage").html("");
+
+        var emailNotifications = $("#emailcheckbox").val() == "on"
+        var smsNotification = $("#smsCheckbox").val() == "on"
 
 		if (checkValidation()) {
 			var phonenum = $("#phoneInput").val();
@@ -25,7 +35,9 @@ $( "#editForm" ).submit(function( event ) {
 			var loginURL = "/api/updateUser";
            $.post(loginURL,
             {
-                phone: phonenum
+                phone: phonenum,
+                emailNotifications: emailNotifications,
+                smsNotifications: smsNotification
             },
             function(data,status){
         		$("#successMessage").html("Info saved Successfully");

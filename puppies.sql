@@ -15,7 +15,9 @@ CREATE TABLE users (
 	ID SERIAL PRIMARY KEY,
 	username VARCHAR NOT NULL UNIQUE,
 	password VARCHAR,
-	phone VARCHAR
+	phone VARCHAR,
+  notifications_email BOOLEAN,
+  notifications_sms BOOlEAN
 );
 
 INSERT INTO pups (name, breed, age, sex)
