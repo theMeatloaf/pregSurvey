@@ -53,11 +53,13 @@ $( "#editForm" ).submit(function( event ) {
 });
 
 $("#logOut").click(function(){
-	$.get('/api/logout',null,function(){
-		window.location.href = '/';
-	}).fail(function(data,status){
-
-	});
+	if (confirm('Are you sure you want to log out?')) {
+		$.get('/api/logout',null,function(){
+			window.location.href = '/';
+		}).fail(function(data,status){
+		
+		});
+	} 
 });
 
 $("#passForm").submit(function(event) {

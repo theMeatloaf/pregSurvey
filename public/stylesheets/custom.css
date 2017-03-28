@@ -1,3 +1,7 @@
 button.navbar-btn{
       margin-top:20px
     } 
+
+button.navbar-btn-icon{
+	margin-top: 7px
+}

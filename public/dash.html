@@ -1,5 +1,60 @@
-this is the dash page!
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- TheWelcome</title>
 
+    <!-- Bootstrap -->
+    <link href="stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="stylesheets/custom.css" rel="stylesheet">
+  </head>
+
+  <body onload="loadInData()">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header col-xs-10">
+        <a class="navbar-brand" href="#">
+         <img width=45 alt="Brand" src="/images/logo_circle.png">
+        </a>
+          <h2>Dashboard</h2>
+      </div>
+      <div class="col-xs-2">
+      	<button type="button" id="goSettingsBtn" class="btn btn-link btn-lg navbar-btn-icon navbar-right"> 
+      		<font color="#444444" size="5"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></font> 
+      	</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+  	<br><br><br><br>
+
+  	<div class="row">
+  		<div class="col-xs-4"></div>
+  		<div class="col-xs-4" align="center">
+  			<p id="errorMessage" class="text-danger"></p>
+  			<button class="btn btn-danger btn-lg hidden" type="button" id="surveyButt">Take Survey</button>
+  			<p id="testVal"></p>
+  		</div>
+  		<div class="col-xs-4"></div>
+  	</div>
+
+  </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/dash.js"></script>
+  </body>
+</html>
+
+
+<!--stuff to build tonight:
+	dash page with menu to settings, button to take survey, music POC
+	survey with proper redirect... -->
 
 <!-- Stuff that needs to get done
 		-make registration page (3 hours)
@@ -25,7 +80,6 @@ this is the dash page!
 			-gets email with button to set up account
 		-profile edit:
 	 		-change password
-	 		-notifications
 	 		-phone number and email
 	 		-options for notifications 
 	 		-opt out option
@@ -33,11 +87,18 @@ this is the dash page!
 	 	-daily dash:
 	 		-listen to music
 	 		-answer survey if should
-
+	 		-gear menu to get to settings
+	 		-ability to isten to music
 	 		-only answer most appropriate survey
 
 	 	-back end:
-	 		search for users and opt them out, enter birthdate
+	 		-search for users and opt them out, enter birthdate
+			-generate new user and send invitation
 
-	 	-
-	 -->
+	 	questions for katie:
+	 		-button to listen to music or do it right from the dash?...I say combime
+			-qualtrics
+				build out urls based on email and database ID = https://goldpsych.eu.qualtrics.com/jfe/form/SV_bsxQ9gLCGoUCA8B?ExternalDataReference=1234&RecipientEmail=ryan@wedig.com
+
+		
+	-->
