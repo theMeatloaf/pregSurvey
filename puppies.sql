@@ -25,7 +25,8 @@ CREATE TABLE users (
 CREATE TABLE surveys (
   ID SERIAL PRIMARY KEY,
   qualtrics_id VARCHAR,
-  days_till_next INTEGER
+  days_till_next INTEGER,
+  next_id INTEGER
 );
 
 INSERT INTO pups (name, breed, age, sex)

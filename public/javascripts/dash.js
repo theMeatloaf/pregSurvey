@@ -41,6 +41,6 @@ $("#surveyButt").click(function(){
 });
 
 $("#goSettingsBtn").click(function(){
-	window.location.href = "/settings.html";
+	window.location.href = "/settings";
 });
 

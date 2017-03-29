@@ -3,7 +3,7 @@
 function autoLogin(){
 
 	$.get('/api/loggedIn',function(data,status) {
-		location.replace('/settings.html');
+		location.replace('/dash');
 	}).fail(function(data,status){
 		//unhide login form
 		$("#formDiv").removeClass('hidden');
@@ -26,7 +26,7 @@ $( "#loginForm" ).submit(function( event ) {
                 password: password
             },
             function(data,status){
-            	window.location.href = '/settings.html'
+            	window.location.href = '/dash'
             }).fail(function(data,status) {
             	if (data.responseJSON){
             		$("#errorMessage").html(data.responseJSON['error']);
