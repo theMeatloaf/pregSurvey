@@ -53,7 +53,18 @@ function completeSurvey(req,res,next){
 			      return next(err);
 			    });
 	    	} else {
-	    		res.status(200).json({status:'success',message:'Out Of Surveys'});
+	    		//no more surveys left...remove stuff from the user so that it wont show the button anymore
+	    		db.none('update users set next_survey_date=$1, next_survey_id=$2 where id=$3',
+			    [null,null,req.user.id]).then(function () {
+			      res.status(200)
+			        .json({
+			          status: 'success',
+			          message: "Updated User. No more surveys"
+			        });
+			    })
+			    .catch(function (err) {
+			      return next(err);
+			    });
 	    	}
 	   })
 	   .catch(function (err) {

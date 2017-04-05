@@ -5,15 +5,24 @@ var username = ""
 
 function loadInData() {
 	$.get('/api/loggedIn',function(data,status) {
+		if ( !data["next_survey_date"] ) {
+			//handle no more surveys here!
+			return;
+		}
+
 		//get dates and show button if survey is due
 		var date = new Date();
 		var dueDate = new Date(data["next_survey_date"]);
+
 		if (date > dueDate) {
 			//gather some things to send to qualtrics later
 			nextSurveyID = data["next_survey_id"];
 			userID = data["id"];
 			username = data["username"];
 			$("#surveyButt").removeClass("hidden");
+		} else {
+			var numDays = daydiff(date,dueDate);
+			$("#prompt").html(numDays+" day"+(numDays>1 ? "s" : "")+" until next survey");
 		}
 	}).fail(function(data,status){
 		if (data.responseJSON){
@@ -24,6 +33,10 @@ function loadInData() {
         	}
 	});
 
+}
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24));
 }
 
 $("#surveyButt").click(function(){
