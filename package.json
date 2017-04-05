@@ -1,9 +1,9 @@
 {
-  "name": "pregSurvey",
+  "name": "pregsurvey",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www --ignore public"
+    "start": "nodemon ./bin/www --ignore public & guard"
   },
   "dependencies": {
     "pug": "^2.0.0-beta11",
