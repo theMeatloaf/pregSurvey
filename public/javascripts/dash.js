@@ -7,6 +7,7 @@ function loadInData() {
 	$.get('/api/loggedIn',function(data,status) {
 		if ( !data["next_survey_date"] ) {
 			//handle no more surveys here!
+			$("#prompt").html("No more surveys to take!<br>Thank you for your participation!");
 			return;
 		}
 
