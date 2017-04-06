@@ -28,7 +28,7 @@ app.use(express.static(__dirname + '/public', {
   extensions: ['html']
 }));
 app.use(session({
-  secret: process.env.SECRET_KEY,
+  secret: process.env.SECRET_SESSION_KEY,
   resave: false,
   saveUninitialized: true
 }));
