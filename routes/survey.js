@@ -36,7 +36,7 @@ function completeSurvey(req,res,next){
 	    		//check real quick to make sure they aren't trying to cheat now...
 	    		var now = new Date();
 	    		if (now < req.user.next_survey_date) {
-	    			res.status(401).json({error:'no cheating now...'});
+	    			res.status(428).json({error:'no cheating now...'});
 	    			return;
 	    		} 
 
