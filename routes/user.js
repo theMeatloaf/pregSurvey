@@ -72,7 +72,9 @@ function updateUser(req,res,next) {
 
 function getCurrentUser(req, res, next) {
   if (req.user) {
-    res.status(200).json(req.user);
+    var user = req.user
+    delete user.password;
+    res.status(200).json(user);
   } else {
     res.status(500).json({error:'not logged in'});
   }
