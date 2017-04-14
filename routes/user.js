@@ -1,8 +1,10 @@
 const authHelpers = require('../server/auth/_helpers');
 const passport = require('../server/auth/local');
-
+const request = require('request');
 const express = require('express');
 const router = express.Router();
+
+require('dotenv').config()
 
 router.post('/api/login',login);
 router.post('/api/register',register);
@@ -11,6 +13,8 @@ router.get('/api/loggedIn',getCurrentUser);
 router.post('/api/updateUser',updateUser);
 router.get('/api/logout',logout);
 router.post('/api/changePassword',changePassword);
+router.post('/api/inviteUser',invite);
+router.get('/api/findUser',findUser);
 
 const db = require('../server/db').db()
 
@@ -114,7 +118,7 @@ function register(req, res, next) {
   
   authHelpers.createUser(req).then(function () {
       passport.authenticate('local', (err, user, info) => {
-        if (user) { res.status(200).json(user); } 
+        if (user) {  delete user.password; res.status(200).json(user); } 
         else if (err) { res.status(500).json(err); }
       })(req, res, next);
     })
@@ -123,4 +127,47 @@ function register(req, res, next) {
     });
 }
 
+function findUser(req,res,next) {
+  if (!req.query.setupEmail) {
+    res.status(401).json({error:'must pass email'});
+    return;
+  }
+
+  db.one('select * from users where username = $1 and password is null',req.query.setupEmail)
+    .then(function (data) {
+      res.status(200)
+        .json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function invite(req,res,next) {
+  db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_id)
+      values($1,true,$2,1)`,
+      [req.body.username,new Date()]).then(function (user) {
+          //this worked...lets email them
+          email(req.body.username,res);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    });
+}
+
+function email(address,res) {
+  var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages"
+  
+  request.post(API_URL,
+    { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:'you are  a maggot'  } },
+    function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(body);
+        } else {
+          res.status(500).json(response);
+        }
+    }
+  );
+}
+  
 module.exports = router;
