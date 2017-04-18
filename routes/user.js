@@ -128,15 +128,19 @@ function register(req, res, next) {
 }
 
 function findUser(req,res,next) {
-  if (!req.query.setupEmail) {
+  //TODO need to authenticate as super user
+
+  if (!req.query.email) {
     res.status(401).json({error:'must pass email'});
     return;
   }
 
-  db.one('select * from users where username = $1 and password is null',req.query.setupEmail)
+  db.many(`select * from users where username like $1`,'%'+req.query.email+'%')
     .then(function (data) {
-      res.status(200)
-        .json(data);
+      for (var i = data.length - 1; i >= 0; i--) {
+        delete data[i].password;
+      };
+      res.status(200).json(data);
     })
     .catch(function (err) {
       return next(err);

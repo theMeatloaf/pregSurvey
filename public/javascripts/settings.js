@@ -10,14 +10,8 @@ function loadInuser(){
 		}).fail(function(data,status){
 
 		});
-
-		return;
 	} else {
-
-	}
-
-
-	$.get('/api/loggedIn',function(data,status) {
+		$.get('/api/loggedIn',function(data,status) {
 
 		$("#emailInput").val(data["username"]);
 		$("#phoneInput").val(data["phone"]);
@@ -27,15 +21,15 @@ function loadInuser(){
 		if(data["notifications_sms"] == true) {
 			$('#smsCheckbox').attr("checked","checked");
 		}
-
-	}).fail(function(data,status){
-		if (data.responseJSON){
-        		$("#errorMessage").html(data.responseJSON['error']);
-        		location.replace('/');
-        	} else {
-        		$("#errorMessage").html(data);
-        	}
-	});
+		}).fail(function(data,status){
+			if (data.responseJSON){
+	        		$("#errorMessage").html(data.responseJSON['error']);
+	        		location.replace('/');
+	        	} else {
+	        		$("#errorMessage").html(data);
+	        	}
+		});
+	}
 };
 
 $( "#editForm" ).submit(function( event ) {
