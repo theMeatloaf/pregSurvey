@@ -3,6 +3,7 @@ const passport = require('../server/auth/local');
 const request = require('request');
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 
 require('dotenv').config()
 
@@ -13,7 +14,9 @@ router.get('/api/loggedIn',getCurrentUser);
 router.post('/api/updateUser',updateUser);
 router.get('/api/logout',logout);
 router.post('/api/changePassword',changePassword);
+router.post('/api/createPassword',createInitialPassword);
 router.post('/api/inviteUser',invite);
+router.get('/api/findInvitation',findInvitation);
 router.get('/api/findUser',findUser);
 
 const db = require('../server/db').db()
@@ -53,7 +56,21 @@ function changePassword(req,res,next) {
     } else {
         res.status(400).json({status:'failed',message:'Old Password is incorrect'});
     }
+}
 
+function createInitialPassword(req,res,next) {
+
+    authHelpers.createInitialPassword(req)
+          .then(function() {
+            //it created the password now remove the invite token
+            db.none('update users set invite_token = null where invite_token=$1',[req.body.invite_token]).then(function () {
+              res.status(200).json({status:'success',message:'password created!'});
+            }).catch(function(err){
+              res.status(500).json(err);
+            });
+          }).catch(function(err){
+            res.status(500).json(err);
+          });
 }
 
 function updateUser(req,res,next) {
@@ -128,14 +145,31 @@ function register(req, res, next) {
 }
 
 function findUser(req,res,next) {
-  //TODO need to authenticate as super user
-
+   //TODO need to authenticate as super user
   if (!req.query.email) {
     res.status(401).json({error:'must pass email'});
     return;
   }
 
-  db.many(`select * from users where username like $1`,'%'+req.query.email+'%')
+  db.many(`select * from users where username like $1 `,'%'+req.query.email+'%')
+    .then(function (data) {
+      for (var i = data.length - 1; i >= 0; i--) {
+        delete data[i].password;
+      };
+      res.status(200).json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function findInvitation(req,res,next) {
+  if (!req.query.inviteCode) {
+    res.status(401).json({error:'must pass invite code'});
+    return;
+  }
+
+  db.many(`select * from users where invite_token = $1`,req.query.inviteCode)
     .then(function (data) {
       for (var i = data.length - 1; i >= 0; i--) {
         delete data[i].password;
@@ -148,27 +182,35 @@ function findUser(req,res,next) {
 }
 
 function invite(req,res,next) {
-  db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_id)
-      values($1,true,$2,1)`,
-      [req.body.username,new Date()]).then(function (user) {
+  //first make invitation hash
+  const salt = bcrypt.genSaltSync();
+  var now = new Date();
+  const hashVal = req.body.username+now.toString();
+  const hash = bcrypt.hashSync(hashVal, salt);
+
+  db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_id,invite_token)
+      values($1,true,$2,1,$3)`,
+      [req.body.username,new Date(),hash]).then(function (user) {
           //this worked...lets email them
-          email(req.body.username,res);
+          email(req.body.username,hash,res);
     })
     .catch(function (err) {
         res.status(500).json(err);
     });
 }
 
-function email(address,res) {
-  var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages"
+function email(address,token,res) {
+  var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
+  var inviteUrl = 'http://localhost:3000/settings?inviteCode='+token;
+
   request.post(API_URL,
-    { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:'you are  a maggot'  } },
+    { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:inviteUrl  } },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.status(200).json(body);
         } else {
-          res.status(500).json(response);
+          res.status(500).json(error);
         }
     }
   );

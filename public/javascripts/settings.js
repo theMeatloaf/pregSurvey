@@ -1,18 +1,41 @@
 //homepage controls
 
 function loadInuser(){
-	if (QueryString.setupEmail) {
-		$.get('/api/findUser',{
-			setupEmail:QueryString.setupEmail
+	if (QueryString.inviteCode) {
+		//initial setup of invited user...
+		$.get('/api/findInvitation',{
+			inviteCode:QueryString.inviteCode
 		},function(data,status) {
+			setupLoadedData(data[0]);
 			$("#title").html("Set up Account");
-			$("#emailInput").val(QueryString.setupEmail);
+			$("#oldPasswordInput").val(null);
+			$("#oldPassGroup").addClass("hidden");
+			$("#passFormTitle").html("Create Password:");
+			
+			
 		}).fail(function(data,status){
-
+			handleInitialError(data)
 		});
 	} else {
 		$.get('/api/loggedIn',function(data,status) {
+			setupLoadedData(data);
+		}).fail(function(data,status){
+			handleInitialError(data)
+		});
+	}
+};
 
+function handleInitialError(data){
+	if (data.responseJSON){
+		$("#errorMessage").html(data.responseJSON['error']);
+		location.replace('/');
+	} else {
+		$("#errorMessage").html(data);
+		location.replace('/');
+	}
+}
+
+function setupLoadedData(data) {
 		$("#emailInput").val(data["username"]);
 		$("#phoneInput").val(data["phone"]);
 		if(data["notifications_email"] == true) {
@@ -21,16 +44,7 @@ function loadInuser(){
 		if(data["notifications_sms"] == true) {
 			$('#smsCheckbox').attr("checked","checked");
 		}
-		}).fail(function(data,status){
-			if (data.responseJSON){
-	        		$("#errorMessage").html(data.responseJSON['error']);
-	        		location.replace('/');
-	        	} else {
-	        		$("#errorMessage").html(data);
-	        	}
-		});
-	}
-};
+}
 
 $( "#editForm" ).submit(function( event ) {
 	    $("#successMessage").html("");
@@ -88,8 +102,40 @@ $("#passForm").submit(function(event) {
 		$("#passErrorMessage").html('Password entered is not new');
 		$(".passFormGroup").addClass("has-error");
 	} else {
-		//lets change it
-		var passURL = '/api/changePassword';
+		//lets create it
+		if (QueryString.inviteCode) {
+			createPass(newpass1)
+		} else {
+			//just change it
+			updatePass(oldPassword,newpass1)
+		}
+	}
+	 event.preventDefault();
+});
+
+function createPass(newpass1) {
+	var passURL = "/api/createPassword";
+	$.post(passURL,{
+		password:newpass1,
+		invite_token:QueryString.inviteCode
+	},function(data,status) {
+		$("#oldPasswordInput").val('');
+		$("#newPasswordInput2").val('');
+		$("#newPasswordInput1").val('');
+
+        $("#passSuccessMessage").html("Password changed successfully!");
+	}).fail(function(data,status) {
+		if (data.responseJSON){
+    		$("#passErrorMessage").html(data.responseJSON['message']);
+    	} else {
+    		$("#passErrorMessage").html(data);
+    	}
+	});
+
+}
+
+function updatePass(oldPassword,newpass1) {
+	var passURL = '/api/changePassword';
 		$.post(passURL,{
 			oldPassword:oldPassword,
 			newPassword:newpass1
@@ -100,16 +146,13 @@ $("#passForm").submit(function(event) {
 
         	$("#passSuccessMessage").html("Password changed successfully!");
 		}).fail(function(data,status) {
-			console.log(data);
 			if (data.responseJSON){
 	    		$("#passErrorMessage").html(data.responseJSON['message']);
 	    	} else {
 	    		$("#passErrorMessage").html(data);
 	    	}
 		});
-	}
-	 event.preventDefault();
-});
+}
 
 function checkValidation() {
 	return true;

@@ -14,6 +14,13 @@ function updatePassword(req) {
   return db.none(`update users set password=$1 where id=$2`, [hash,req.user.id])
 }
 
+function createInitialPassword(req) {
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(req.body.password, salt);
+
+  return db.none(`update users set password=$1 where invite_token=$2`, [hash,req.body.invite_token])
+}
+
 function createUser(req) {
   var username = req.body.username;
   username = username.toLowerCase();
@@ -27,5 +34,6 @@ function createUser(req) {
 module.exports = {
   comparePass,
   createUser,
-  updatePassword
+  updatePassword,
+  createInitialPassword
 };

@@ -19,7 +19,9 @@ CREATE TABLE users (
   notifications_email BOOLEAN,
   notifications_sms BOOlEAN,
   next_survey_date DATE,
-  next_survey_ID VARCHAR
+  next_survey_ID VARCHAR,
+  invite_token VARCHAR,
+  forgotPass_token VARCHAR
 );
 
 CREATE TABLE surveys (
