@@ -18,7 +18,7 @@ function createInitialPassword(req) {
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
 
-  return db.none(`update users set password=$1 where invite_token=$2`, [hash,req.body.invite_token])
+  return db.none(`update users set password=$1, invite_token = null, phone=$2, notifications_email=$3, notifications_sms=$4 where invite_token=$5`, [hash,req.body.phone,req.body.emailNotifications,req.body.smsNotifications,req.body.invite_token])
 }
 
 function createUser(req) {

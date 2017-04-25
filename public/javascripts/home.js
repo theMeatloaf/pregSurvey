@@ -19,7 +19,7 @@ $( "#loginForm" ).submit(function( event ) {
 			var email = $("#emailInput").val();
 			var password = $("#passwordInput").val();
 		
-		var loginURL = "/api/login";
+			var loginURL = "/api/login";
            $.post(loginURL,
             {
                 username: email,

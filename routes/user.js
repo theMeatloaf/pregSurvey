@@ -62,12 +62,7 @@ function createInitialPassword(req,res,next) {
 
     authHelpers.createInitialPassword(req)
           .then(function() {
-            //it created the password now remove the invite token
-            db.none('update users set invite_token = null where invite_token=$1',[req.body.invite_token]).then(function () {
-              res.status(200).json({status:'success',message:'password created!'});
-            }).catch(function(err){
-              res.status(500).json(err);
-            });
+            res.status(200).json({status:'success',message:'password created!'});
           }).catch(function(err){
             res.status(500).json(err);
           });
@@ -151,7 +146,7 @@ function findUser(req,res,next) {
     return;
   }
 
-  db.many(`select * from users where username like $1 `,'%'+req.query.email+'%')
+  db.many(`select * from users where username like $1`,'%'+req.query.email+'%')
     .then(function (data) {
       for (var i = data.length - 1; i >= 0; i--) {
         delete data[i].password;

@@ -7,11 +7,13 @@ function loadInuser(){
 			inviteCode:QueryString.inviteCode
 		},function(data,status) {
 			setupLoadedData(data[0]);
-			$("#title").html("Set up Account");
+			$("#title").html("Create Account");
 			$("#oldPasswordInput").val(null);
 			$("#oldPassGroup").addClass("hidden");
+			$("#saveBtn").addClass("hidden");
 			$("#passFormTitle").html("Create Password:");
-			
+			$("#updatePasswordButton").html("Create Account");
+
 			
 		}).fail(function(data,status){
 			handleInitialError(data)
@@ -50,8 +52,8 @@ $( "#editForm" ).submit(function( event ) {
 	    $("#successMessage").html("");
         $("#errorMessage").html("");
 
-        var emailNotifications = $("#emailcheckbox").val() == "on"
-        var smsNotification = $("#smsCheckbox").val() == "on"
+        var emailNotifications = $("#emailcheckbox").is(':checked'); 
+        var smsNotification = $("#smsCheckbox").is(':checked'); 
 
 		if (checkValidation()) {
 			var phonenum = $("#phoneInput").val();
@@ -102,7 +104,7 @@ $("#passForm").submit(function(event) {
 		$("#passErrorMessage").html('Password entered is not new');
 		$(".passFormGroup").addClass("has-error");
 	} else {
-		//lets create it
+		//lets save everything and  create it
 		if (QueryString.inviteCode) {
 			createPass(newpass1)
 		} else {
@@ -113,17 +115,43 @@ $("#passForm").submit(function(event) {
 	 event.preventDefault();
 });
 
+//this function hits the endpoint that sets up the initial account and removes the invite token...
 function createPass(newpass1) {
 	var passURL = "/api/createPassword";
+    var emailNotifications = $("#emailcheckbox").val() == "on"
+    var smsNotification = $("#smsCheckbox").val() == "on"
+	var phonenum = $("#phoneInput").val();
+
 	$.post(passURL,{
 		password:newpass1,
+        phone: phonenum,
+        emailNotifications: emailNotifications,
+        smsNotifications: smsNotification,
 		invite_token:QueryString.inviteCode
 	},function(data,status) {
 		$("#oldPasswordInput").val('');
 		$("#newPasswordInput2").val('');
 		$("#newPasswordInput1").val('');
+        $("#passSuccessMessage").html("Account created successfully!");
+        //lets do some login
+    	var email = $("#emailInput").val();
+	
+		var loginURL = "/api/login";
+       $.post(loginURL,
+        {
+            username: email,
+            password: newpass1
+        },
+        function(data,status){
+        	window.location.href = '/dash'
+        }).fail(function(data,status) {
+        	if (data.responseJSON){
+        		$("#passErrorMessage").html(data.responseJSON['error']);
+        	} else {
+        		$("#passErrorMessage").html(data);
+        	}
+		});
 
-        $("#passSuccessMessage").html("Password changed successfully!");
 	}).fail(function(data,status) {
 		if (data.responseJSON){
     		$("#passErrorMessage").html(data.responseJSON['message']);
