@@ -18,6 +18,8 @@ router.post('/api/createPassword',createInitialPassword);
 router.post('/api/inviteUser',invite);
 router.get('/api/findInvitation',findInvitation);
 router.get('/api/findUser',findUser);
+router.post('/api/forgotPassword',forgotPassword);
+router.post('/api/executeForgotPass',executeForgotPassword);
 
 const db = require('../server/db').db()
 
@@ -187,14 +189,57 @@ function invite(req,res,next) {
       values($1,true,$2,1,$3)`,
       [req.body.username,new Date(),hash]).then(function (user) {
           //this worked...lets email them
-          email(req.body.username,hash,res);
+          emailInvite(req.body.username,hash,res);
     })
     .catch(function (err) {
         res.status(500).json(err);
     });
 }
 
-function email(address,token,res) {
+function executeForgotPassword(req,res,next) {
+    authHelpers.forgotPassword(req)
+        .then(function() {
+          res.status(200).json({status:'success',message:'password changed!'});
+        }).catch(function(err){
+          res.status(500).json(err);
+        });
+}
+
+function forgotPassword(req,res,next) {
+  //make forgot passord hash
+  const salt = bcrypt.genSaltSync();
+  var now = new Date();
+  const hashVal = req.body.username+now.toString();
+  const hash = bcrypt.hashSync(hashVal, salt);
+
+  db.none(`update users set forgotpass_token=$1 where username=$2`,
+    [hash,req.body.username]).then(function () {
+        //alright set the token lets send them the email
+        emailForgotPassword(req.body.username,hash,res);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function emailForgotPassword(address,token,res) {
+  var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
+  
+  var inviteUrl = 'http://localhost:3000/forgotPassword?code='+token;
+
+  request.post(API_URL,
+    { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:inviteUrl  } },
+    function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json({mailgunResponse:body});
+        } else {
+          res.status(500).json(error);
+        }
+    }
+  );
+}
+
+function emailInvite(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
   var inviteUrl = 'http://localhost:3000/settings?inviteCode='+token;

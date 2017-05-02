@@ -7,6 +7,16 @@ function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
 }
 
+function forgotPassword(req) {
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(req.body.newPassword, salt);
+
+  return db.one(`select * from users where forgotpass_token=$1`,[req.body.forgotPassCode]).then(function (user) {
+       db.none(`update users set password=$1, forgotpass_token = null where forgotpass_token=$2`, [hash,req.body.forgotPassCode]);
+    });
+
+}
+
 function updatePassword(req) {
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.newPassword, salt);
@@ -35,5 +45,6 @@ module.exports = {
   comparePass,
   createUser,
   updatePassword,
-  createInitialPassword
+  createInitialPassword,
+  forgotPassword
 };
