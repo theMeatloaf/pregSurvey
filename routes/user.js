@@ -75,6 +75,9 @@ function createInitialPassword(req,res,next) {
 function updateUser(req,res,next) {
   if (req.user) {
     let id = req.user.id;
+    if (req.body.id) {
+      id = req.body.id;
+    }
     db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3 where id=$4',
     [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,id]).then(function () {
       res.status(200)

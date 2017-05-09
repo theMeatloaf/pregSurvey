@@ -64,7 +64,16 @@ $("#searchForm").submit(function(event){
                 var email = data[i].username;
                 var thisRow = row.clone();
                 thisRow.find('.value').html(email);
+                thisRow.find('#phoneNumberInput').val(data[i].phone);
                 thisRow.find('.optOutButton').attr("id",data[i].id);
+                thisRow.find('.userEditForm').attr("id",data[i].id);
+                if(data[i].notifications_email == true) {
+                    thisRow.find('#emailCheckbox').attr("checked","checked");
+                }
+                if(data[i].notifications_sms == true) {
+                    thisRow.find('#smsCheckbox').attr("checked","checked");
+                }
+
                 if (data[i].permission_level == -1 ) {
                     thisRow.find('.optOutButton').html("OPT IN");
                 } else {
@@ -88,7 +97,38 @@ $("#searchForm").submit(function(event){
 });
 
 
+$('#resultContainer').delegate('.userEditForm','submit',function(event){
+    $("#errorMessage").html("");
+    $("#successMessage").html("");
+
+    var form = $(event.target);
+    var emailNotifications = form.find("#emailCheckbox").is(':checked'); 
+    var smsNotification = form.find("#smsCheckbox").is(':checked'); 
+    var phoneValue = form.find("#phoneNumberInput").val();
+    var loginURL = "/api/updateUser";
+   $.post(loginURL,
+    {
+        phone: phoneValue,
+        emailNotifications: emailNotifications,
+        smsNotifications: smsNotification,
+        id:this.id
+    },
+    function(data,status){
+        $("#successMessage").html("Info saved Successfully");        
+    }).fail(function(data,status) {
+        if (data.responseJSON){
+            $("#errorMessage").html(data.responseJSON['error']);
+        } else {
+            $("#errorMessage").html(data);
+        }
+    });
+
+    event.preventDefault();
+});
+
 $('#resultContainer').delegate('.optOutButton','click',function(event) {
+    $("#errorMessage").html("");
+    $("#successMessage").html("");
 
     if ($(event.target).html() == "OPT IN") {
         //handle opt in
@@ -96,7 +136,8 @@ $('#resultContainer').delegate('.optOutButton','click',function(event) {
             $.post('/api/optIn',{
                 id:this.id
             }, function(data,status) {
-                location.replace('/admin');
+                $("#successMessage").html("User Opted in Successfully");
+                $("#searchForm").submit();
             }).fail(function(data,status) {
                 if (data.responseJSON){
                     if (data.responseJSON['error']) {
@@ -116,7 +157,8 @@ $('#resultContainer').delegate('.optOutButton','click',function(event) {
             $.post('/api/optOut',{
                 id:this.id
             }, function(data,status) {
-                location.replace('/admin');
+                $("#successMessage").html("User opted out Successfully");
+                $("#searchForm").submit();
             }).fail(function(data,status) {
                 if (data.responseJSON){
                     if (data.responseJSON['error']) {
