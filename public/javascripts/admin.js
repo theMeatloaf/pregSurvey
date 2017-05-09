@@ -1,5 +1,9 @@
 var row;
 
+$("#goSurveyEdit").click(function(event) {
+    location.replace("/admin_survey");
+});
+
 function loadInData() {
     row = $("#searchResult").clone();
     $("#resultContainer").html('');

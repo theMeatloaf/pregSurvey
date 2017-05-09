@@ -6,6 +6,7 @@ const db = require('../server/db').db()
 
 router.get('/api/surveys/:id',getSurvey);
 router.get('/api/completeSurvey',completeSurvey);
+router.get('/api/getSurveys',getallSurveys);
 
 function getSurvey(req,res,next){
 	if (!req.isAuthenticated()) {
@@ -18,6 +19,20 @@ function getSurvey(req,res,next){
 	   .catch(function (err) {
 	      return next(err);
 	});
+}
+
+function getallSurveys(req, res, next) {
+  if (!req.isAuthenticated()) {
+    res.status(401).json({error:'not logged in'});
+  }
+  db.any('select * from surveys order by id')
+    .then(function (data) {
+      res.status(200)
+        .json(data);
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
 function completeSurvey(req,res,next){
