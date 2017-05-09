@@ -21,7 +21,8 @@ CREATE TABLE users (
   next_survey_date DATE,
   next_survey_ID VARCHAR,
   invite_token VARCHAR,
-  forgotPass_token VARCHAR
+  forgotPass_token VARCHAR,
+  permission_level INTEGER
 );
 
 CREATE TABLE surveys (

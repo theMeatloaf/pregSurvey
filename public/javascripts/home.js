@@ -11,6 +11,27 @@ function autoLogin(){
 	});
 };
 
+$("#forgotPass").click(function(event) {
+    var email = $("#emailInput").val();
+    $("#emailFormGroup").removeClass("has-error");
+    $("#errorMessage").html("");
+
+    if (!email || email.length == 0) {
+      $("#emailFormGroup").addClass("has-error");
+      $("#errorMessage").html("Enter an email address");
+      return;
+    } else {
+      //alrighty lets send that shit to the API
+      $.post('/api/forgotPassword', {
+        username:email
+      },function(data,status) {
+        $('#successMessage').html("Check your email for a password reset link.");
+      }).fail(function(data,status) {
+
+      });
+    }
+});
+
 $("#forgotPassForm").submit(function(event) {
 
   event.preventDefault();
@@ -38,9 +59,9 @@ $("#forgotPassForm").submit(function(event) {
         newPassword: password
     },
     function(data,status) {
-        $("#errorMessage").html("Your password has been reset");
+        $("#errorMessage").html("Your password has been reset! <a href='./''>Click Here to Login</a>");
   }).fail(function(data,status) {
-          $("#errorMessage").html("Could Not reset password: Reset Link invalid");
+        $("#errorMessage").html("Could Not reset password: Reset Link invalid");
   });
 
   event.preventDefault();

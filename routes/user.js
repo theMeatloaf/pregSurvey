@@ -20,6 +20,8 @@ router.get('/api/findInvitation',findInvitation);
 router.get('/api/findUser',findUser);
 router.post('/api/forgotPassword',forgotPassword);
 router.post('/api/executeForgotPass',executeForgotPassword);
+router.post('/api/optOut',optOut);
+router.post('/api/optIn',optIn);
 
 const db = require('../server/db').db()
 
@@ -118,7 +120,12 @@ function login(req, res, next) {
     if (user) {
       req.logIn(user, function (err) {
         if (err) { return next(err); }
-        res.status(200).json(user);
+        //make sure their account is active....
+        if (user.permission_level != -1) {
+            res.status(200).json(user);
+        } else {
+            res.status(401).json({error:"Your user account has been opted out of the study."})
+        }
       });
     }
   })(req, res, next);
@@ -140,10 +147,55 @@ function register(req, res, next) {
            res.status(500).json(err);
     });
 }
+  
+function optOut(req,res,next) {
+  if (!req.user || req.user.permission_level != 1) {
+      res.status(401).json({error:'not authorized to view this data'});
+      return;
+  } else if (!req.body.id) {
+    res.status(401).json({error:'must pass userId'});
+    return;
+  }
+  db.none('update users set permission_level=$1 where id=$2',
+    [-1,req.body.id]).then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated User'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+  
+function optIn(req,res,next) {
+  if (!req.user || req.user.permission_level != 1) {
+      res.status(401).json({error:'not authorized to view this data'});
+      return;
+  } else if (!req.body.id) {
+    res.status(401).json({error:'must pass userId'});
+    return;
+  }
+  db.none('update users set permission_level=$1 where id=$2',
+    [0,req.body.id]).then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated User'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
 
 function findUser(req,res,next) {
-   //TODO need to authenticate as super user
-  if (!req.query.email) {
+  if (!req.user || req.user.permission_level != 1) {
+      res.status(401).json({error:'not authorized to view this data'});
+      return;
+  } else if (!req.query.email) {
     res.status(401).json({error:'must pass email'});
     return;
   }
@@ -255,5 +307,5 @@ function emailInvite(address,token,res) {
     }
   );
 }
-  
+
 module.exports = router;
