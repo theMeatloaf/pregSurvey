@@ -25,11 +25,13 @@ $( "#inviteForm" ).submit(function( event ) {
         $("#successMessage").html("");
 
 		var email = $("#inviteEmailInput").val();
-		
+        var phone = $("#invitePhoneInput").val();
+
 		var inviteURL = "/api/inviteUser";
            $.post(inviteURL,
             {
-                username: email
+                username: email,
+                phoneNumber:phone
             },
             function(data,status){
             	$("#successMessage").html("User invited Successfully");

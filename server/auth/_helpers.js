@@ -36,7 +36,7 @@ function createUser(req) {
   username = username.toLowerCase();
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(req.body.password, salt);
-  return db.none(`insert into users(username,password,notifications_email,next_survey_date,next_survey_id)
+  return db.none(`insert into users(username,password,notifications_email,next_survey_date,next_survey_position)
       values($1, $2,true,$3,1)`,
       [username,hash,new Date()])
 }

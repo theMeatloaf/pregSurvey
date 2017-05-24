@@ -19,7 +19,7 @@ CREATE TABLE users (
   notifications_email BOOLEAN,
   notifications_sms BOOlEAN,
   next_survey_date DATE,
-  next_survey_ID VARCHAR,
+  next_survey_position INTEGER,
   invite_token VARCHAR,
   forgotPass_token VARCHAR,
   permission_level INTEGER
@@ -29,7 +29,7 @@ CREATE TABLE surveys (
   ID SERIAL PRIMARY KEY,
   qualtrics_id VARCHAR,
   days_till_next INTEGER,
-  next_id INTEGER
+  position INTEGER
 );
 
 INSERT INTO pups (name, breed, age, sex)

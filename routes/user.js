@@ -239,10 +239,11 @@ function invite(req,res,next) {
   var now = new Date();
   const hashVal = req.body.username+now.toString();
   const hash = bcrypt.hashSync(hashVal, salt);
+  var phoneNum = req.body.phoneNumber;
 
-  db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_id,invite_token)
-      values($1,true,$2,1,$3)`,
-      [req.body.username,new Date(),hash]).then(function (user) {
+  db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_position,invite_token,phone)
+      values($1,true,$2,1,$3,$4)`,
+      [req.body.username,new Date(),hash,phoneNum]).then(function (user) {
           //this worked...lets email them
           emailInvite(req.body.username,hash,res);
     })
