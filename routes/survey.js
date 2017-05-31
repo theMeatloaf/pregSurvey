@@ -10,18 +10,38 @@ router.get('/api/getSurveys',getallSurveys);
 router.get('/api/newSurvey',newSurvey);
 router.get('/api/surveys/shiftUp/:id',moveSurveyUp);
 router.get('/api/surveys/shiftDown/:id',moveSurveyDown);
+router.post('/api/updateSurvey',updateSurvey);
+router.delete('/api/surveys/:id',deleteSurvey);
 
 function getSurvey(req,res,next){
 	if (!req.isAuthenticated()) {
    		res.status(401).json({error:'not logged in'});
   	}
-	db.one('select * from surveys where id = $1',parseInt(req.params.id))
+	db.one('select * from surveys where position = $1',parseInt(req.params.id))
 	    .then(function (data) {
 	      res.status(200).json(data);
 	   })
 	   .catch(function (err) {
 	      return next(err);
 	});
+}
+
+function deleteSurvey(req,res,next) {
+	if (!req.isAuthenticated()) {
+   		res.status(401).json({error:'not logged in'});
+  	} 
+  	if (!req.params.id) {
+  		 res.status(400).json({error:'missing params ya dip'});
+  		 return;
+  	}
+
+
+  	db.none('delete from surveys where position = $1',[req.params.id])
+  		.then(function(data) {
+  			res.status(200).json({success:"deleted survey"});
+  		}).catch(function(err) {
+  			return next(err);
+  		});
 }
 
 function getallSurveys(req, res, next) {
@@ -70,6 +90,23 @@ function moveSurveyDown(req,res,next) {
 	});
 }
 
+function updateSurvey(req,res,next) {
+	if (!req.isAuthenticated()) {
+		res.status(401).json({error:'not logged in'});
+  	}
+
+  	var days = req.body.daysTill;
+  	if (days.length <= 0) {
+  		days = null
+  	}
+
+	db.none('update surveys set qualtrics_id = $1, days_till_next = $2 where position = $3',[req.body.qualtrics_id,days,req.body.position])
+	.then(function(data) {
+		res.status(200).json({success:'Updated survey'});
+	}).catch(function(err) {
+		return next(err);
+	});
+}
 
 function completeSurvey(req,res,next){
 	if (!req.isAuthenticated()) {

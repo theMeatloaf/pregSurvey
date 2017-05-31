@@ -31,7 +31,6 @@
     <div class="row">
       <div class="col-xs-1"></div>
       <div class="col-xs-10">
-        <button type="button" id="save" class="btn btn-default">SAVE</button>
         <button type="button" id="newButton" class="btn btn-default pull-right">NEW</button>
       </div>
       <div class="col-xs-1"></div>
@@ -49,17 +48,17 @@
           <div class="col-xs-10">
             <div class="panel panel-default">
               <div class="panel-body">
-                <div class="col-xs-10">
+                <div class="col-xs-9">
                   <h4 class="value">Survey 1</h4>
                   <!--Form to edit User's info-->
                   <form class="form-inline userEditForm">
                     <div class="form-group">
                       <label for="qualtricksInput">Qualtrics ID:</label>
-                      <input type="text" class="form-control" id="qualtricksInput" placeholder="Qualtrics ID">
+                      <input type="text" class="form-control qualtricsText" id="qualtricksInput" placeholder="Qualtrics ID">
                     </div>
                     <div class="form-group">
                       <label for="daysInput">Days Until Next:</label>
-                      <input type="phone" class="form-control" style="width:50px;" id="daysInput" placeholder="Days Until Next">
+                      <input type="phone" class="form-control daysText" style="width:50px;" id="daysInput" placeholder="Days Until Next">
                     </div>
                   </form>
                 </div>
@@ -67,8 +66,9 @@
                   <button class="btn btn-default btnUp">▲</button>
                   <button class="btn btn-default btnDwn">▼</button>
                 </div>
-                <div class="col-xs-1">
-                  <button class="btn btn-danger optOutButton"><b>X</b></button>
+                <div class="col-xs-2">
+                  <button type="button" id="save" class="btn btn-default saveBtn">SAVE</button>
+                  <button class="btn btn-danger delButton"><b>X</b></button>
                 </div>
               </div>
             </div>

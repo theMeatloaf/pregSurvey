@@ -17,7 +17,7 @@ function loadInData() {
 
 		if (date > dueDate) {
 			//gather some things to send to qualtrics later
-			nextSurveyID = data["next_survey_id"];
+			nextSurveyID = data["next_survey_position"];
 			userID = data["id"];
 			username = data["username"];
 			$("#surveyButt").removeClass("hidden");
