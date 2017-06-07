@@ -8,6 +8,7 @@ var row;
 function loadInData() {
 	row = $("#searchResult").clone();
     $("#resultContainer").html('');
+    $("#afterResultContainer").html('');
 
     $.get('/api/loggedIn',function(data,status) {
     if (data.permission_level == 1) {
@@ -24,7 +25,19 @@ function loadInData() {
 
 $('#resultContainer').delegate('.delButton','click',function(event){    
     $.ajax({
-        url:'/api/surveys/'+this.id,
+        url:'/api/surveys/'+this.id+'/true',
+        method:'DELETE'})
+    .done(function() {
+        loadInData();
+    })
+    .fail(function() {
+
+    });
+});
+
+$('#afterResultContainer').delegate('.delButton','click',function(event){    
+    $.ajax({
+        url:'/api/surveys/'+this.id+'/false',
         method:'DELETE'})
     .done(function() {
         loadInData();
@@ -35,22 +48,17 @@ $('#resultContainer').delegate('.delButton','click',function(event){
 });
 
 
-$('#resultContainer').delegate('.saveBtn','click',function(event){    
+$('#afterResultContainer').delegate('.saveBtn','click',function(event){    
     //get params...
     var position = parseInt(this.id)
-    var daysTil = $("#"+position+".daysText").val()
-    var qualID = $("#"+position+".qualtricsText").val();
-
-    console.log({
-        qualtrics_id:qualID,
-        position:position,
-        daysTill:daysTil
-    });
+    var daysTil = $("#afterResultContainer #"+position+".daysText").val()
+    var qualID = $("#afterResultContainer #"+position+".qualtricsText").val();
 
     $.post('/api/updateSurvey',{
         qualtrics_id:qualID,
         position:position,
-        daysTill:daysTil
+        daysTill:daysTil,
+        before:false
     },function(data,status) {
         $("#successMessage").html("Saved Survey!");
         loadInData();
@@ -59,10 +67,29 @@ $('#resultContainer').delegate('.saveBtn','click',function(event){
     });
 });
 
-$("#newButton").click(function(event) {
+$('#resultContainer').delegate('.saveBtn','click',function(event){    
+    //get params...
+    var position = parseInt(this.id)
+    var daysTil = $("#resultContainer #"+position+".daysText").val()
+    var qualID = $("#resultContainer #"+position+".qualtricsText").val();
+
+    $.post('/api/updateSurvey',{
+        qualtrics_id:qualID,
+        position:position,
+        daysTill:daysTil,
+        before:true
+    },function(data,status) {
+        $("#successMessage").html("Saved Survey!");
+        loadInData();
+    }).fail(function(data,status) {
+        $("#errorMessage").html(data);
+    });
+});
+
+$("#newBeforeButton").click(function(event) {
     //need to save first?
 
-    $.get('api/newSurvey',{},function(data,status) {
+    $.get('api/newSurvey',{isBefore:true},function(data,status) {
         //got a survey back...reload that ish
         loadInData();
     }).fail(function(data,status) {
@@ -70,11 +97,36 @@ $("#newButton").click(function(event) {
     });
 });
 
+$("#newAfterButton").click(function(event) {
+    //need to save first?
+
+    $.get('api/newSurvey',{isBefore:false},function(data,status) {
+        //got a survey back...reload that ish
+        loadInData();
+    }).fail(function(data,status) {
+        $("#errorMessage").html(data);
+    });
+});
+
+
 function loadSurveys() {
-	$.get('/api/getSurveys',function(data,status) {
-		for (var i = 0; i < data.length; i++) {
-			var thisRow = row.clone();
-			thisRow.find('.value').html("Survey #"+(data[i].position));
+	$.get('/api/getSurveys',{isBefore:true},function(data,status) {
+        handleRows(data);
+    }).fail(function(data,status) {
+        $("#errorMessage").html(data);
+    });
+
+    $.get('/api/getSurveys',{isBefore:false},function(data,status) {
+        handleRows(data);
+    }).fail(function(data,status) {
+        $("#errorMessage").html(data);
+    });
+}
+
+function handleRows(data) {
+    for (var i = 0; i < data.length; i++) {
+            var thisRow = row.clone();
+            thisRow.find('.value').html("Survey #"+(data[i].position));
             thisRow.find('.qualtricsText').val(data[i].qualtrics_id);
             thisRow.find('.daysText').val(data[i].days_till_next);
             
@@ -102,23 +154,38 @@ function loadSurveys() {
                 thisRow.find('.delButton').addClass('hidden');
             }
 
-		    $("#resultContainer").append(thisRow);
-		} 
-    }).fail(function(data,status) {
-        $("#errorMessage").html(data);
-    });
+            if (data[i].beforebirth) {
+                $("#resultContainer").append(thisRow);
+            } else {
+                $("#afterResultContainer").append(thisRow);
+            }
+    }
 }
+
+$('#afterResultContainer').delegate('.btnDwn','click',function(event){
+    //move this survey up in position....
+    $.get('api/surveys/shiftUp/'+this.id+'/false',function(data,status) {
+        loadInData();
+    });
+});
+
+$('#afterResultContainer').delegate('.btnUp','click',function(event){
+    //move this survey up in position....
+    $.get('api/surveys/shiftDown/'+this.id+'/false',function(data,status) {
+        loadInData();
+    });
+});
 
 $('#resultContainer').delegate('.btnDwn','click',function(event){
     //move this survey up in position....
-    $.get('api/surveys/shiftUp/'+this.id,function(data,status) {
+    $.get('api/surveys/shiftUp/'+this.id+'/true',function(data,status) {
         loadInData();
     });
 });
 
 $('#resultContainer').delegate('.btnUp','click',function(event){
     //move this survey up in position....
-    $.get('api/surveys/shiftDown/'+this.id,function(data,status) {
+    $.get('api/surveys/shiftDown/'+this.id+'/true',function(data,status) {
         loadInData();
     });
 });

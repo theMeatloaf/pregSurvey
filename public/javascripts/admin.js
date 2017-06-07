@@ -21,11 +21,18 @@ function loadInData() {
 }
 
 $( "#inviteForm" ).submit(function( event ) {
+        event.preventDefault();
+
 		$("#errorMessage").html("");
         $("#successMessage").html("");
 
 		var email = $("#inviteEmailInput").val();
         var phone = $("#invitePhoneInput").val();
+
+        if (!email) {
+            $("#errorMessage").html("Cannot create user without email address");
+            return;
+        }
 
 		var inviteURL = "/api/inviteUser";
            $.post(inviteURL,
@@ -47,8 +54,6 @@ $( "#inviteForm" ).submit(function( event ) {
             		$("#errorMessage").html(data);
             	}
   			});
-
-  		event.preventDefault();
 });
 
 $("#searchForm").submit(function(event){

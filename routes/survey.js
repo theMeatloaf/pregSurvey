@@ -8,10 +8,10 @@ router.get('/api/surveys/:id',getSurvey);
 router.get('/api/completeSurvey',completeSurvey);
 router.get('/api/getSurveys',getallSurveys);
 router.get('/api/newSurvey',newSurvey);
-router.get('/api/surveys/shiftUp/:id',moveSurveyUp);
-router.get('/api/surveys/shiftDown/:id',moveSurveyDown);
+router.get('/api/surveys/shiftUp/:id/:before',moveSurveyUp);
+router.get('/api/surveys/shiftDown/:id/:before',moveSurveyDown);
 router.post('/api/updateSurvey',updateSurvey);
-router.delete('/api/surveys/:id',deleteSurvey);
+router.delete('/api/surveys/:id/:before',deleteSurvey);
 
 function getSurvey(req,res,next){
 	if (!req.isAuthenticated()) {
@@ -36,7 +36,7 @@ function deleteSurvey(req,res,next) {
   	}
 
 
-  	db.none('delete from surveys where position = $1',[req.params.id])
+  	db.none('delete from surveys where position = $1 and beforebirth = $2',[req.params.id,req.params.before])
   		.then(function(data) {
   			res.status(200).json({success:"deleted survey"});
   		}).catch(function(err) {
@@ -48,7 +48,14 @@ function getallSurveys(req, res, next) {
   if (!req.isAuthenticated()) {
     res.status(401).json({error:'not logged in'});
   }
-  db.any('select * from surveys order by position')
+
+  var query = 'select * from surveys';
+ if (req.query.isBefore != null) {
+ 	query = query + ' where beforebirth = $1'
+ }
+ query = query + ' order by position'
+
+  db.any(query,[req.query.isBefore])
     .then(function (data) {
       res.status(200)
         .json(data);
@@ -63,8 +70,13 @@ function newSurvey(req,res,next) {
 	res.status(401).json({error:'not logged in'});
   }
 
+  var before = true
+  if (req.query.isBefore != null) {
+  	before = req.query.isBefore
+  }
+
   //get max position
-  db.one('insert into surveys(position) values((select max(position) from surveys)+1) RETURNING *',[parseInt(req.query.lastPos)+1])
+  db.one('insert into surveys(position,beforebirth) values((select max(position) from surveys where beforebirth = $1)+1,$1) RETURNING *',[before])
   	.then(function (data) {
   		res.status(200).json(data);
   	}).catch(function(err) {
@@ -73,7 +85,7 @@ function newSurvey(req,res,next) {
 }
 
 function moveSurveyUp(req,res,next) {
-	db.none('update surveys set position = -1 where position = $1; update surveys set position = $1 where position = ($1 + 1); update surveys set position = ($1 + 1) where position = -1',[parseInt(req.params.id)])
+	db.none('update surveys set position = -1 where position = $1 and beforebirth = $2; update surveys set position = $1 where position = ($1 + 1) and beforebirth = $2; update surveys set position = ($1 + 1) where position = -1 and beforebirth = $2',[parseInt(req.params.id),req.params.before])
 	.then(function(data) {
 		res.status(200).json({success:'moved survey up'});
 	}).catch(function(err) {
@@ -82,7 +94,7 @@ function moveSurveyUp(req,res,next) {
 }
 
 function moveSurveyDown(req,res,next) {
-	db.none('update surveys set position = -1 where position = $1; update surveys set position = $1 where position = ($1 - 1); update surveys set position = ($1 - 1) where position = -1',[parseInt(req.params.id)])
+	db.none('update surveys set position = -1 where position = $1 and beforebirth = $2; update surveys set position = $1 where position = ($1 - 1) and beforebirth = $2; update surveys set position = ($1 - 1) where position = -1 and beforebirth = $2',[parseInt(req.params.id),req.params.before])
 	.then(function(data) {
 		res.status(200).json({success:'moved survey down'});
 	}).catch(function(err) {
@@ -100,7 +112,7 @@ function updateSurvey(req,res,next) {
   		days = null
   	}
 
-	db.none('update surveys set qualtrics_id = $1, days_till_next = $2 where position = $3',[req.body.qualtrics_id,days,req.body.position])
+	db.none('update surveys set qualtrics_id = $1, days_till_next = $2 where position = $3 and beforebirth = $4',[req.body.qualtrics_id,days,req.body.position,req.body.before])
 	.then(function(data) {
 		res.status(200).json({success:'Updated survey'});
 	}).catch(function(err) {

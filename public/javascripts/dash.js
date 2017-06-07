@@ -3,7 +3,28 @@ var nextSurveyID = ""
 var userID = ""
 var username = ""
 
+
 function loadInData() {
+	//setup music player
+	    Amplitude.init({
+        "songs": [
+            {
+                "name": "Song Name 1",
+                "artist": "Artist Name",
+                "album": "Album Name",
+                "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
+            },
+            {
+                "name": "Song Name 2",
+                "artist": "Artist Name",
+                "album": "Album Name",
+                "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
+            }
+        ]
+    });
+
+
+
 	$.get('/api/loggedIn',function(data,status) {
 		if ( !data["next_survey_date"] ) {
 			//handle no more surveys here!

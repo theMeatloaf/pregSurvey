@@ -29,7 +29,8 @@ CREATE TABLE surveys (
   ID SERIAL PRIMARY KEY,
   qualtrics_id VARCHAR,
   days_till_next INTEGER,
-  position INTEGER
+  position INTEGER,
+  beforeBirth BOOLEAN
 );
 
 INSERT INTO pups (name, breed, age, sex)
