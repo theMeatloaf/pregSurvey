@@ -150,6 +150,7 @@ function handleRows(data) {
                 thisRow.find('.delButton').removeClass('hidden');
                 thisRow.find('.btnDwn').addClass('disabled');
                 thisRow.find('.btnDwn').attr("disabled","disabled");
+                thisRow.find('.daysText').attr("disabled","disabled");
             } else {
                 thisRow.find('.delButton').addClass('hidden');
             }

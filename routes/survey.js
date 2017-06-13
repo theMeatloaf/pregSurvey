@@ -125,8 +125,14 @@ function completeSurvey(req,res,next){
    		res.status(401).json({error:'not logged in'});
    		return;
   	}
+
+  	var beforebirth = true
+  	if (req.user.birth_date) {
+  		beforebirth = false
+  	}
+
   	//need to get user's next survey, get it's next, get user and calculate date, update date it's next survey ID
-  	db.one('select * from surveys where position = $1',parseInt(req.user.next_survey_position))
+  	db.one('select * from surveys where position = $1 and beforebirth = $2',parseInt(req.user.next_survey_position),beforebirth)
 	    .then(function (survey) {
 	    	if(survey.days_till_next) {
 		    	var nextSurveyPosition = survey.position + 1

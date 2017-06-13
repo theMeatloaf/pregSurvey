@@ -78,17 +78,46 @@ function updateUser(req,res,next) {
     if (req.body.id) {
       id = req.body.id;
     }
-    db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3 where id=$4',
-    [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,id]).then(function () {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: 'Updated User'
+
+    if (req.body.birth_date) {
+      var birthDate = new Date(req.body.birth_date)
+      birthDate.setDate(birthDate.getDate() + 1); //dont ask me...i'm drunk and tired
+      //need to calculate next survey date...
+
+      //start by getting the first after birth survey
+      db.one('select * from surveys where position=1 and beforebirth=false').then(function(survey) {
+        //got survey...
+        var nextDate = new Date(req.body.birth_date);
+        nextDate.setDate(birthDate.getDate() + survey.days_till_next);
+        //ok were good...update the user with the next due dates etc
+        db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3, birth_date=$5, next_survey_date = $6 where id=$4',
+        [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,id,birthDate,nextDate]).then(function () {
+          res.status(200)
+            .json({
+              status: 'success',
+              message: 'Updated User'
+            });
+        })
+        .catch(function (err) {
+          return next(err);
         });
-    })
-    .catch(function (err) {
-      return next(err);
-    });
+      }).catch(function(err) {
+        return next(err);
+      });
+    } else {
+      //no date invovled just update user    
+      db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3 where id=$4',
+      [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,id]).then(function () {
+        res.status(200)
+          .json({
+            status: 'success',
+            message: 'Updated User'
+          });
+      })
+      .catch(function (err) {
+        return next(err);
+      });
+    }
   }
 
 }

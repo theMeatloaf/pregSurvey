@@ -5,24 +5,30 @@ var username = ""
 
 
 function loadInData() {
-	//setup music player
-	    Amplitude.init({
-        "songs": [
-            {
-                "name": "Song Name 1",
-                "artist": "Artist Name",
-                "album": "Album Name",
-                "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
-            },
-            {
-                "name": "Song Name 2",
-                "artist": "Artist Name",
-                "album": "Album Name",
-                "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
-            }
-        ]
-    });
-
+	var ap = new APlayer({
+    element: document.getElementById('player1'),                       // Optional, player element
+    narrow: false,                                                     // Optional, narrow style
+    autoplay: false,                                                    // Optional, autoplay song(s), not supported by mobile browsers
+    showlrc: 0,                                                        // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
+    mutex: true,                                                       // Optional, pause other players when this player playing
+    theme: '#e6d0b2',                                                  // Optional, theme color, default: #b7daff
+    mode: 'order',                                                    // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    preload: 'metadata',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+    listmaxheight: '513px',                                             // Optional, max height of play list
+    music: [{                                                           // Required, music info, see: ###With playlist
+        title: 'Civil War',                                          // Required, music title
+        author: 'Grumpy cat',                          // Required, music author
+        url: 'http://www.noiseaddicts.com/samples_1w72b820/2540.mp3',  // Required, music url
+        pic: 'https://www.grumpycats.com/images/about/tardar.jpg',  // Optional, music picture
+        lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'                   // Optional, lrc, see: ###With lrc
+    },{                                                           // Required, music info, see: ###With playlist
+        title: 'Civil War',                                          // Required, music title
+        author: 'Grumpy cat',                          // Required, music author
+        url: 'http://www.noiseaddicts.com/samples_1w72b820/2540.mp3',  // Required, music url
+        pic: 'https://www.grumpycats.com/images/about/tardar.jpg',  // Optional, music picture
+        lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'                   // Optional, lrc, see: ###With lrc
+    }]
+});
 
 
 	$.get('/api/loggedIn',function(data,status) {

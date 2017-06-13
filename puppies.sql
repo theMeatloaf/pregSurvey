@@ -22,7 +22,8 @@ CREATE TABLE users (
   next_survey_position INTEGER,
   invite_token VARCHAR,
   forgotPass_token VARCHAR,
-  permission_level INTEGER
+  permission_level INTEGER,
+  birth_date DATE
 );
 
 CREATE TABLE surveys (

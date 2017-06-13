@@ -75,7 +75,13 @@ $("#searchForm").submit(function(event){
                 var email = data[i].username;
                 var thisRow = row.clone();
                 thisRow.find('.value').html(email);
+                var dueDate = new Date(data[i].next_survey_date);
+                thisRow.find('.value').append("&nbsp;&nbsp;&nbsp; Next Survey Date: "+dueDate.toDateString());
                 thisRow.find('#phoneNumberInput').val(data[i].phone);
+                if (data[i].birth_date) {
+                    var birthDate = new Date(data[i].birth_date);
+                    thisRow.find('#birthDateInput').val(birthDate.toISOString().substr(0,10));
+                }
                 thisRow.find('.optOutButton').attr("id",data[i].id);
                 thisRow.find('.userEditForm').attr("id",data[i].id);
                 if(data[i].notifications_email == true) {
@@ -116,15 +122,18 @@ $('#resultContainer').delegate('.userEditForm','submit',function(event){
     var emailNotifications = form.find("#emailCheckbox").is(':checked'); 
     var smsNotification = form.find("#smsCheckbox").is(':checked'); 
     var phoneValue = form.find("#phoneNumberInput").val();
+    var birthValue = form.find("#birthDateInput").val();
     var loginURL = "/api/updateUser";
    $.post(loginURL,
     {
         phone: phoneValue,
         emailNotifications: emailNotifications,
         smsNotifications: smsNotification,
-        id:this.id
+        id:this.id,
+        birth_date:birthValue
     },
     function(data,status){
+        $("#searchForm").submit();
         $("#successMessage").html("Info saved Successfully");        
     }).fail(function(data,status) {
         if (data.responseJSON){
