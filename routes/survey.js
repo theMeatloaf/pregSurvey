@@ -76,7 +76,7 @@ function newSurvey(req,res,next) {
   }
 
   //get max position
-  db.one('insert into surveys(position,beforebirth) values((select max(position) from surveys where beforebirth = $1)+1,$1) RETURNING *',[before])
+  db.one('insert into surveys(position,beforebirth) values(COALESCE((select max(position) from surveys where beforebirth = $1)+1,1),$1) RETURNING *',[before])
   	.then(function (data) {
   		res.status(200).json(data);
   	}).catch(function(err) {

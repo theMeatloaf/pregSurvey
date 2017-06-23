@@ -22,6 +22,7 @@ router.post('/api/forgotPassword',forgotPassword);
 router.post('/api/executeForgotPass',executeForgotPassword);
 router.post('/api/optOut',optOut);
 router.post('/api/optIn',optIn);
+router.post('/api/addListeningTime',addTime);
 
 const db = require('../server/db').db()
 
@@ -120,6 +121,30 @@ function updateUser(req,res,next) {
     }
   }
 
+}
+
+function addTime(req,res,next) {
+    if (!req.isAuthenticated()) {
+      res.status(401).json({error:'not logged in'});
+      return;
+    } 
+
+    if (req.body.seconds == null) {
+      res.status(400).json({error:'missing seconds in request'});
+      return;
+    }
+
+    db.none('update users set seconds_listened = seconds_listened + $1 where id=$2',
+        [req.body.seconds,req.user.id]).then(function () {
+          res.status(200)
+            .json({
+              status: 'success',
+              message: 'Updated User'
+            });
+        })
+        .catch(function (err) {
+          return next(err);
+        });
 }
 
 function getCurrentUser(req, res, next) {
@@ -270,15 +295,21 @@ function invite(req,res,next) {
   const hash = bcrypt.hashSync(hashVal, salt);
   var phoneNum = req.body.phoneNumber;
 
-  db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_position,invite_token,phone)
-      values($1,true,$2,1,$3,$4)`,
-      [req.body.username,new Date(),hash,phoneNum]).then(function (user) {
-          //this worked...lets email them
-          emailInvite(req.body.username,hash,res);
+  db.one(`select * from users where id = (select max(id) from users)`).then(function(data) {
+    //got the last user lets toggle
+    var theyHadMusic = data.music_enabled;
+    db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_position,invite_token,phone,music_enabled)
+     values($1,true,$2,1,$3,$4,$5)`,
+     [req.body.username,new Date(),hash,phoneNum,!theyHadMusic]).then(function (user) {
+         //this worked...lets email them
+         emailInvite(req.body.username,hash,res);
     })
     .catch(function (err) {
         res.status(500).json(err);
     });
+  }).catch(function(err) {
+    res.status(500).json(err);
+  });
 }
 
 function executeForgotPassword(req,res,next) {

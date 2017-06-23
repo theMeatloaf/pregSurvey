@@ -23,7 +23,9 @@ CREATE TABLE users (
   invite_token VARCHAR,
   forgotPass_token VARCHAR,
   permission_level INTEGER,
-  birth_date DATE
+  birth_date DATE,
+  seconds_listened NUMERIC DEFAULT 0,
+  music_enabled BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE surveys (
