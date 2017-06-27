@@ -353,7 +353,7 @@ function forgotPassword(req,res,next) {
   db.none(`update users set forgotpass_token=$1 where username=$2`,
     [hash,req.body.username]).then(function () {
         //alright set the token lets send them the email
-        emailForgotPassword(req.body.username,hash,res);
+       return emailForgotPassword(req.body.username,hash,res);
     })
     .catch(function (err) {
       return next(err);
