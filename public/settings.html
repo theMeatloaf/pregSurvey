@@ -18,7 +18,7 @@
         <a class="navbar-brand" href="/dash">
          <img width=45 alt="Brand" src="/images/logo_circle.png">
         </a>
-          <h2>Edit Account</h2>
+          <h2 id="title">Edit Account</h2>
       </div>
       <div class="col-xs-2">
         <button type="button" id="logOut" class="btn btn-default navbar-btn navbar-right">LOG OUT</button>
@@ -60,13 +60,13 @@
           <div class="row">
             <p id="errorMessage" class="text-danger"></p>
             <p id="successMessage" class="text-success"></p>
-            <button type="submit" class="btn btn-default">Save</button>
+            <button type="submit" id="saveBtn" class="btn btn-default">Save</button>
           </div>
         </form>
         <br>
-        <form id="passForm" class="form-horizontal"> 
-          <div class="form-group">
-            <h4 class="lead">Update Password:</h4>
+        <h4 class="lead" id="passFormTitle">Update Password:</h4>
+        <form id="passForm" class="form-horizontal">
+          <div class="form-group" id="oldPassGroup">
             <label class="control-label col-sm-1" for="oldPasswordInput">Current:</label>
             <div class="col-sm-6">
               <input type="password" class="form-control" id="oldPasswordInput" placeholder="Current Password">
@@ -88,16 +88,10 @@
               <p id="passErrorMessage" class="text-danger"></p>
               <p id="passSuccessMessage" class="text-success"></p>
               <button type="submit" id="updatePasswordButton" class="btn btn-primary">Update Password</button>
+              <br><br><br><br><br><br>
+              <button type="button" id="optOut" class="btn btn-danger">Opt Out</button>
           </div>
         </form>
-        </div>
-      </div>
-
-      <br><br><br>
-      <div class="row">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-9">
-          <button type="button" id="optOut" class="btn btn-danger">Opt Out</button>
         </div>
       </div>
   </div>

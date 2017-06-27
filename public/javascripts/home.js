@@ -9,8 +9,63 @@ function autoLogin(){
 		$("#formDiv").removeClass('hidden');
 		$("#loginHeader").removeClass('hidden');
 	});
-
 };
+
+$("#forgotPass").click(function(event) {
+    var email = $("#emailInput").val();
+    $("#emailFormGroup").removeClass("has-error");
+    $("#errorMessage").html("");
+
+    if (!email || email.length == 0) {
+      $("#emailFormGroup").addClass("has-error");
+      $("#errorMessage").html("Enter an email address");
+      return;
+    } else {
+      //alrighty lets send that shit to the API
+      $.post('/api/forgotPassword', {
+        username:email
+      },function(data,status) {
+        $('#successMessage').html("Check your email for a password reset link.");
+      }).fail(function(data,status) {
+
+      });
+    }
+});
+
+$("#forgotPassForm").submit(function(event) {
+
+  event.preventDefault();
+
+  if(!QueryString.code) {
+    $("#errorMessage").html("Invalid forgot password link");
+    return;
+  }
+
+  var password = $("#newPassInput").val();
+  var password2 = $("#repeat_newPassInput").val();
+  if (password=="" || password2 =="") {
+    $("#errorMessage").html("Password cannot be blank");
+    return;
+  }
+
+  if (password != password2) {
+    $("#errorMessage").html("Passwords to not match please try again");
+    return;
+  }
+
+  $.post('/api/executeForgotPass',
+    {
+        forgotPassCode: QueryString.code,
+        newPassword: password
+    },
+    function(data,status) {
+        $("#errorMessage").html("Your password has been reset! <a href='./''>Click Here to Login</a>");
+  }).fail(function(data,status) {
+        $("#errorMessage").html("Could Not reset password: Reset Link invalid");
+  });
+
+  event.preventDefault();
+});
 
 $( "#loginForm" ).submit(function( event ) {
 		$("#errorMessage").html("");
@@ -19,7 +74,7 @@ $( "#loginForm" ).submit(function( event ) {
 			var email = $("#emailInput").val();
 			var password = $("#passwordInput").val();
 		
-		var loginURL = "/api/login";
+			var loginURL = "/api/login";
            $.post(loginURL,
             {
                 username: email,
@@ -61,5 +116,27 @@ function checkValidation() {
 	}
 
 	return true;
-
 }
+
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  } 
+  return query_string;
+}();

@@ -1,8 +1,43 @@
 //homepage controls
 
 function loadInuser(){
-	$.get('/api/loggedIn',function(data,status) {
+	if (QueryString.inviteCode) {
+		//initial setup of invited user...
+		$.get('/api/findInvitation',{
+			inviteCode:QueryString.inviteCode
+		},function(data,status) {
+			setupLoadedData(data[0]);
+			$("#title").html("Create Account");
+			$("#oldPasswordInput").val(null);
+			$("#oldPassGroup").addClass("hidden");
+			$("#saveBtn").addClass("hidden");
+			$("#passFormTitle").html("Create Password:");
+			$("#updatePasswordButton").html("Create Account");
 
+			
+		}).fail(function(data,status){
+			handleInitialError(data)
+		});
+	} else {
+		$.get('/api/loggedIn',function(data,status) {
+			setupLoadedData(data);
+		}).fail(function(data,status){
+			handleInitialError(data)
+		});
+	}
+};
+
+function handleInitialError(data){
+	if (data.responseJSON){
+		$("#errorMessage").html(data.responseJSON['error']);
+		location.replace('/');
+	} else {
+		$("#errorMessage").html(data);
+		location.replace('/');
+	}
+}
+
+function setupLoadedData(data) {
 		$("#emailInput").val(data["username"]);
 		$("#phoneInput").val(data["phone"]);
 		if(data["notifications_email"] == true) {
@@ -11,23 +46,14 @@ function loadInuser(){
 		if(data["notifications_sms"] == true) {
 			$('#smsCheckbox').attr("checked","checked");
 		}
-
-	}).fail(function(data,status){
-		if (data.responseJSON){
-        		$("#errorMessage").html(data.responseJSON['error']);
-        		location.replace('/');
-        	} else {
-        		$("#errorMessage").html(data);
-        	}
-	});
-};
+}
 
 $( "#editForm" ).submit(function( event ) {
 	    $("#successMessage").html("");
         $("#errorMessage").html("");
 
-        var emailNotifications = $("#emailcheckbox").val() == "on"
-        var smsNotification = $("#smsCheckbox").val() == "on"
+        var emailNotifications = $("#emailcheckbox").is(':checked'); 
+        var smsNotification = $("#smsCheckbox").is(':checked'); 
 
 		if (checkValidation()) {
 			var phonenum = $("#phoneInput").val();
@@ -50,6 +76,22 @@ $( "#editForm" ).submit(function( event ) {
   			});
 		}
   		event.preventDefault();
+});
+
+$("#optOut").click(function(){
+	if (confirm('Are you sure you want to opt out of the study?')) {
+		if (confirm('Are you positive? Your account will be disabled.')) {
+			$.get('/api/optOutSelf',null,function(){
+				$.get('/api/logout',null,function(){
+					window.location.href = '/';
+				}).fail(function(data,status){
+		
+				});
+			}).fail(function(data,status){
+		
+			});
+		}
+	} 
 });
 
 $("#logOut").click(function(){
@@ -78,8 +120,66 @@ $("#passForm").submit(function(event) {
 		$("#passErrorMessage").html('Password entered is not new');
 		$(".passFormGroup").addClass("has-error");
 	} else {
-		//lets change it
-		var passURL = '/api/changePassword';
+		//lets save everything and  create it
+		if (QueryString.inviteCode) {
+			createPass(newpass1)
+		} else {
+			//just change it
+			updatePass(oldPassword,newpass1)
+		}
+	}
+	 event.preventDefault();
+});
+
+//this function hits the endpoint that sets up the initial account and removes the invite token...
+function createPass(newpass1) {
+	var passURL = "/api/createPassword";
+    var emailNotifications = $("#emailcheckbox").val() == "on"
+    var smsNotification = $("#smsCheckbox").val() == "on"
+	var phonenum = $("#phoneInput").val();
+
+	$.post(passURL,{
+		password:newpass1,
+        phone: phonenum,
+        emailNotifications: emailNotifications,
+        smsNotifications: smsNotification,
+		invite_token:QueryString.inviteCode
+	},function(data,status) {
+		$("#oldPasswordInput").val('');
+		$("#newPasswordInput2").val('');
+		$("#newPasswordInput1").val('');
+        $("#passSuccessMessage").html("Account created successfully!");
+        //lets do some login
+    	var email = $("#emailInput").val();
+	
+		var loginURL = "/api/login";
+       $.post(loginURL,
+        {
+            username: email,
+            password: newpass1
+        },
+        function(data,status){
+        	window.location.href = '/dash'
+        }).fail(function(data,status) {
+        	if (data.responseJSON){
+        		$("#passErrorMessage").html(data.responseJSON['error']);
+        	} else {
+        		$("#passErrorMessage").html(data);
+        	}
+		});
+
+	}).fail(function(data,status) {
+		if (data.responseJSON){
+    		$("#passErrorMessage").html(data.responseJSON['message']);
+    	} else {
+    		$("#passErrorMessage").html(data);
+    	}
+	});
+
+}
+
+function updatePass(oldPassword,newpass1) {
+	var passURL = '/api/changePassword';
 		$.post(passURL,{
 			oldPassword:oldPassword,
 			newPassword:newpass1
@@ -90,38 +190,37 @@ $("#passForm").submit(function(event) {
 
         	$("#passSuccessMessage").html("Password changed successfully!");
 		}).fail(function(data,status) {
-			console.log(data);
 			if (data.responseJSON){
 	    		$("#passErrorMessage").html(data.responseJSON['message']);
 	    	} else {
 	    		$("#passErrorMessage").html(data);
 	    	}
 		});
-	}
-	 event.preventDefault();
-});
+}
 
 function checkValidation() {
-
-	var email = $("#emailInput").val();
-	var password = $("#passwordInput").val();
-
-	/*if (email.length <= 0) {
-		$("#emailFormGroup").addClass("has-error");
-		$("#errorMessage").html("Please enter an Email Address");
-		return false;
-	} else {
-		$("#emailFormGroup").removeClass("has-error");
-	}
-
-	if (password.length <=0) {
-		$("#passwordFormGroup").addClass("has-error");
-		$("#errorMessage").html("Please enter your password");
-		return false;
-	} else {
-		$("#passwordFormGroup").removeClass("has-error");
-	}*/
-
 	return true;
-
 }
+
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  } 
+  return query_string;
+}();

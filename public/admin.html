@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- TheWelcome</title>
+
+    <!-- Bootstrap -->
+    <link href="stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="stylesheets/custom.css" rel="stylesheet">
+  </head>
+
+  <body onload="loadInData()">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header col-xs-10">
+        <a class="navbar-brand" href="/dash">
+         <img width=45 alt="Brand" src="/images/logo_circle.png">
+        </a>
+          <h2>Admin</h2>
+      </div>
+      <div class="col-xs-2">
+          <button type="button" id="goSurveyEdit" class="btn btn-default navbar-btn navbar-right">SURVEY EDITOR</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+  	<br><br><br><br>
+
+  	<div class="row">
+  		<div class="col-xs-1"></div>
+  		<div class="col-xs-10">
+        <h2>Invite Users</h2>
+  			<p id="errorMessage" class="text-danger"></p>
+        <p id="successMessage" class="text-success"></p>
+
+        <form class="form-inline" id="inviteForm">
+        <div class="form-group">
+          <label class="sr-only" for="inviteEmailInput">Email address</label>
+          <input type="email" class="form-control" style="width:300px" id="inviteEmailInput" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="invitePhoneInput">Cell Number</label>
+          <input type="phone" class="form-control" style="width:300px" id="invitePhoneInput" placeholder="Cell Number">
+        </div>
+        <button type="submit" class="btn btn-default">invite</button>
+      </form>
+  		</div>
+  		<div class="col-xs-1"></div>
+  	</div>
+    <br>
+
+    <div class="row">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-10" >
+        <h2>Search for Users</h2>
+        <form class="form-inline" id="searchForm">
+        <div class="form-group">
+          <label class="sr-only" for="searchEmailInput">Email address</label>
+          <input type="text" class="form-control" style="width:300px" id="searchEmailInput" placeholder="Email">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+      </form>
+      </div>
+      <div class="col-xs-1"></div>
+    </div>
+    
+    <br>
+
+    <div id="resultContainer">
+      <div class="row" id="searchResult">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="col-xs-10">
+                <h4 class="value"></h4>
+                <!--Form to edit User's info-->
+                <form class="form-inline userEditForm">
+                  <div class="form-group">
+                    <label class="sr-only" for="phoneNumberINput">Phone Number</label>
+                    <input type="phone" class="form-control" id="phoneNumberInput" placeholder="Phone Number">
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="smsCheckbox"> SMS notifications
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="emailCheckbox"> Email notifications
+                    </label>
+                  </div>
+                  &nbsp;&nbsp;
+                  <div class="form-group">
+                    <label class="sr-only" for="birthDateInput">Birth Date</label>
+                    <input type="date" class="form-control" id="birthDateInput" placeholder="Birth Date">
+                  </div>
+                  <button type="submit" class="btn btn-default">Save</button>
+                </form>
+              </div>
+              <div class="col-xs-2"><button class="btn btn-danger optOutButton">OPT OUT</button></div>
+            </div>
+          </div>
+        <div class="col-xs-1"></div>
+      </div>
+     </div>
+   </div>
+
+  </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/admin.js"></script>
+  </body>
+</html>
