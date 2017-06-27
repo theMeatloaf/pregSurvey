@@ -8,13 +8,12 @@ const request = require('request');
   db = pgp(connectionString);
 
  var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
- console.error(API_URL);
- return;
 
   request.post(API_URL,
     { form: { from: 'test@test.de', to: 'ryan@thereceptionist.com', subject:'heyo maggots', text:'HEYOOO MAGOTS'  } },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
+          console.error(response.statusCode);
         	done();
         } else {
            console.error(error);
