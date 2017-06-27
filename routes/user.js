@@ -22,6 +22,7 @@ router.post('/api/forgotPassword',forgotPassword);
 router.post('/api/executeForgotPass',executeForgotPassword);
 router.post('/api/optOut',optOut);
 router.post('/api/optIn',optIn);
+router.get('/api/optOutSelf',optOutSelf);
 router.post('/api/addListeningTime',addTime);
 
 const db = require('../server/db').db()
@@ -181,7 +182,9 @@ function login(req, res, next) {
         if (user.permission_level != -1) {
             res.status(200).json(user);
         } else {
-            res.status(401).json({error:"Your user account has been opted out of the study."})
+              req.session.destroy(function (err) {
+                res.status(401).json({error:"Your user account has been opted out of the study. Contact an Admin to have your account re-enabled."})
+            });
         }
       });
     }
@@ -207,7 +210,7 @@ function register(req, res, next) {
   
 function optOut(req,res,next) {
   if (!req.user || req.user.permission_level != 1) {
-      res.status(401).json({error:'not authorized to view this data'});
+      res.status(401).json({error:'not authorized to opt out other users'});
       return;
   } else if (!req.body.id) {
     res.status(401).json({error:'must pass userId'});
@@ -226,10 +229,29 @@ function optOut(req,res,next) {
     });
 }
 
-  
+function optOutSelf(req,res,next) {
+    if (!req.isAuthenticated()) {
+      res.status(401).json({error:'not logged in'});
+      return;
+   } 
+
+  db.none('update users set permission_level=$1 where id=$2',
+    [-1,req.user.id]).then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated User'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}  
+
+
 function optIn(req,res,next) {
   if (!req.user || req.user.permission_level != 1) {
-      res.status(401).json({error:'not authorized to view this data'});
+      res.status(401).json({error:'not authorized to opt in other users'});
       return;
   } else if (!req.body.id) {
     res.status(401).json({error:'must pass userId'});

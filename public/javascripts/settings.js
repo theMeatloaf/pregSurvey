@@ -78,6 +78,22 @@ $( "#editForm" ).submit(function( event ) {
   		event.preventDefault();
 });
 
+$("#optOut").click(function(){
+	if (confirm('Are you sure you want to opt out of the study?')) {
+		if (confirm('Are you positive? Your account will be disabled.')) {
+			$.get('/api/optOutSelf',null,function(){
+				$.get('/api/logout',null,function(){
+					window.location.href = '/';
+				}).fail(function(data,status){
+		
+				});
+			}).fail(function(data,status){
+		
+			});
+		}
+	} 
+});
+
 $("#logOut").click(function(){
 	if (confirm('Are you sure you want to log out?')) {
 		$.get('/api/logout',null,function(){
