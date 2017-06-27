@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('dotenv').config()
+const test = require('dotenv').config()
 const request = require('request');
 
   var pgp = require('pg-promise')();
@@ -8,7 +8,9 @@ const request = require('request');
   db = pgp(connectionString);
 
  var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
-  
+ console.error(API_URL);
+ return;
+
   request.post(API_URL,
     { form: { from: 'test@test.de', to: 'ryan@thereceptionist.com', subject:'heyo maggots', text:'HEYOOO MAGOTS'  } },
     function (error, response, body) {
