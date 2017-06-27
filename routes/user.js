@@ -364,6 +364,8 @@ function emailForgotPassword(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
   var inviteUrl = 'http://localhost:3000/forgotPassword?code='+token;
+              res.status(200).json(API_URL);
+            return;
 
   request.post(API_URL,
     { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:inviteUrl  } },
@@ -379,8 +381,6 @@ function emailForgotPassword(address,token,res) {
 
 function emailInvite(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
-              res.status(200).json(API_URL);
-            return;
 
   var inviteUrl = 'http://localhost:3000/settings?inviteCode='+token;
 
