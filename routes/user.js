@@ -353,7 +353,7 @@ function forgotPassword(req,res,next) {
   db.none(`update users set forgotpass_token=$1 where username=$2`,
     [hash,req.body.username]).then(function () {
         //alright set the token lets send them the email
-       return emailForgotPassword(req.body.username,hash,res);
+        emailForgotPassword(req.body.username,hash,res);
     })
     .catch(function (err) {
       return next(err);
@@ -369,9 +369,9 @@ function emailForgotPassword(address,token,res) {
     { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:inviteUrl  } },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          res.status(200).json({mailgunResponse:body});
+            res.status(200).json({mailgunResponse:body});
         } else {
-          res.status(500).json(response);
+          res.status(500).json(error);
         }
     }
   );
@@ -379,7 +379,7 @@ function emailForgotPassword(address,token,res) {
 
 function emailInvite(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
-
+  
   var inviteUrl = 'http://localhost:3000/settings?inviteCode='+token;
 
   request.post(API_URL,
