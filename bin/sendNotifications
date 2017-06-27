@@ -16,7 +16,7 @@ const request = require('request');
           console.error('error free');
         	done();
         } else {
-           console.error('an error happened');
+           console.error(response.statusCode);
         }
     }
   );
