@@ -11,7 +11,7 @@ db = pgp(connectionString);
 var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
 
 //get all users who want email notificaitons and who listen to music....
-db.many(`select * from users where notifications_email == true and music_enabled == true`)
+db.many(`select * from users where notifications_email == true and music_enabled == true and permission_level != -1`)
   .then(function (data) {
     for (var i = data.length - 1; i >= 0; i--) {
       delete data[i].password;      
