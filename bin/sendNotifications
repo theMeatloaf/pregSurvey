@@ -13,10 +13,10 @@ var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" 
 //get all users who want email notificaitons and who listen to music....
 db.many(`select * from users where notifications_email = true and music_enabled = true and (permission_level != -1 or permission_level is null)`)
 .then(function (data) {
+    console.log(data);
     for (var i = data.length - 1; i >= 0; i--) {
       delete data[i].password;      
       //send them the email
-      console.log(data[i].username);
       /*request.post(API_URL,
         { form: { from: 'test@test.de', to: data[i].username, subject:'Maternal Moments: Dont forget to listen to your music today!', text:'Heres a reminder to listen to your music: [URL]'  } },
         function (error, response, body) {
