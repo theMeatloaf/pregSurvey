@@ -278,7 +278,6 @@ function findUser(req,res,next) {
     res.status(401).json({error:'must pass email'});
     return;
   }
-
   db.many(`select * from users where username like $1`,'%'+req.query.email+'%')
     .then(function (data) {
       for (var i = data.length - 1; i >= 0; i--) {
