@@ -2,7 +2,7 @@
 
 const test = require('dotenv').config()
 var twilio = require('twilio');
-var twilio_client = new twilio("ACd707e226e9ab54b9c4bf1109fa421cc3","fa350b80c9c37b706cb26e94a86bb474")
+var twilio_client = new twilio(process.env.TWILIO_APIKEY,process.env.TWILIO_AUTHTOKEN)
 
 var pgp = require('pg-promise')();
 var connectionString = process.env.DATABASE_URL;
