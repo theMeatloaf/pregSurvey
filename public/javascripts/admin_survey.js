@@ -85,6 +85,20 @@ $('#resultContainer').delegate('.saveBtn','click',function(event){
     });
 });
 
+$('#resultContainer').delegate('.qualtricsText','change paste keyup',function(event){    
+    var position = parseInt(this.id);
+    var saveButton = $("#resultContainer #"+position+".saveBtn");
+
+    saveButton.removeClass('hidden');
+});
+
+$('#afterResultContainer').delegate('.qualtricsText','change paste keyup',function(event){    
+    var position = parseInt(this.id);
+    var saveButton = $("#afterResultContainer #"+position+".saveBtn");
+
+    saveButton.removeClass('hidden');
+});
+
 $("#newBeforeButton").click(function(event) {
     //need to save first?
 
