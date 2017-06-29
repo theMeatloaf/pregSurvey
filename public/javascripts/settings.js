@@ -14,13 +14,14 @@ function loadInuser(){
 			$("#passFormTitle").html("Create Password:");
 			$("#updatePasswordButton").html("Create Account");
 
-			
+			$("#phoneInput").trigger("change");
 		}).fail(function(data,status){
 			handleInitialError(data)
 		});
 	} else {
 		$.get('/api/loggedIn',function(data,status) {
 			setupLoadedData(data);
+			$("#phoneInput").trigger("change");
 		}).fail(function(data,status){
 			handleInitialError(data)
 		});
@@ -80,10 +81,8 @@ $( "#editForm" ).submit(function( event ) {
 
 $("#phoneInput").on("change paste keyup", function() {
 	if ( $(this).val().length <= 0 ) {
-		console.log("heyo");
 		$("#smsCheckbox").attr("disabled", true);
 	} else {
-		console.log("false");
 		$("#smsCheckbox").removeAttr("disabled");
 	}
 });
