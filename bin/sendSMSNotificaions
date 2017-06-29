@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+const test = require('dotenv').config()
+var twilio = require('twilio');
+var twilio_client = new twilio("ACd707e226e9ab54b9c4bf1109fa421cc3","fa350b80c9c37b706cb26e94a86bb474")
+
+var pgp = require('pg-promise')();
+var connectionString = process.env.DATABASE_URL;
+db = pgp(connectionString);
+
+//get all users who want email notificaitons and who listen to music....
+db.many(`select * from users where notifications_sms = true and invite_token is null and phone is not null and (permission_level != -1 or permission_level is null)`)
+.then(function (data) {
+    for (var i = data.length - 1; i >= 0; i--) {
+      delete data[i].password;
+      //determine if they need to fill out a survey...
+      var date = new Date();
+      var dueDate = new Date(data[i].next_survey_date);
+
+      var message = "";
+      if (data[i].music_enabled) {
+        message = "Listen to your music today! Log in here and take a listen: "+process.env.BASE_URL;
+      }
+
+      if (date > dueDate) {
+          //need a survey...
+         if (data[i].music_enabled) {
+            message = message + "\n\nYou also have a survey due, dont forget to complete it!"
+          } else {
+            message = "You are due to fill out a survey for the Maternal Motments Study!\n\nLog in here to complete it: "+process.env.BASE_URL;
+          }
+      }
+
+      //send them the text
+      twilio_client.messages.create({
+         body: message,
+         to: data[i].phone,  // Text this number
+         from: '+13038350677' // From a valid Twilio number
+      });
+
+    };
+  })
+  .catch(function (err) {
+    console.error(err);
+  });

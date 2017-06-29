@@ -24,7 +24,6 @@ db.many(`select * from users where notifications_email = true and invite_token i
         message = "Heres a reminder to listen to your music today! Log into your account here and take a listen: "+process.env.BASE_URL;
       }
 
-
       if (date > dueDate) {
           //need a survey...
          if (data[i].music_enabled) {

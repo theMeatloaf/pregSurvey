@@ -2,6 +2,7 @@
 var nextSurveyID = ""
 var userID = ""
 var username = ""
+var beforeBirth = true
 
 var startDate = new Date();
 
@@ -14,7 +15,7 @@ function loadInData() {
 
 		if ( !data["next_survey_date"] ) {
 			//handle no more surveys here!
-			$("#prompt").html("No more surveys to take!<br>Thank you for your participation!");
+			$("#prompt").html("No more surveys to take at this time!<br>Thank you for your participation!");
 			return;
 		}
 
@@ -27,6 +28,9 @@ function loadInData() {
 			nextSurveyID = data["next_survey_position"];
 			userID = data["id"];
 			username = data["username"];
+			if (data["birth_date"] != null) {
+				beforeBirth = false
+			}
 			$("#surveyButt").removeClass("hidden");
 		} else {
 			var numDays = daydiff(date,dueDate);
@@ -89,7 +93,7 @@ function daydiff(first, second) {
 
 $("#surveyButt").click(function(){
 	//get survey and show it
-	$.get('/api/surveys/'+nextSurveyID,function(data,status){
+	$.get('/api/surveys/'+nextSurveyID+"&isBefore="+beforeBirth,function(data,status){
 		if(data["qualtrics_id"]){
 			//time to open the survey brah...
 			window.location.href = "https://goldpsych.eu.qualtrics.com/jfe/form/"+data["qualtrics_id"]

@@ -78,6 +78,17 @@ $( "#editForm" ).submit(function( event ) {
   		event.preventDefault();
 });
 
+$("#phoneInput").on("change paste keyup", function() {
+	if ( $(this).val().length <= 0 ) {
+		console.log("heyo");
+		$("#smsCheckbox").attr("disabled", true);
+	} else {
+		console.log("false");
+		$("#smsCheckbox").removeAttr("disabled");
+	}
+});
+
+
 $("#optOut").click(function(){
 	if (confirm('Are you sure you want to opt out of the study?')) {
 		if (confirm('Are you positive? Your account will be disabled.')) {

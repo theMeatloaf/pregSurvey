@@ -17,7 +17,14 @@ function getSurvey(req,res,next){
 	if (!req.isAuthenticated()) {
    		res.status(401).json({error:'not logged in'});
   	}
-	db.one('select * from surveys where position = $1',parseInt(req.params.id))
+
+  	var beforebirth = true;
+
+  	if (req.query.isBefore != null) {
+		beforebirth = req.query.isBefore;
+	}
+
+	db.one('select * from surveys where position = $1 and beforebirth = $2',[parseInt(req.params.id),beforebirth])
 	    .then(function (data) {
 	      res.status(200).json(data);
 	   })
@@ -132,7 +139,7 @@ function completeSurvey(req,res,next){
   	}
 
   	//need to get user's next survey, get it's next, get user and calculate date, update date it's next survey ID
-  	db.one('select * from surveys where position = $1 and beforebirth = $2',parseInt(req.user.next_survey_position),beforebirth)
+  	db.one('select * from surveys where position = $1 and beforebirth = $2',[parseInt(req.user.next_survey_position),beforebirth])
 	    .then(function (survey) {
 	    	if(survey.days_till_next) {
 		    	var nextSurveyPosition = survey.position + 1

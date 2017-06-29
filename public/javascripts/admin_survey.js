@@ -3,10 +3,9 @@ $("#goAdminButton").click(function(event) {
 	location.replace("/admin");
 });
 
-var row;
+var row = $("#searchResult").clone();
 
-function loadInData() {
-	row = $("#searchResult").clone();
+function loadInData() { 
     $("#resultContainer").html('');
     $("#afterResultContainer").html('');
 
