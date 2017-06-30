@@ -46,11 +46,10 @@ function loadInData() {
 	});
 
 }
-
-
+var ap;
 function setupMusicPlayer() {
-	var ap = new APlayer({
-    element: document.getElementById('player1'),                       // Optional, player element
+	 ap = new APlayer({
+    element: document.getElementById('musicPlayer'),                       // Optional, player element
     narrow: false,                                                     // Optional, narrow style
     autoplay: false,                                                    // Optional, autoplay song(s), not supported by mobile browsers
     showlrc: 0,                                                        // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
@@ -90,6 +89,22 @@ function setupMusicPlayer() {
 function daydiff(first, second) {
     return Math.round((second-first)/(1000*60*60*24));
 }
+
+$("#play").click(function() {
+  $("#play").animate({
+    width:0,
+    height:0
+  }, 500, function() {
+    // Animation complete.
+  });
+
+  $(".aplayer").animate({
+    width:'100%'
+  }, 500, function() {
+    // Animation complete.
+  });
+  //ap.play();
+});
 
 $("#surveyButt").click(function(){
 	//get survey and show it
