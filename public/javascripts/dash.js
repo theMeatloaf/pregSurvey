@@ -22,7 +22,7 @@ function loadInData() {
 		//get dates and show button if survey is due
 		var date = new Date();
 		var dueDate = new Date(data["next_survey_date"]);
-
+		var numDays = 0;
 		if (date > dueDate) {
 			//gather some things to send to qualtrics later
 			nextSurveyID = data["next_survey_position"];
@@ -33,9 +33,29 @@ function loadInData() {
 			}
 			$("#surveyButt").removeClass("hidden");
 		} else {
-			var numDays = daydiff(date,dueDate);
-			$("#prompt").html(numDays+" day"+(numDays>1 ? "s" : "")+" until next survey");
+			numDays = daydiff(date,dueDate);
+			$("#prompt").html("day"+(numDays>1 ? "s" : "")+" until next survey is due");
 		}
+
+		$("#radialIndicator").radialIndicator({
+        barColor: '#A5CB43',
+        barWidth: 5,
+        roundCorner : false,
+        radius:30,
+        initValue:0,
+        percentage: false,
+        fontSize:50,
+        maxValue:60,
+        frameNum:60,
+        frameTime:30
+        });
+		var radialObj = $("#radialIndicator").data('radialIndicator');
+		if (numDays > 60) {
+			radialObj.option('format','#+');
+			radialObj.option('fontSize',30);
+		}
+		radialObj.animate(numDays);
+
 	}).fail(function(data,status){
 		if (data.responseJSON){
         		$("#errorMessage").html(data.responseJSON['error']);
@@ -48,7 +68,7 @@ function loadInData() {
 }
 var ap;
 function setupMusicPlayer() {
-	 ap = new APlayer({
+	ap = new APlayer({
     element: document.getElementById('musicPlayer'),                       // Optional, player element
     narrow: false,                                                     // Optional, narrow style
     autoplay: false,                                                    // Optional, autoplay song(s), not supported by mobile browsers
@@ -79,6 +99,20 @@ function setupMusicPlayer() {
 			function(data,status) {
 				console.log("added time");
 		})
+
+		//hide the player
+		$("#play").animate({
+		    width:150,
+		    height:150
+		}, 500, function() {
+		    // Animation complete.
+		});
+
+		$(".aplayer").animate({
+		    width:'0%'
+		}, 500, function() {
+		    // Animation complete.
+		});
 	});
 
 	ap.on("play",function() {
@@ -92,7 +126,7 @@ function daydiff(first, second) {
 
 $("#play").click(function() {
   $("#play").animate({
-    width:0,
+    //width:0,
     height:0
   }, 500, function() {
     // Animation complete.
@@ -103,7 +137,7 @@ $("#play").click(function() {
   }, 500, function() {
     // Animation complete.
   });
-  //ap.play();
+  ap.play();
 });
 
 $("#surveyButt").click(function(){

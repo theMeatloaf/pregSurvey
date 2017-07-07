@@ -6,8 +6,67 @@ button.navbar-btn-icon{
 	margin-top: 7px
 }
 
+body {
+    background: url('../images/bkgrmd.webp') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+@font-face {
+    font-family: cinzel;
+    src: url('../fonts/Cinzel-Regular.otf');
+}
+
+nav.navbar{
+  background-color: rgba(255,255,255,0.6);
+}
+
+label.checkbox-inline {
+    font-family: open sans,sans-serif;
+  font-size: 16px;
+}
+
+label.control-label{
+  font-family: cinzel;
+  font-size: 25px;
+  color: rgb(66,78,65);
+}
+
+input.form-control{
+  font-family: open sans,sans-serif;
+  font-size: 16px;
+}
+
+h3.lead {
+  font-family: open sans, sans-serif;
+  font-weight: bold;
+}
+
+button.btn {
+    font-size: 22px;
+    font-family: cinzel;
+    letter-spacing:2px;
+}
+
+button.btn-danger {
+    background-color: #DD7272;
+}
+
 div.aplayer{
 	width: 0%;
+}
+
+h3.dayText {
+  position: relative;
+  top:-75px;
+  left:50px;
+}
+
+div#radialIndicator {
+  position: relative;
+  left:-150px;
 }
 
 svg#play {
