@@ -16,6 +16,7 @@ function loadInData() {
 		if ( !data["next_survey_date"] ) {
 			//handle no more surveys here!
 			$("#prompt").html("No more surveys to take at this time!<br>Thank you for your participation!");
+			$("#prompt").removeClass('dayText');
 			return;
 		}
 
@@ -32,6 +33,7 @@ function loadInData() {
 				beforeBirth = false
 			}
 			$("#surveyButt").removeClass("hidden");
+			$("#radialIndicator").addClass("hidden");
 		} else {
 			numDays = daydiff(date,dueDate);
 			$("#prompt").html("day"+(numDays>1 ? "s" : "")+" until next survey is due");
@@ -47,7 +49,7 @@ function loadInData() {
         fontSize:50,
         maxValue:60,
         frameNum:60,
-        frameTime:30
+        frameTime:40
         });
 		var radialObj = $("#radialIndicator").data('radialIndicator');
 		if (numDays > 60) {
@@ -99,20 +101,6 @@ function setupMusicPlayer() {
 			function(data,status) {
 				console.log("added time");
 		})
-
-		//hide the player
-		$("#play").animate({
-		    width:150,
-		    height:150
-		}, 500, function() {
-		    // Animation complete.
-		});
-
-		$(".aplayer").animate({
-		    width:'0%'
-		}, 500, function() {
-		    // Animation complete.
-		});
 	});
 
 	ap.on("play",function() {
@@ -137,6 +125,13 @@ $("#play").click(function() {
   }, 500, function() {
     // Animation complete.
   });
+
+  $("#listenPrompt").animate({
+  	height:0.0
+  }, 500, function() {
+  	$("#listenPrompt").addClass('hidden');
+  });
+  
   ap.play();
 });
 

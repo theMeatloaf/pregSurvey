@@ -76,7 +76,7 @@ $("#searchForm").submit(function(event){
                 var thisRow = row.clone();
                 thisRow.find('.value').html(email);
                 var dueDate = new Date(data[i].next_survey_date);
-                thisRow.find('.value').append("&nbsp;&nbsp;&nbsp; Next Survey Date: "+dueDate.toDateString());
+                thisRow.find('.value').append("&nbsp;&nbsp;&nbsp; Survey Due Date: "+dueDate.toDateString());
                 thisRow.find('#phoneNumberInput').val(data[i].phone);
                 if (data[i].birth_date) {
                     var birthDate = new Date(data[i].birth_date);
