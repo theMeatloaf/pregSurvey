@@ -44,7 +44,11 @@ h3.lead {
   font-weight: bold;
 }
 
-button.btn {
+button.login {
+  margin-top: 20px; 
+}
+ 
+button.btn { 
     font-size: 22px;
     font-family: cinzel;
     letter-spacing:2px;

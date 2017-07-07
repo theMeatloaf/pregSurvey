@@ -15,7 +15,7 @@ function loadInData() {
 
 		if ( !data["next_survey_date"] ) {
 			//handle no more surveys here!
-			$("#prompt").html("No more surveys to take at this time!<br>Thank you for your participation!");
+			$("#prompt").html("No survey to take at this time!<br>Thank you for your participation!");
 			$("#prompt").removeClass('dayText');
 			return;
 		}
