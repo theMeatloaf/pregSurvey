@@ -15,36 +15,34 @@
   <body onload="loadInData()">
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-      <div class="navbar-header col-xs-10">
+      <div class="navbar-header col-xs-9">
         <a class="navbar-brand" href="#">
          <img width=45 alt="Brand" src="/images/logo_circle.png">
         </a>
-          <h2>Dashboard</h2>
+          <h2 class="cinz">Maternal Moments</h2>
       </div>
-      <div class="col-xs-2">
-      	<button type="button" id="goSettingsBtn" class="btn btn-link btn-lg navbar-btn-icon navbar-right"> 
-      		<font color="#444444" size="5"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></font> 
+      <div class="col-xs-3">
+      	<button type="button" id="goSettingsBtn" class="btn navbar-btn-icon btn-danger btn-danger-sm navbar-right"> 
+      		ACCOUNT
+
+          <!--<font color="#444444" size="5"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></font> -->
       	</button>
       </div>
     </div>
   </nav>
 
   <div class="container-fluid">
-  	<br><br><br>
+  	<br><br><br><br>
 
 
-    <!-- play button bitches -->
     <div class = "row">
-        <h3 align="center" id="listenPrompt"><b>Listen to your music here!</b><br> Press play button to start player:</h3>
-        <svg id="play"  viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"="0px">
-          <g fill="none">
-              <g  transform="translate(2.000000, 2.000000)" stroke-width="4">
-                  <path d="M10,80 C10,118.107648 40.8923523,149 79,149 L79,149 C117.107648,149 148,118.107648 148,80 C148,41.8923523 117.107648,11 79,11" id="lineOne" stroke="#A5CB43"></path>
-                  <path d="M105.9,74.4158594 L67.2,44.2158594 C63.5,41.3158594 58,43.9158594 58,48.7158594 L58,109.015859 C58,113.715859 63.4,116.415859 67.2,113.515859 L105.9,83.3158594 C108.8,81.1158594 108.8,76.6158594 105.9,74.4158594 L105.9,74.4158594 Z" id="triangle" stroke="#A3CD3A"></path>
-                  <path d="M159,79.5 C159,35.5933624 123.406638,0 79.5,0 C35.5933624,0 0,35.5933624 0,79.5 C0,123.406638 35.5933624,159 79.5,159 L79.5,159" id="lineTwo" stroke="#A5CB43"></path>
-              </g>
-          </g>
-        </svg>
+        <div class="col-1 col-md-2"></div>
+        <div class="col-10 col-md-8">
+          <h2 class="cinz">Welcome!</h2>
+          <p class="lead">Edison bulb XOXO poutine letterpress YOLO pabst. Cred literally celiac gastropub. Sartorial photo booth chambray blog 8-bit cray craft beer typewriter la croix. Drinking vinegar small batch lomo, viral flexitarian etsy palo santo try-hard fam forage intelligentsia. Kogi trust fund hoodie, health goth man bun street art locavore yr paleo cray synth ramps jean shorts whatever kinfolk. Flannel enamel pin ennui scenester. Trust fund fanny pack small batch tote bag photo booth live-edge tbh asymmetrical chambray hoodie narwhal kickstarter echo park.<br><p>
+          <div align="center"><button align="center" type="submit" class="btn btn-lg btn-default listen" id="play">Listen</button></div>
+        </div>
+        <div class="col-1 col-md-2"></div>
     </div>
     <br><br>
     <div class = "row">
@@ -54,8 +52,6 @@
       </div>
       <div class="col-2 col-md-3"></div>
   </div>
-
-    <br><br>
 
   	<div class="row">
   		<div class="col-xs-1"></div>
@@ -68,6 +64,32 @@
   		<div class="col-xs-1"></div>
   	</div>
   </div>
+
+  <footer class="footer" align="center">
+      <div class="container">
+            <img src="/images/contact-1.png" height=60 style="position:relative;left:90px;">
+                <div role="button" class="style-1" id="comp-j10rn6im" style='display:inline-block;width:60px;'>
+                <style type="text/css">.style-1 svg {width:100%;height:40px;position:relative;top:20px;left:25px;fill:#424A56;fill-opacity:1;stroke:rgba(66, 74, 86, 1);stroke-width:1px;}.style-1 svg * {vector-effect:non-scaling-stroke;}
+                </style>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 70" preserveAspectRatio="xMidYMid meet" style="stroke-width: 1px;">
+                  <g>
+                      <path d="M82.4 1.9c-.2-.6-.8-.9-1.4-.9L2.9 3.6c-.7 0-1.2.4-1.4 1.1-.2.6.1 1.2.7 1.6l18.6 11.2-8 13.2c-.3.5-.3 1.1 0 1.6s.7.7 1.4.7l13.8-.9 4.4 18.8c.1.5.5 1 1.1 1.1.5.1 1.1 0 1.5-.4l47.3-48c.4-.6.4-1.1.1-1.7zM8.1 6.4l63.6-2.1-47.6 11.9c-.1-.2-.3-.3-.5-.5L8.1 6.4zm8.8 23.4l7.3-12c.1-.2.2-.4.2-.6L77 4.2 30.1 29.4c-.3-.2-.6-.4-1-.4H29l-12.1.8zm17.7 17.7l-4-17.3L75.4 6.1 34.6 47.5z"></path>
+                  </g>
+                </svg>
+              </div>
+            </img>
+            <img src="/images/contact-2.png" height=60 style="position:relative;left:30px;">
+                <div role="button" class="style-j10shcel1" id="comp-j10rn6im" style='display:inline-block;'>
+                <img id="comp-j10ryl4g0imageimageimage" alt="Black Twitter Icon" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1lbx_DESKTOP.1.$comp-j10rn6fn.1.$comp-j10rn6ib/=1$comp-j10rn6ib.1.$comp-j10rn6id3.1.$comp-j10rn6io/=1$comp-j10rn6io.1.$comp-j10ryl4g.0.0.0.0.$image" src="https://static.wixstatic.com/media/c7d035ba85f6486680c2facedecdcf4d.png/v1/fill/w_122,h_122,al_c,usm_0.66_1.00_0.01/c7d035ba85f6486680c2facedecdcf4d.png" style="width: 61px; height: 61px; position:relative;right:35px;"></img>
+              </div>
+            </img>
+            <img src="/images/contact-3.png" height=60 style="position:relative;right:30px;">
+                <div role="button" class="style-j10shcel1" id="comp-j10rn6im" style='display:inline-block;'>
+                <img id="comp-j10ryl4g0imageimageimage" alt="Black Twitter Icon" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1lbx_DESKTOP.1.$comp-j10rn6fn.1.$comp-j10rn6ib/=1$comp-j10rn6ib.1.$comp-j10rn6id3.1.$comp-j10rn6io/=1$comp-j10rn6io.1.$comp-j10ryl4g.0.0.0.0.$image" src="https://static.wixstatic.com/media/0fdef751204647a3bbd7eaa2827ed4f9.png/v1/fill/w_122,h_122,al_c,usm_0.66_1.00_0.01/0fdef751204647a3bbd7eaa2827ed4f9.png" style="width: 60px; height: 61px; object-fit: cover; position:relative;right:95px;">
+              </div>
+            </img>
+      </div>
+    </footer>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

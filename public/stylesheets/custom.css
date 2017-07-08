@@ -1,10 +1,12 @@
 button.navbar-btn{
-      margin-top:20px
+      margin-top:20px;
     } 
 
 button.navbar-btn-icon{
 	margin-top: 7px
 }
+
+html { -webkit-font-smoothing: antialiased; }
 
 body {
     background: url('../images/bkgrmd.webp') no-repeat center center fixed; 
@@ -12,99 +14,127 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    margin-bottom: 0px;
+}.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
 }
 
 @font-face {
     font-family: cinzel;
-    src: url('../fonts/Cinzel-Regular.otf');
+    src: url('../fonts/Cinzel-Bold.otf');
 }
 
-nav.navbar{
-  background-color: rgba(255,255,255,0.6);
+@font-face {
+    font-family: HelveticaNeue-Light;
+    src: url('../fonts/HelveticaNeue-Light.ttf');
 }
+
+h1.cinz {
+  font-family: cinzel;
+  color: rgb(221, 114, 114);
+  letter-spacing: 6px;
+  font-size: 50px;
+}
+
+h2.cinz {
+  font-family: cinzel;
+  color: rgb(221, 114, 114);
+  letter-spacing: 4px;
+  font-size: 27px;
+}
+
 
 label.checkbox-inline {
-    font-family: open sans,sans-serif;
-  font-size: 16px;
-}
-
-label.control-label{
-  font-family: cinzel;
-  font-size: 25px;
-  color: rgb(66,78,65);
-}
-
-input.form-control{
   font-family: open sans,sans-serif;
   font-size: 16px;
 }
 
-h3.lead {
-  font-family: open sans, sans-serif;
-  font-weight: bold;
+label.control-label{
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  letter-spacing: 3.35px;
+  color: #5A5F67;
+}
+
+input.form-control{
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+p.lead {
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  color: rgb(90, 95, 103);
 }
 
 button.login {
   margin-top: 20px; 
 }
  
-button.btn { 
+button.btn-default { 
     font-size: 22px;
-    font-family: cinzel;
-    letter-spacing:2px;
+    font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+    background-color: #DD7272;
+    border-radius: 0px;
+    color: white;
+}
+
+button.listen {
+    font-size: 40px;
+}
+
+button.btn-default:hover {
+    color: white;
+    background-color: rgb(194, 42, 39);
 }
 
 button.btn-danger {
-    background-color: #DD7272;
+    background-color: transparent;
+    font-size: 22px;
+    font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+    border-radius: 0px;
+    color: #DD7272;
+}
+
+button.btn-danger:hover {
+      background-color: rgba(221,114,114,0.9);
+}
+
+@media screen and (max-width: 638px) {
+  button.btn-danger-sm {
+    font-size: 17px;
+    margin-top: 13px;
+  }
+
+
+  h2.cinz {
+    font-family: cinzel;
+    color: rgb(221, 114, 114);
+    letter-spacing: 4px;
+    font-size: 18px;
+  }
 }
 
 div.aplayer{
 	width: 0%;
+  height: 0px;
 }
 
 h3.dayText {
+  color: rgb(69,186,170);
+  font-weight: bold;
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
   position: relative;
-  top:-75px;
-  left:50px;
+  top:-71px;
+  left:40px;
 }
 
 div#radialIndicator {
   position: relative;
   left:-150px;
-}
-
-svg#play {
-  width:150px;
- margin: auto;
- display:block;
-  cursor: pointer;
-  transform-origin: 50% 50%;
-}
-
-svg#play #triangle {
-  fill:rgba(22,22,22,0);
-  transition:500ms;
-  transform-origin: 50% 50%;
-}
-svg#play:hover #triangle {
-  fill:#A3CD3A;
-  transform-origin: 50% 50%;
-}
-
- svg #lineOne, svg #lineTwo {
-  transform-origin: 50% 50%;
-  transition: 1s;
-} 
-
- svg:hover #lineOne {
-  transform: rotate(260deg);
-   -webkit-transform: rotate(260deg);
--moz-transform: rotate(260deg);
--o-transform: rotate(260deg);
-   transform-origin: 50% 50%;
-} 
-
- svg:hover #lineTwo {
-  transform: rotate(-450deg);
-   transform-origin: 50% 50%;
 }

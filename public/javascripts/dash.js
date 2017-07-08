@@ -36,17 +36,18 @@ function loadInData() {
 			$("#radialIndicator").addClass("hidden");
 		} else {
 			numDays = daydiff(date,dueDate);
-			$("#prompt").html("day"+(numDays>1 ? "s" : "")+" until next survey is due");
+			$("#prompt").html("DAY"+(numDays>1 ? "S" : "")+" UNTIL NEXT SURVEY");
 		}
 
 		$("#radialIndicator").radialIndicator({
-        barColor: '#A5CB43',
+        barColor: 'rgb(69,186,170)',
+        fontFamily:'HelveticaNeue-Light',
         barWidth: 5,
         roundCorner : false,
         radius:30,
         initValue:0,
         percentage: false,
-        fontSize:50,
+        fontSize:30,
         maxValue:60,
         frameNum:60,
         frameTime:40
@@ -113,23 +114,13 @@ function daydiff(first, second) {
 }
 
 $("#play").click(function() {
-  $("#play").animate({
-    //width:0,
-    height:0
-  }, 500, function() {
-    // Animation complete.
-  });
+  $("#play").slideUp(400);
 
   $(".aplayer").animate({
-    width:'100%'
+    width:'100%',
+    height:'100%'
   }, 500, function() {
     // Animation complete.
-  });
-
-  $("#listenPrompt").animate({
-  	height:0.0
-  }, 500, function() {
-  	$("#listenPrompt").addClass('hidden');
   });
   
   ap.play();
