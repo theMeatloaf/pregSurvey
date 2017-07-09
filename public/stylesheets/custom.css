@@ -87,8 +87,7 @@ button.login {
 }
  
 button.btn-default { 
-    font-size: 16px;
-    height: 40px;
+    font-size: 22px;
     font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
     background-color: #DD7272;
     border-radius: 0px;
@@ -97,7 +96,6 @@ button.btn-default {
 
 button.listen {
     font-size: 40px;
-    height: auto;
 }
 
 button.btn-default:hover {
