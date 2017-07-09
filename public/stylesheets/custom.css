@@ -1,12 +1,10 @@
 button.navbar-btn{
-      margin-top:20px;
+      margin-top:15px;
     } 
 
 button.navbar-btn-icon{
 	margin-top: 7px
 }
-
-html { -webkit-font-smoothing: antialiased; }
 
 body {
     background: url('../images/bkgrmd.webp') no-repeat center center fixed; 
@@ -14,13 +12,15 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    margin-bottom: 0px;
-}.footer {
-  position: absolute;
+    margin-bottom: 67px;
+}
+
+div.footer {
+  position: fixed;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 67px;
   background-color: #f5f5f5;
 }
 
@@ -50,13 +50,23 @@ h2.cinz {
 
 
 label.checkbox-inline {
-  font-family: open sans,sans-serif;
-  font-size: 16px;
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  letter-spacing: 2.0px;
+  color: #5A5F67;
 }
 
 label.control-label{
   font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
   font-size: 17px;
+  letter-spacing: 3.35px;
+  color: #5A5F67;
+}
+
+p.settings{
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
   letter-spacing: 3.35px;
   color: #5A5F67;
 }
@@ -77,7 +87,8 @@ button.login {
 }
  
 button.btn-default { 
-    font-size: 22px;
+    font-size: 16px;
+    height: 40px;
     font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
     background-color: #DD7272;
     border-radius: 0px;
@@ -118,6 +129,17 @@ button.btn-danger:hover {
     letter-spacing: 4px;
     font-size: 18px;
   }
+
+  div.footer {
+  position: fixed;
+  bottom: 0;
+  left: -10px;
+  width: 110%;
+  /* Set the fixed height of the footer here */
+  height: 67px;
+  background-color: #f5f5f5;
+}
+
 }
 
 div.aplayer{

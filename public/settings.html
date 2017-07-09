@@ -14,86 +14,98 @@
   <body onload="loadInuser()">
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-      <div class="navbar-header col-xs-10">
+      <div class="navbar-header col-xs-9">
         <a class="navbar-brand" href="/dash">
          <img width=45 alt="Brand" src="/images/logo_circle.png">
         </a>
-          <h2 id="title">Edit Account</h2>
+          <h2 id="title" class="cinz ">Maternal Moments</h2>
       </div>
-      <div class="col-xs-2">
-        <button type="button" id="logOut" class="btn btn-default navbar-btn navbar-right">LOG OUT</button>
+      <div class="col-xs-3">
+        <button type="button" id="logOut" class="btn btn-danger btn-danger-sm navbar-btn navbar-right">LOG OUT</button>
       </div>
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container-fluid">
       
       <br><br><br><br>
-      
+  <form id="editForm">
       <div class="row">
-        <form id="editForm" class="form-horizontal">
-          <div class="col-xs-1"></div>
-          <div class="col-xs-9">
+          <h2 class="cinz" align="center">Edit Account</h2>
+          <div class="col-xs-1 col-md-4"></div>
+          <div class="col-xs-10 col-md-4">
             <div class="form-group has-feedback" id="emailFormGroup">
               <h3 class="lead"></h3>
-              <label class="control-label col-sm-3" for="emailInput">Email:</label>
-              <div class="col-sm-5">
-                <input type="email" class="form-control" id="emailInput" style="height:50px" placeholder="Email" disabled>
-              </div>
+              <label class="control-label" for="emailInput">Email:</label>
+              <input type="email" class="form-control" id="emailInput" style="height:50px" placeholder="Email" disabled>
             </div>
             <div class="form-group" id="phoneFormGroup">
-              <label class="control-label col-sm-3" for="cellInput">Cell:</label>
-              <div class="col-sm-5">
+              <label class="control-label" for="cellInput">Cell:</label>
                 <input type="tel" class="form-control" id="phoneInput" style="height:50px" placeholder="Phone Number">
-              </div>
             </div>
+          </div>
+      </div>
 
-          <div class="form-group">
-            <h3 class="lead">Daily Notifications:</h3>
-            <label class="checkbox-inline">
-              <input type="checkbox" id="emailcheckbox">Email
-            </label>
-            <label class="checkbox-inline">
-              <input type="checkbox" id="smsCheckbox">Text
-            </label>
-          </div>
-          <div class="row">
-            <p id="errorMessage" class="text-danger"></p>
-            <p id="successMessage" class="text-success"></p>
-            <button type="submit" id="saveBtn" class="btn btn-default">Save</button>
-          </div>
-        </form>
-        <br>
-        <form id="passForm" class="form-horizontal">
-          <div class="form-group" id="oldPassGroup">
-            <h3 class="lead" id="passFormTitle">Update Password:</h3>
-            <label class="control-label col-sm-3" for="oldPasswordInput">Current:</label>
-            <div class="col-sm-5">
-              <input type="password" class="form-control" style="height:50px" id="oldPasswordInput" placeholder="Current Password">
+      <div class="row">
+          <div class="col-xs-1 col-md-4"></div>
+          <div class="col-xs-10 col-md-4">
+            <div class="form-group">
+                <p class="settings">Daily Notifications:</p>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="emailcheckbox">Email
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="smsCheckbox">Text
+              </label>
             </div>
-          </div>
-          <div class="form-group passFormGroup">
-              <label class="control-label col-sm-3" for="cellInput">New:</label>
-              <div class="col-sm-5">
-                <input type="password" class="form-control" style="height:50px" id="newPasswordInput1" placeholder="New Password">
-              </div>
-          </div>
-          <div class="form-group passFormGroup">
-              <label class="control-label col-sm-3" for="cellInput">Confirm:</label>
-              <div class="col-sm-5">
-                <input type="password" class="form-control" style="height:50px" id="newPasswordInput2" placeholder="New Password">
-              </div>
-          </div>
-          <div class="row">
-              <p id="passErrorMessage" class="text-danger"></p>
-              <p id="passSuccessMessage" class="text-success"></p>
-              <button type="submit" id="updatePasswordButton" class="btn btn-primary">Update Password</button>
-              <br><br><br><br><br><br><br><br>
-              <button type="button" id="optOut" class="btn btn-danger">Opt Out</button>
-          </div>
-        </form>
         </div>
       </div>
+
+          <div class="row">
+            <div class="col-xs-1 col-md-4"></div>
+            <div class="col-xs-10 col-md-4">
+                <p id="errorMessage" class="text-danger"></p>
+                <p id="successMessage" class="text-success"></p>
+                <button type="submit" id="saveBtn" class="btn btn-default">Save</button>
+            </div>
+          </div>
+  </form>
+
+
+      <br><br>
+      <form id="passForm">
+        <div class="row">
+            <div class="col-xs-1 col-md-4"></div>
+            <div class="col-xs-10 col-md-4">
+              <div class="form-group" id="oldPassGroup">
+                <p class="settings" id="passFormTitle">Update Password:</p>
+                <label class="control-label" for="oldPasswordInput">Current:</label>
+                  <input type="password" class="form-control" style="height:50px" id="oldPasswordInput" placeholder="Current Password">
+              </div>
+              <div class="form-group passFormGroup">
+                  <label class="control-label" for="cellInput">New:</label>
+                    <input type="password" class="form-control" style="height:50px" id="newPasswordInput1" placeholder="New Password">
+              </div>
+              <div class="form-group passFormGroup">
+                  <label class="control-label" for="cellInput">Confirm:</label>
+                    <input type="password" class="form-control" style="height:50px" id="newPasswordInput2" placeholder="New Password">
+              </div>
+            </div>
+          </div>
+
+            <div class="row">
+              <div class="col-xs-1 col-md-4"></div>
+              <div class="col-xs-10 col-md-4">
+                <p id="passErrorMessage" class="text-danger"></p>
+                <p id="passSuccessMessage" class="text-success"></p>
+                <button type="submit" id="updatePasswordButton" class="btn btn-default">Update Password</button>
+                <br><br><br><br><br><br><br><br>
+                <button type="button" id="optOut" class="btn btn-danger">Opt Out</button>
+               </div>
+            </div>
+          </form>
+       </div>
+    </div>
   </div>
 
 
