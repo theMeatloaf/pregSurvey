@@ -97,6 +97,7 @@ button.btn-default {
 
 button.listen {
     font-size: 40px;
+    height: auto;
 }
 
 button.btn-default:hover {
