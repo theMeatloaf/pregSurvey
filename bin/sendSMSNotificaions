@@ -31,12 +31,15 @@ db.many(`select * from users where notifications_sms = true and invite_token is 
           }
       }
 
-      //send them the text
-      twilio_client.messages.create({
+      //send them the text if they have something going on
+      if (message.length > 0) {
+          twilio_client.messages.create({
          body: message,
          to: data[i].phone,  // Text this number
-         from: '+13038350677' // From a valid Twilio number
+         from: process.env.TWILIO_NUMBER // From a valid Twilio number
       });
+      }
+
 
     };
   })

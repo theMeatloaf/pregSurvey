@@ -48,6 +48,12 @@ h2.cinz {
   font-size: 27px;
 }
 
+h3.cinz {
+  font-family: cinzel;
+  color: rgb(221, 114, 114);
+  letter-spacing: 3px;
+  font-size: 20px;
+}
 
 label.checkbox-inline {
   font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
@@ -61,6 +67,12 @@ label.control-label{
   font-size: 17px;
   letter-spacing: 3.35px;
   color: #5A5F67;
+}
+
+hr.divide {
+  background-color: rgb(221, 114, 114);
+  border-color: rgb(221, 114, 114);
+  width: 90%;
 }
 
 p.settings{
@@ -78,7 +90,7 @@ input.form-control{
 
 p.lead {
   font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   color: rgb(90, 95, 103);
 }
 
@@ -95,7 +107,12 @@ button.btn-default {
 }
 
 button.listen {
-    font-size: 40px;
+  font-size: 30px;
+}
+
+button.survey {
+    font-size: 30px;
+    background-color: rgb(69,186,170);
 }
 
 button.btn-default:hover {
@@ -154,6 +171,14 @@ h3.dayText {
   top:-71px;
   left:40px;
 }
+
+h3.lateText {
+  color: gray;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
+}
+
 
 div#radialIndicator {
   position: relative;

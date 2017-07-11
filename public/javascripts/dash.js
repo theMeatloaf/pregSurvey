@@ -10,7 +10,10 @@ function loadInData() {
 	$.get('/api/loggedIn',function(data,status) {
 		//setup music if should
 		if (data.music_enabled) {
+			$("#musicPrompt").removeClass("hidden");
 			setupMusicPlayer();
+		} else {
+			$("#musicPrompt").addClass("hidden");
 		}
 
 		if ( !data["next_survey_date"] ) {
@@ -34,6 +37,22 @@ function loadInData() {
 			}
 			$("#surveyButt").removeClass("hidden");
 			$("#radialIndicator").addClass("hidden");
+
+			//try and get the next survey to show the number of days before late...
+			$.get('/api/surveys/'+nextSurveyID+"&isBefore="+beforeBirth,function(data,status){
+				if(data.days_till_next) {
+					//calculate the date...
+					var lastDate = new Date(dueDate);
+					lastDate = lastDate.setDate(lastDate.getDate() + data.days_till_next);
+					var numDaysLeft = daydiff(date,lastDate);
+					$("#latePrompt").html(numDaysLeft+" DAY"+(numDaysLeft>1 ? "S" : "")+" LEFT TO COMPLETE SURVEY");
+				}
+
+			}).fail(function(data,status){
+
+			});
+
+			//$("#latePrompt").html(numDays+" DAY"+(numDays>1 ? "S" : "")+" LEFT TO COMPLETE SURVEY");
 		} else {
 			numDays = daydiff(date,dueDate);
 			$("#prompt").html("DAY"+(numDays>1 ? "S" : "")+" UNTIL NEXT SURVEY");

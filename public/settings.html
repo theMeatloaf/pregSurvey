@@ -18,7 +18,7 @@
         <a class="navbar-brand" href="/dash">
          <img width=45 alt="Brand" src="/images/logo_circle.png">
         </a>
-          <h2 id="title" class="cinz ">Maternal Moments</h2>
+          <h2 class="cinz">Maternal Moments</h2>
       </div>
       <div class="col-xs-3">
         <button type="button" id="logOut" class="btn btn-danger btn-danger-sm navbar-btn navbar-right">Log Out</button>
@@ -31,7 +31,7 @@
       <br><br><br><br>
   <form id="editForm">
       <div class="row">
-          <h2 class="cinz" align="center">Edit Account</h2>
+          <h2 class="cinz" id="title" align="center">Edit Account</h2>
           <div class="col-xs-1 col-md-4"></div>
           <div class="col-xs-10 col-md-4">
             <div class="form-group has-feedback" id="emailFormGroup">
@@ -50,7 +50,7 @@
           <div class="col-xs-1 col-md-4"></div>
           <div class="col-xs-10 col-md-4">
             <div class="form-group">
-                <p class="settings">Daily Notifications:</p>
+              <p class="settings">Daily Notifications:</p>
               <label class="checkbox-inline">
                 <input type="checkbox" id="emailcheckbox">Email
               </label>
@@ -96,11 +96,14 @@
             <div class="row">
               <div class="col-xs-1 col-md-4"></div>
               <div class="col-xs-10 col-md-4">
+                <label class="checkbox-inline">
+                  <input type="checkbox" id="showPassCheckbox">show password
+                </label><br>
                 <p id="passErrorMessage" class="text-danger"></p>
                 <p id="passSuccessMessage" class="text-success"></p>
                 <button type="submit" id="updatePasswordButton" class="btn btn-default">Update Password</button>
                 <br><br><br><br><br><br><br><br>
-                <button type="button" id="optOut" class="btn btn-danger">Opt Out</button>
+                <button type="button" id="optOut" class="btn btn-danger">Withdraw From Study</button>
                </div>
             </div>
           </form>

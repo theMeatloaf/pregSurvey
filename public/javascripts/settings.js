@@ -49,6 +49,18 @@ function setupLoadedData(data) {
 		}
 }
 
+$('#showPassCheckbox').change(function() {
+  if($(this).prop('checked')) {
+  	$("#oldPasswordInput").attr("type","text");
+  	$("#newPasswordInput1").attr("type","text");
+  	$("#newPasswordInput2").attr("type","text");
+  } else {
+  	$("#oldPasswordInput").attr("type","password");
+  	$("#newPasswordInput1").attr("type","password");
+  	$("#newPasswordInput2").attr("type","password");
+  }
+})
+
 $( "#editForm" ).submit(function( event ) {
 	    $("#successMessage").html("");
         $("#errorMessage").html("");
@@ -89,7 +101,7 @@ $("#phoneInput").on("change paste keyup", function() {
 
 
 $("#optOut").click(function(){
-	if (confirm('Are you sure you want to opt out of the study?')) {
+	if (confirm('Are you sure you want to withdraw of the study?')) {
 		if (confirm('Are you positive? Your account will be disabled.')) {
 			$.get('/api/optOutSelf',null,function(){
 				$.get('/api/logout',null,function(){

@@ -38,14 +38,21 @@
     <div class = "row">
         <div class="col-1 col-md-2"></div>
         <div class="col-10 col-md-8">
-          <h2 class="cinz">Welcome!</h2>
-          <p class="lead">Edison bulb XOXO poutine letterpress YOLO pabst. Cred literally celiac gastropub. Sartorial photo booth chambray blog 8-bit cray craft beer typewriter la croix. Drinking vinegar small batch lomo, viral flexitarian etsy palo santo try-hard fam forage intelligentsia. Kogi trust fund hoodie, health goth man bun street art locavore yr paleo cray synth ramps jean shorts whatever kinfolk. Flannel enamel pin ennui scenester. Trust fund fanny pack small batch tote bag photo booth live-edge tbh asymmetrical chambray hoodie narwhal kickstarter echo park.<br><p>
-          <div align="center"><button align="center" type="submit" class="btn btn-lg btn-default listen" id="play">Listen</button></div>
+          <h2 class="cinz">Welcome to the maternal Moments Study!</h2>
+          <p class="lead">We are so happy you have chosen to take part in our study. Fell free to contact the research team at any point with any questions you may have. <br><p>
+          <div id="musicPrompt" class="hidden">
+            <br>
+            <h3 class="cinz">Daily Music:</h3>
+            <p class="lead">Click below to choose which song you would like to listen to today. Make sure you make a comfy place for yourself, turn off your alerts on your phone so nothing might disturb you. When you’re ready, make yourself really comfy - you have this time for yourself. Become aware of your breathing. Life can be busy, complicated and hectic, so take a moment to turn your attention inwards, to yourself and to your breathing. Be aware of the sounds around you. And when you're ready, play one of the songs - allow yourself to just be. Thoughts will come and go – just let them pass. It doesn’t matter if an unwelcome thought comes, or a good one. Just let each thought or feeling be exactly what it is - without judgment. Acknowledge what comes, and allow it to pass. As the songs draw to a close, take the time you need to rest and just be. And when you're ready, gently return to the room, and to your day.</p>
+            <div align="center">
+              <button align="center" type="submit" class="btn btn-lg btn-default listen" id="play"><span class="glyphicon glyphicon glyphicon-music" aria-hidden="true"></span> Listen</button>
+            </div>
+          </div>
         </div>
         <div class="col-1 col-md-2"></div>
     </div>
 
-    <br><br>
+    <br>
     <div class = "row">
       <div class="col-2 col-md-3"></div>
       <div class="col-10 col-md-6" align="center">
@@ -53,24 +60,34 @@
       </div>
       <div class="col-2 col-md-3"></div>
     </div>
+    
+    <hr class="divide"/>
 
   	<div class="row">
-  		<div class="col-xs-1"></div>
-  		<div class="col-xs-10" align="center">
+  		<div class="col-1 col-md-2"></div>
+  		<div class="col-10 col-md-8">
   			<p id="errorMessage" class="text-danger"></p>
-        <button class="btn btn-danger btn-lg hidden" type="button" id="surveyButt">Take Survey</button>
-        <p id="testVal"></p>
-        <div id="radialIndicator"></div><font color="#808080"><h3 class="dayText" id="prompt"></h3></font>
+        <h3 class="cinz">Questionnaires:</h3>
+        <p class="lead">
+          This is where you'll take survey's when they are due.
+          <br><br>
+          The questionnaires within the survey will ask you about yourself and your pregnancy, questions about how you are feeling in general and about your pregnancy and baby and questions about certain other things that may be going on in your life. Each questionnaire will take no more than 30-40 minutes in total so make sure you leave enough time to fill the full questionnaire. 
+        </p>
+        <div align="center">
+          <button class="btn btn-default survey btn-lg hidden" type="button" id="surveyButt"><span class="glyphicon glyphicon glyphicon-check" aria-hidden="true"></span> Take Survey</button>
+          <h3 class="lateText" id="latePrompt"></h3>
+          <div id="radialIndicator"></div><h3 class="dayText" id="prompt"></h3>
+        </div>
   		</div>
-  		<div class="col-xs-1"></div>
+  		<div class="col-1 col-md-2"></div>
   	</div>
   </div>
 
-    <div class="footer" align="center">
-          <img src="/images/contact-1.png" height=60 style="position:relative;left:90px;">
+    <div class="footer" align="center" >
+          <img src="/images/contact-1.png" height=60 style="position:relative;left:45px;">
               <div role="button" class="style-1" id="comp-j10rn6im" style='display:inline-block;width:60px;'>
               <a href="mailto:maternalmomentsresearch@gmail.com" target="_blank">
-                <style type="text/css">.style-1 svg {width:100%;height:40px;position:relative;top:20px;left:25px;fill:#424A56;fill-opacity:1;stroke:rgba(66, 74, 86, 1);stroke-width:1px;}.style-1 svg * {vector-effect:non-scaling-stroke;}
+                <style type="text/css">.style-1 svg {width:100%;height:40px;position:relative;top:20px;left:-20px;fill:#424A56;fill-opacity:1;stroke:rgba(66, 74, 86, 1);stroke-width:1px;}.style-1 svg * {vector-effect:non-scaling-stroke;}
                 </style>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 70" preserveAspectRatio="xMidYMid meet" style="stroke-width: 1px;">
                   <g>
@@ -80,7 +97,7 @@
               </a>
             </div>
           </img>
-          <img src="/images/contact-2.png" height=60 style="position:relative;left:30px;">
+          <!--<img src="/images/contact-2.png" height=60 style="position:relative;left:30px;">
               <div role="button" class="style-j10shcel1" id="comp-j10rn6im" style='display:inline-block;'>
               <a href="https://twitter.com/MomentsResearch" target="_blank">
                 <img id="comp-j10ryl4g0imageimageimage" alt="Black Twitter Icon" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1lbx_DESKTOP.1.$comp-j10rn6fn.1.$comp-j10rn6ib/=1$comp-j10rn6ib.1.$comp-j10rn6id3.1.$comp-j10rn6io/=1$comp-j10rn6io.1.$comp-j10ryl4g.0.0.0.0.$image" src="https://static.wixstatic.com/media/c7d035ba85f6486680c2facedecdcf4d.png/v1/fill/w_122,h_122,al_c,usm_0.66_1.00_0.01/c7d035ba85f6486680c2facedecdcf4d.png" style="width: 61px; height: 61px; position:relative;right:35px;"></img>
@@ -93,7 +110,7 @@
                 <img id="comp-j10ryl4g0imageimageimage" alt="Black Twitter Icon" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1lbx_DESKTOP.1.$comp-j10rn6fn.1.$comp-j10rn6ib/=1$comp-j10rn6ib.1.$comp-j10rn6id3.1.$comp-j10rn6io/=1$comp-j10rn6io.1.$comp-j10ryl4g.0.0.0.0.$image" src="https://static.wixstatic.com/media/0fdef751204647a3bbd7eaa2827ed4f9.png/v1/fill/w_122,h_122,al_c,usm_0.66_1.00_0.01/0fdef751204647a3bbd7eaa2827ed4f9.png" style="width: 60px; height: 61px; object-fit: cover; position:relative;right:95px;">
               </a>
             </div>
-          </img>
+          </img> -->
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -109,9 +126,6 @@
 
 
 <!--stuff to build next:
-
     -fix session issues
-    -style survey button
-    -style emails
-    
+    -write up docs and get katie started
  -->

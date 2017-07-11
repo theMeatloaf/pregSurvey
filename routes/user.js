@@ -359,13 +359,20 @@ function forgotPassword(req,res,next) {
     });
 }
 
+var emailTemplate_firstHalf = "<html><head><style>img {display:block;margin:auto;}h1 {padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:rgb(221, 114, 114);font-size:25px;font-weight:300;letter-spacing:0.015em;}p{padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:#999999;font-size:14px;font-weight:200;letter-spacing:0.015em;}p.footer{font-size:13px;}</style></head><img src='http://www.maternalmomentsstudy.com/images/logo_circle.png' width=200><h1 style='padding:10px'>Maternal Moments</h1>";
+var emailTemplate_secondHalf = "<p class='footer' style='padding:60px 0px 0px 0px;'>Do not reply to this email.</p><p class='footer'>Send any questions/concerns directly to us at maternalmomentsresearch@gmail.com</p></html>";
+
 function emailForgotPassword(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
-  var inviteUrl = 'http://localhost:3000/forgotPassword?code='+token;
+  var inviteUrl =  process.env.BASE_URL+'/forgotPassword?code='+token;
+
+  var message = "<p>It looks like you forgot your password, no problem!</p><p>In order to create a new password, click <a href=\""+inviteUrl+"\">this link</a> or paste this in your browser:<p><p><b>"+inviteUrl+"</b></p>";
+  var html = emailTemplate_firstHalf+message+emailTemplate_secondHalf;
+
 
   request.post(API_URL,
-    { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:inviteUrl  } },
+    { form: { from: 'DO_NOT_REPLY@maternalmomentsstudy.com', to: address, subject:'Maternal Moments: Reset Password Request', text:inviteUrl, html:html } },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.status(200).json({mailgunResponse:body});
@@ -380,9 +387,11 @@ function emailInvite(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
   var inviteUrl = 'http://localhost:3000/settings?inviteCode='+token;
+  var message = "<p>You have been invited to join the Maternal Moments study!</p><p>In order to setup your account, click <a href=\""+inviteUrl+"\">this link</a> or paste this in your browser:<p><p><b>"+inviteUrl+"</b></p>";
+  var html = emailTemplate_firstHalf+message+emailTemplate_secondHalf;
 
   request.post(API_URL,
-    { form: { from: 'test@test.de', to: address, subject:'heyo maggots', text:inviteUrl  } },
+    { form: { from: 'DO_NOT_REPLY@maternalmomentsstudy.com', to: address, subject:'Welcome to the Maternal Moments study!', text:inviteUrl,html:html  } },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.status(200).json(body);

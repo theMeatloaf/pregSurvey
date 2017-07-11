@@ -85,14 +85,14 @@ $('#resultContainer').delegate('.saveBtn','click',function(event){
     });
 });
 
-$('#resultContainer').delegate('.qualtricsText','change paste keyup',function(event){    
+$('#resultContainer').delegate('.qualtricsText,.daysText','change paste keyup',function(event){    
     var position = parseInt(this.id);
     var saveButton = $("#resultContainer #"+position+".saveBtn");
 
     saveButton.removeClass('hidden');
 });
 
-$('#afterResultContainer').delegate('.qualtricsText','change paste keyup',function(event){    
+$('#afterResultContainer').delegate('.qualtricsText,.daysText','change paste keyup',function(event){    
     var position = parseInt(this.id);
     var saveButton = $("#afterResultContainer #"+position+".saveBtn");
 
