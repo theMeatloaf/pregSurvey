@@ -83,6 +83,7 @@ $( "#loginForm" ).submit(function( event ) {
             function(data,status){
             	window.location.href = '/dash'
             }).fail(function(data,status) {
+              console.log(data);
             	if (data.responseJSON){
             		$("#errorMessage").html(data.responseJSON['error']);
             	} else {
@@ -90,7 +91,6 @@ $( "#loginForm" ).submit(function( event ) {
             	}
   			});
 		}
-
   		event.preventDefault();
 });
 

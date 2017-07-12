@@ -39,6 +39,9 @@ function handleInitialError(data){
 }
 
 function setupLoadedData(data) {
+		if (data["permission_level"] == 1) {
+			$("#optOut").addClass("hidden");
+		}
 		$("#emailInput").val(data["username"]);
 		$("#phoneInput").val(data["phone"]);
 		if(data["notifications_email"] == true) {

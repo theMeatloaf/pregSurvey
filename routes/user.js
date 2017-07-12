@@ -168,6 +168,8 @@ function logout (req, res, next){
 }
 
 function login(req, res, next) {
+  req.session = null;
+
   if (!req.body.password || !req.body.username) {
     res.status(400).json({error:'Please enter both a Username and Password'});
     return;
@@ -317,9 +319,9 @@ function invite(req,res,next) {
   db.one(`select * from users where id = (select max(id) from users)`).then(function(data) {
     //got the last user lets toggle
     var theyHadMusic = data.music_enabled;
-    db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_position,invite_token,phone,music_enabled)
-     values($1,true,$2,1,$3,$4,$5)`,
-     [req.body.username,new Date(),hash,phoneNum,!theyHadMusic]).then(function (user) {
+    db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_position,invite_token,phone,music_enabled,notifications_sms)
+     values($1,true,$2,1,$3,$4,$5,$6)`,
+     [req.body.username,new Date(),hash,phoneNum,!theyHadMusic,(phoneNum.length > 0)]).then(function (user) {
          //this worked...lets email them
          emailInvite(req.body.username,hash,res);
     })
