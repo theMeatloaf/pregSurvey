@@ -159,13 +159,12 @@ function getCurrentUser(req, res, next) {
 }
 
 function logout (req, res, next){
-  req.session.destroy(function (err) {
-    res.status(200)
-        .json({
-          status: 'success',
-          message: 'Logged Out User'
-        });
-  });
+  req.session = null;
+  res.status(200)
+      .json({
+        status: 'success',
+        message: 'Logged Out User'
+      });
 }
 
 function login(req, res, next) {
@@ -182,9 +181,8 @@ function login(req, res, next) {
         if (user.permission_level != -1) {
             res.status(200).json(user);
         } else {
-              req.session.destroy(function (err) {
-                res.status(401).json({error:"Your user account has been opted out of the study. Contact an Admin to have your account re-enabled."})
-            });
+            req.session = null;
+            res.status(401).json({error:"Your user account has been opted out of the study. Contact an Admin to have your account re-enabled."})
         }
       });
     }

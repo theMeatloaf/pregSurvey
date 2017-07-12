@@ -1,5 +1,5 @@
 var express = require('express');
-var session = require('express-session');
+var session = require('cookie-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -29,8 +29,6 @@ app.use(express.static(__dirname + '/public', {
 }));
 app.use(session({
   secret: process.env.SECRET_SESSION_KEY,
-  resave: false,
-  saveUninitialized: true,
   cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
 }));
 app.use(passport.initialize());
