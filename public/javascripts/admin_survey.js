@@ -12,6 +12,7 @@ function loadInData() {
     $.get('/api/loggedIn',function(data,status) {
     if (data.permission_level == 1) {
         //we've got an admin
+        $("#mainContainer").removeAttr("hidden");
         loadSurveys();
     } else {
         location.replace('/');

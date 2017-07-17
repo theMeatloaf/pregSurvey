@@ -25,6 +25,7 @@ $("#forgotPass").click(function(event) {
       $.post('/api/forgotPassword', {
         username:email
       },function(data,status) {
+        alert("An email has been sent to you to reset your password");
         $('#successMessage').html("Check your email for a password reset link.");
       }).fail(function(data,status) {
 
@@ -73,12 +74,14 @@ $( "#loginForm" ).submit(function( event ) {
 		if (checkValidation()) {
 			var email = $("#emailInput").val();
 			var password = $("#passwordInput").val();
-		
+		  var stayLoggedIn = $("#rememberMeCheckbox").is(':checked');
+
 			var loginURL = "/api/login";
            $.post(loginURL,
             {
                 username: email,
-                password: password
+                password: password,
+                remember: stayLoggedIn
             },
             function(data,status){
             	window.location.href = '/dash'

@@ -11,6 +11,7 @@ function loadInData() {
     $.get('/api/loggedIn',function(data,status) {
         if (data.permission_level == 1) {
             //we've got an admin
+            $("#mainContainer").removeAttr("hidden");
         } else {
             location.replace('/');
         }
@@ -74,8 +75,11 @@ $("#searchForm").submit(function(event){
             for (var i = data.length - 1; i >= 0; i--) {
                 var email = data[i].username;
                 var thisRow = row.clone();
-                thisRow.find('.value').html(email);
+                thisRow.find('.value').html("<b>"+email+"</b>");
                 var dueDate = new Date(data[i].next_survey_date);
+                if (data[i].music_enabled === true) {
+                    thisRow.find('.value').append("&nbsp;&nbsp;&nbsp;<span class='glyphicon glyphicon glyphicon-music' aria-hidden='true'></span>")
+                }
                 thisRow.find('.value').append("&nbsp;&nbsp;&nbsp; Survey Due Date: "+dueDate.toDateString());
                 thisRow.find('#phoneNumberInput').val(data[i].phone);
                 if (data[i].birth_date) {

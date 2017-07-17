@@ -181,11 +181,17 @@ function login(req, res, next) {
         if (err) { return next(err); }
         //make sure their account is active....
         if (user.permission_level != -1) {
+            //handle cookie settings
+            if (req.body.remember === 'true' ) {
+              req.sessionOptions.maxAge = 365 * 24 * 60 * 60 * 1000 ;
+            }
             res.status(200).json(user);
         } else {
             req.session = null;
-            res.status(401).json({error:"Your user account has been opted out of the study. Contact an Admin to have your account re-enabled."})
+            res.status(401).json({error:"Your user account has been opted out of the study. Contact an Admin to have your account re-enabled at EMAIL."})
         }
+
+
       });
     }
   })(req, res, next);
@@ -355,7 +361,7 @@ function forgotPassword(req,res,next) {
         emailForgotPassword(req.body.username,hash,res);
     })
     .catch(function (err) {
-      return next(err);
+      res.status(500).json(err);
     });
 }
 

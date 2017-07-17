@@ -28,8 +28,7 @@ app.use(express.static(__dirname + '/public', {
   extensions: ['html']
 }));
 app.use(session({
-  secret: process.env.SECRET_SESSION_KEY,
-  cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
+  secret: process.env.SECRET_SESSION_KEY
 }));
 app.use(passport.initialize());
 app.use(passport.session());
