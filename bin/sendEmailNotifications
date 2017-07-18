@@ -48,7 +48,7 @@ db.many(`select * from users where notifications_email = true and invite_token i
 
       //send them the email
       request.post(API_URL,
-        { form: { from: 'DO_NOT_REPLY@maternalmomentsstudy.com', to: data[i].username, subject:'Maternal Moments: Dont forget to listen to your music today!zzzz', text:textMessage,html:html } },
+        { form: { from: 'DO_NOT_REPLY@maternalmomentsstudy.com', to: data[i].username, subject:'Maternal Moments: Dont forget to listen to your music today!', text:textMessage,html:html } },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
               //do less?...
