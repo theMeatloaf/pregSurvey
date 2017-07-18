@@ -145,15 +145,20 @@ function setupMusicPlayer() {
     preload: 'auto',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
     listmaxheight: '513px',                                             // Optional, max height of play list
     music: [{                                                           // Required, music info, see: ###With playlist
-        title: 'Civil War',                                          // Required, music title
-        author: 'Grumpy cat',                          // Required, music author
-        url: 'http://www.noiseaddicts.com/samples_1w72b820/2540.mp3',  // Required, music url
-        pic: 'https://www.grumpycats.com/images/about/tardar.jpg'  // Optional, music picture
+        title: 'Drifting',                                          // Required, music title
+        author: 'Maternal Moments',                          // Required, music author
+        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
+        url: 'http://www.maternalmomentsstudy.com/songs/Drifting.mp3'  // Optional, music picture
     },{                                                           // Required, music info, see: ###With playlist
-        title: 'Civil War',                                          // Required, music title
-        author: 'Grumpy cat',                          // Required, music author
-        url: 'http://www.noiseaddicts.com/samples_1w72b820/2540.mp3',  // Required, music url
-        pic: 'https://www.grumpycats.com/images/about/tardar.jpg'  // Optional, music picture
+        title: 'All You Need',                                          // Required, music title
+        author: 'Maternal Moments',                          // Required, music author
+        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
+        url: 'http://www.maternalmomentsstudy.com/songs/Drifting.mp3'  // Optional, music picture
+    },{                                                           // Required, music info, see: ###With playlist
+        title: 'Bedtime Lullaby',                                          // Required, music title
+        author: 'Maternal Moments',                          // Required, music author
+        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
+        url: 'http://www.maternalmomentsstudy.com/songs/Drifting.mp3'  // Optional, music picture
     }]
 });
 
