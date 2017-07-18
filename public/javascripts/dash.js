@@ -1,15 +1,17 @@
 
+
 var nextSurveyID = ""
 var userID = ""
 var username = ""
 var beforeBirth = true
 
 var startDate = new Date();
+var ap;
 
 function loadInData() {
 	$.get('/api/loggedIn',function(data,status) {
 		//setup music if should
-		if (data.music_enabled) {
+		if (data.music_enabled && data.birth_date == null) {
 			$("#musicPrompt").removeClass("hidden");
 			setupMusicPlayer();
 		} else {
@@ -88,7 +90,49 @@ function loadInData() {
 	});
 
 }
-var ap;
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24));
+}
+
+$("#play").click(function() {
+  $("#play").slideUp(400);
+
+  $(".aplayer").animate({
+    width:'100%',
+    height:'100%'
+  }, 500, function() {
+    // Animation complete.
+  });
+  
+  ap.play();
+});
+
+$("#surveyButt").click(function(){
+	//get survey and show it
+	$.get('/api/surveys/'+nextSurveyID+"&isBefore="+beforeBirth,function(data,status){
+		if(data["qualtrics_id"]){
+			//time to open the survey brah...
+			window.location.href = "https://goldpsych.eu.qualtrics.com/jfe/form/"+data["qualtrics_id"]
+			+"?ExternalDataReference="+userID+
+			"&RecipientEmail="+username;
+		}
+	}).fail(function(data,status){
+
+	});
+});
+
+$("#goSettingsBtn").click(function(){
+	window.location.href = "/settings";
+});
+
+
+
+
+
+
+
+//////------MUSIC PLAYER CODE
 function setupMusicPlayer() {
 	ap = new APlayer({
     element: document.getElementById('musicPlayer'),                       // Optional, player element
@@ -127,39 +171,3 @@ function setupMusicPlayer() {
 		startDate = new Date();
 	});
 }
-
-function daydiff(first, second) {
-    return Math.round((second-first)/(1000*60*60*24));
-}
-
-$("#play").click(function() {
-  $("#play").slideUp(400);
-
-  $(".aplayer").animate({
-    width:'100%',
-    height:'100%'
-  }, 500, function() {
-    // Animation complete.
-  });
-  
-  ap.play();
-});
-
-$("#surveyButt").click(function(){
-	//get survey and show it
-	$.get('/api/surveys/'+nextSurveyID+"&isBefore="+beforeBirth,function(data,status){
-		if(data["qualtrics_id"]){
-			//time to open the survey brah...
-			window.location.href = "https://goldpsych.eu.qualtrics.com/jfe/form/"+data["qualtrics_id"]
-			+"?ExternalDataReference="+userID+
-			"&RecipientEmail="+username;
-		}
-	}).fail(function(data,status){
-
-	});
-});
-
-$("#goSettingsBtn").click(function(){
-	window.location.href = "/settings";
-});
-

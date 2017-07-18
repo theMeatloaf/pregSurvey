@@ -91,6 +91,7 @@ function updateUser(req,res,next) {
         //got survey...
         var nextDate = new Date(req.body.birth_date);
         nextDate.setDate(birthDate.getDate() + survey.days_till_next);
+
         //ok were good...update the user with the next due dates etc
         db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3, birth_date=$5, next_survey_date = $6, next_survey_position = 1 where id=$4',
         [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,id,birthDate,nextDate]).then(function () {
