@@ -393,7 +393,7 @@ function emailForgotPassword(address,token,res) {
 function emailInvite(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
-  var inviteUrl = 'http://localhost:3000/settings?inviteCode='+token;
+  var inviteUrl = process.env.BASE_URL+'/settings?inviteCode='+token;
   var message = "<p>You have been invited to join the Maternal Moments study!</p><p>In order to setup your account, click <a href=\""+inviteUrl+"\">this link</a> or paste this in your browser:<p><p><b>"+inviteUrl+"</b></p>";
   var html = emailTemplate_firstHalf+message+emailTemplate_secondHalf;
 
