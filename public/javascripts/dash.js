@@ -13,7 +13,6 @@ function loadInData() {
 		//setup music if should
 		if (data.music_enabled && data.birth_date == null) {
 			$("#musicPrompt").removeClass("hidden");
-			setupMusicPlayer();
 		} else {
 			$("#musicPrompt").addClass("hidden");
 		}
@@ -98,15 +97,38 @@ function daydiff(first, second) {
 $("#play").click(function() {
   $("#play").slideUp(400);
 
-  $(".aplayer").animate({
-    width:'100%',
-    height:'100%'
+  $("#listenPrompt").removeAttr("hidden");
+  $(".sess").animate({
+    width:'50px',
+    height:'50px'
   }, 500, function() {
+  	$(".sess").removeClass("zero");
     // Animation complete.
   });
-  
+});
+
+$(".sess").click(function() {
+  $(".sess").slideUp(400);
+  $("#listenPrompt").attr("hidden","true");
+  $(".aplayer").animate({
+      width:'100%',
+      height:'100%'
+    }, 500, function() {
+      // Animation complete.
+  });
+
+    //get filename:
+    var path = "/songs/"+this.id+".m4a";
+
+  	setupMusicPlayer({                                                           // Required, music info, see: ###With playlist
+        title: 'Listening Session #'+this.id,                                          // Required, music title
+        author: 'Maternal Moments',                          // Required, music author
+        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
+        url: path  // Optional, music picture
+    });
   ap.play();
 });
+
 
 $("#surveyButt").click(function(){
 	//get survey and show it
@@ -133,7 +155,7 @@ $("#goSettingsBtn").click(function(){
 
 
 //////------MUSIC PLAYER CODE
-function setupMusicPlayer() {
+function setupMusicPlayer(music) {
 	ap = new APlayer({
     element: document.getElementById('musicPlayer'),                       // Optional, player element
     narrow: false,                                                     // Optional, narrow style
@@ -144,22 +166,7 @@ function setupMusicPlayer() {
     mode: 'order',                                                    // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
     preload: 'auto',                                               // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
     listmaxheight: '513px',                                             // Optional, max height of play list
-    music: [{                                                           // Required, music info, see: ###With playlist
-        title: 'Drifting',                                          // Required, music title
-        author: 'Maternal Moments',                          // Required, music author
-        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
-        url: 'http://www.maternalmomentsstudy.com/songs/Drifting.mp3'  // Optional, music picture
-    },{                                                           // Required, music info, see: ###With playlist
-        title: 'All You Need',                                          // Required, music title
-        author: 'Maternal Moments',                          // Required, music author
-        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
-        url: 'http://www.maternalmomentsstudy.com/songs/Drifting.mp3'  // Optional, music picture
-    },{                                                           // Required, music info, see: ###With playlist
-        title: 'Bedtime Lullaby',                                          // Required, music title
-        author: 'Maternal Moments',                          // Required, music author
-        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
-        url: 'http://www.maternalmomentsstudy.com/songs/Drifting.mp3'  // Optional, music picture
-    }]
+    music: [music]
 });
 
 	ap.on("pause",function() {
@@ -170,6 +177,17 @@ function setupMusicPlayer() {
 			function(data,status) {
 				console.log("added time");
 		})
+	});
+
+	ap.on("ended",function() {
+	  $(".aplayer").animate({
+	      width:'0%',
+		  height:'0%'
+	  }, 500, function() {
+		   // Animation complete.
+	  });
+	  $("#listenPrompt").html("Thank You For Listening!");
+	  $("#listenPrompt").removeAttr("hidden");
 	});
 
 	ap.on("play",function() {

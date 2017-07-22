@@ -25,15 +25,15 @@ db.many(`select * from users where notifications_email = true and invite_token i
       var message = "";
       var html = "";
       if (data[i].music_enabled) {
-        message = "<p>Heres a reminder to listen to your music today! Log into your account here and take a listen: "+process.env.BASE_URL+"<p>";
+        message = "<p>Hello from Maternal Moments</p><p>This is just a friendly reminder to remember to listen to your music today. Log in <a href="+process.env.BASE_URL+">here</a> to listen: "+process.env.BASE_URL+" <p>";
       }
 
       if (date > dueDate) {
           //need a survey...
          if (data[i].music_enabled) {
-            message = message + "<p>You also are Due to fill out a survey. Dont forget to complete it soon!<p>"
+            message = message + "<p>You also have a questionnaire due. Remember it takes around 30 minutes to complete, so make sure you leave enough time.<p>"
           } else {
-            message = "<p>You are due to fill out a survey for the Maternal Motments Study!</p><p>You can log into your account here to complete it: "+process.env.BASE_URL+"</p>";
+            message = "<p>Hello from Maternal Moments</p><p>This is just a friendly reminder that you have a questionnaire due. Remember it takes around 30 minutes to complete, so make sure you leave enough time. Log in <a href="+process.env.BASE_URL+">here</a> to complete it: "+process.env.BASE_URL+" </p>";
           }
       }
 
@@ -48,7 +48,7 @@ db.many(`select * from users where notifications_email = true and invite_token i
 
       //send them the email
       request.post(API_URL,
-        { form: { from: 'DO_NOT_REPLY@maternalmomentsstudy.com', to: data[i].username, subject:'Maternal Moments: Dont forget to listen to your music today!', text:textMessage,html:html } },
+        { form: { from: 'MaternalMoments@maternalmomentsstudy.com', to: data[i].username, subject:'Maternal Moments: Your friendly daily reminder', text:textMessage,html:html } },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
               //do less?...
