@@ -118,7 +118,7 @@ $(".sess").click(function() {
   });
 
     //get filename:
-    var path = "/songs/"+this.id+".m4a";
+    var path = "https://s3.eu-west-2.amazonaws.com/maternalments/"+this.id+".m4a";
 
   	setupMusicPlayer({                                                           // Required, music info, see: ###With playlist
         title: 'Listening Session #'+this.id,                                          // Required, music title
