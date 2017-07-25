@@ -20,7 +20,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-app.all('*', ensureSecure); // at top of routing calls
+app.get('*',ensureSecure); // at top of routing calls
 
 var server = http.createServer(app);
 
@@ -35,10 +35,11 @@ server.on('listening', onListening);
 function ensureSecure(req, res, next){
   if(req.headers["x-forwarded-proto"] === "https"){
     // OK, continue
-    debug("didn't redirect");
+    console.log("didn't redirect");
     return next();
-  };
-  res.redirect('https://' + req.hostname + req.url); // express 4.x
+  }
+  console.log("did redirect");
+  res.redirect('https://' + req.host + req.url); // express 4.x
 }
 
 /**
