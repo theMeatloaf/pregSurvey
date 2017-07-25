@@ -20,11 +20,9 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+app.all('*', ensureSecure); // at top of routing calls
 
 var server = http.createServer(app);
-
-
-app.all('*', ensureSecure); // at top of routing calls
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -37,10 +35,9 @@ server.on('listening', onListening);
 function ensureSecure(req, res, next){
   if(req.headers["x-forwarded-proto"] === "https"){
     // OK, continue
+    debug("didn't redirect");
     return next();
   };
-  // handle port numbers if you need non defaults
-  // res.redirect('https://' + req.host + req.url); // express 3.x
   res.redirect('https://' + req.hostname + req.url); // express 4.x
 }
 
