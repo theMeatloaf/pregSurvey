@@ -123,6 +123,11 @@ button.listen {
   font-size: 30px;
 }
 
+button.back {
+  font-size: 15px;
+  width: 0%;
+}
+
 button.survey {
     font-size: 30px;
     background-color: rgb(69,186,170);

@@ -128,6 +128,7 @@ $('#resultContainer').delegate('.userEditForm','submit',function(event){
     var phoneValue = form.find("#phoneNumberInput").val();
     var birthValue = form.find("#birthDateInput").val();
     var loginURL = "/api/updateUser";
+
    $.post(loginURL,
     {
         phone: phoneValue,

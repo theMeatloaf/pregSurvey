@@ -46,7 +46,7 @@ function loadInData() {
 					var lastDate = new Date(dueDate);
 					lastDate = lastDate.setDate(lastDate.getDate() + data.days_till_next);
 					var numDaysLeft = daydiff(date,lastDate);
-					$("#latePrompt").html(numDaysLeft+" DAY"+(numDaysLeft>1 ? "S" : "")+" LEFT TO COMPLETE SURVEY");
+					$("#latePrompt").html(numDaysLeft+" DAY"+(numDaysLeft>1 ? "S" : "")+" LEFT UNTIL NEXT SURVEY");
 				}
 
 			}).fail(function(data,status){
@@ -117,16 +117,39 @@ $(".sess").click(function() {
       // Animation complete.
   });
 
+   $(".back").animate({
+    width:'90px'
+  }, 500, function() {
+  	$(".back").removeClass("zero");
+  });
+
     //get filename:
     var path = "https://s3.eu-west-2.amazonaws.com/maternalments/"+this.id+".m4a";
 
   	setupMusicPlayer({                                                           // Required, music info, see: ###With playlist
         title: 'Listening Session #'+this.id,                                          // Required, music title
         author: 'Maternal Moments',                          // Required, music author
-        pic: 'http://www.maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
+        pic: 'https://maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
         url: path  // Optional, music picture
     });
   ap.play();
+});
+
+
+$(".back").click(function(){
+	ap.pause();
+	$(".sess").slideDown(400);
+  	$("#listenPrompt").removeAttr("hidden");
+	$(".back").addClass("zero");
+	$(".back").animate({
+		width:'0px'
+	},500);
+	$(".aplayer").animate({
+      width:'0%',
+      height:'0%'
+    }, 500, function() {
+      // Animation complete.
+  });
 });
 
 
@@ -186,6 +209,7 @@ function setupMusicPlayer(music) {
 	  }, 500, function() {
 		   // Animation complete.
 	  });
+	  $("#back").hide();
 	  $("#listenPrompt").html("Thank You For Listening!");
 	  $("#listenPrompt").removeAttr("hidden");
 	});

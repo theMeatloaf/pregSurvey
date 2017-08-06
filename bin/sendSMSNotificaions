@@ -19,13 +19,13 @@ db.many(`select * from users where notifications_sms = true and invite_token is 
 
       var message = "";
       if (data[i].music_enabled) {
-        message = "Listen to your music today! Log in here and take a listen: "+process.env.BASE_URL;
+        message = "This is a reminder to listen to your music today. Log in here to listen: "+process.env.BASE_URL;
       }
 
       if (date > dueDate) {
           //need a survey...
          if (data[i].music_enabled) {
-            message = message + "\n\nYou also have a survey due, dont forget to complete it!"
+            message = message + "\n\nYou also have a survey due. Please complete this as soon as possible."
           } else {
             message = "You are due to fill out a survey for the Maternal Motments Study!\n\nLog in here to complete it: "+process.env.BASE_URL;
           }

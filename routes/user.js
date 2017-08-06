@@ -366,7 +366,7 @@ function forgotPassword(req,res,next) {
     });
 }
 
-var emailTemplate_firstHalf = "<html><head><style>img {display:block;margin:auto;}h1 {padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:rgb(221, 114, 114);font-size:25px;font-weight:300;letter-spacing:0.015em;}p{padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:#999999;font-size:14px;font-weight:200;letter-spacing:0.015em;}p.footer{font-size:13px;}</style></head><img src='http://www.maternalmomentsstudy.com/images/logo_circle.png' width=200><h1 style='padding:10px'>Maternal Moments</h1>";
+var emailTemplate_firstHalf = "<html><head><style>img {display:block;margin:auto;}h1 {padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:rgb(221, 114, 114);font-size:25px;font-weight:300;letter-spacing:0.015em;}p{padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:#999999;font-size:14px;font-weight:200;letter-spacing:0.015em;}p.footer{font-size:13px;}</style></head><img src='https://maternalmomentsstudy.com/images/logo_circle.png' width=200><h1 style='padding:10px'>Maternal Moments</h1>";
 var emailTemplate_secondHalf = "<p class='footer' style='padding:60px 0px 0px 0px;'>Do not reply to this email.</p><p class='footer'>Send any questions/concerns directly to us at ksanf001@gold.ac.uk</p></html>";
 
 function emailForgotPassword(address,token,res) {
@@ -394,7 +394,7 @@ function emailInvite(address,token,res) {
   var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
   
   var inviteUrl = process.env.BASE_URL+'/settings?inviteCode='+token;
-  var message = "<p>Hello and welcome to Maternal Moments!</p><p>Thank you for your interest in our research and you are so gold you have chosen to take part.</p><p>In order to setup your account, click <a href=\""+inviteUrl+"\">this link</a> or paste this in your browser:<p><p><b>"+inviteUrl+"</b></p><p>Thanks once again and feel free to contact the research team at any point with any questions or concerns. You can email Katie Rose at ksanf001@gold.ac.uk</p><p>Sincerely,<br>Maternal Moments Research Team</p>";
+  var message = "<p>Hello and welcome to Maternal Moments!</p><p>Thank you for your interest in our research and we are so glad you have chosen to take part.</p><p>In order to setup your account, click <a href=\""+inviteUrl+"\">this link</a> or paste this in your browser:<p><p><b>"+inviteUrl+"</b></p><p>Thanks once again and feel free to contact the research team at any point with any questions or concerns. You can email Katie Rose at ksanf001@gold.ac.uk</p><p>Sincerely,<br>Maternal Moments Research Team</p>";
   var html = emailTemplate_firstHalf+message+emailTemplate_secondHalf;
 
   request.post(API_URL,
