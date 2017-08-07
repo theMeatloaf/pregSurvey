@@ -12,6 +12,16 @@ var api2 = require('./routes/survey');
 var app = express();
 var passport = require('passport');
 
+/* Redirect http to https */
+app.get('*', function(req,res,next) {
+  if(req.headers['x-forwarded-proto'] != 'https' && process.env.BASE_URL != 'http://localhost:3000') {
+    console.log("work");
+    res.redirect('https://'+req.hostname+req.url)
+  } else {
+    next() /* Continue to other routes if we're not redirecting */
+  }
+});
+
 require('dotenv').config()
 
 // view engine setup
@@ -32,14 +42,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-var forceSsl = function (req, res, next) {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-        return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    }
-    return next();
- };
-app.use(forceSsl);
 
 app.use('/', api);
 app.use('/', api2);
