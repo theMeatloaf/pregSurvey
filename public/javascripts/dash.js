@@ -117,17 +117,17 @@ $(".sess").click(function() {
       // Animation complete.
   });
 
-   $(".back").animate({
+   $("#back").animate({
     width:'90px'
   }, 500, function() {
-  	$(".back").removeClass("zero");
+  	$("#back").removeClass("zero");
   });
 
     //get filename:
     var path = "https://s3.eu-west-2.amazonaws.com/maternalments/"+this.id+".m4a";
 
   	setupMusicPlayer({                                                           // Required, music info, see: ###With playlist
-        title: 'Listening Session #'+this.id,                                          // Required, music title
+        title: 'Listening Session '+this.id,                                          // Required, music title
         author: 'Maternal Moments',                          // Required, music author
         pic: 'https://maternalmomentsstudy.com/images/logo_circle.png',  // Required, music url
         url: path  // Optional, music picture
@@ -171,10 +171,9 @@ $("#goSettingsBtn").click(function(){
 	window.location.href = "/settings";
 });
 
-
-
-
-
+$("#playAgain").click(function(){
+	window.location.reload();
+});
 
 
 //////------MUSIC PLAYER CODE
@@ -210,6 +209,11 @@ function setupMusicPlayer(music) {
 		   // Animation complete.
 	  });
 	  $("#back").hide();
+	  $("#playAgain").animate({
+	    width:'150px'
+	  }, 500, function() {
+	  	$("#playAgain").removeClass("zero");
+	  });
 	  $("#listenPrompt").html("Thank You For Listening!");
 	  $("#listenPrompt").removeAttr("hidden");
 	});
