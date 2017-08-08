@@ -92,7 +92,7 @@ function loadInData() {
 
 function toggleLoading(loading) {
 	var mainBody = $("#mainBody");
-	var spinBody = $("musicBody");
+	var spinBody = $("#musicBody");
 
 	if (loading) {
 		var opts = {
