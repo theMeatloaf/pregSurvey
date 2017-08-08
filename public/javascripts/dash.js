@@ -7,6 +7,7 @@ var beforeBirth = true
 
 var startDate = new Date();
 var ap;
+var spinner;
 
 function loadInData() {
 	$.get('/api/loggedIn',function(data,status) {
@@ -78,8 +79,8 @@ function loadInData() {
 			radialObj.option('fontSize',30);
 		}
 		radialObj.animate(numDays);
-
-	}).fail(function(data,status){
+	
+		}).fail(function(data,status){
 		if (data.responseJSON){
         		$("#errorMessage").html(data.responseJSON['error']);
         		location.replace('/');
@@ -87,7 +88,29 @@ function loadInData() {
         		$("#errorMessage").html(data);
         	}
 	});
+}
 
+function toggleLoading(loading) {
+	var target = $("#mainBody");
+
+	if (loading) {
+		var opts = {
+		  lines: 10 // The number of lines to draw
+		, length: 18 // The length of each line
+		, width: 10 // The line thickness
+		, radius: 25 // The radius of the inner circle
+		, scale: 1 // Scales overall size of the spinner
+		, corners: 1.0 // Corner roundness (0..1)
+		, color: '#000' // #rgb or #rrggbb or array of colors
+		, opacity: 0.25 // Opacity of the lines
+		}
+		target.addClass("loading");
+		spinner = new Spinner(opts).spin();
+		target.append(spinner.el);
+	} else {
+		spinner.stop();
+		target.removeClass("loading");
+	}
 }
 
 function daydiff(first, second) {
@@ -108,6 +131,9 @@ $("#play").click(function() {
 });
 
 $(".sess").click(function() {
+  //show loading
+  toggleLoading(true);
+
   $(".sess").slideUp(400);
   $("#listenPrompt").attr("hidden","true");
   $(".aplayer").animate({
@@ -116,7 +142,7 @@ $(".sess").click(function() {
     }, 500, function() {
       // Animation complete.
   });
-
+  $("#back").show();
    $("#back").animate({
     width:'90px'
   }, 500, function() {
@@ -146,7 +172,7 @@ $(".back").click(function(){
 	},500);
 	$(".aplayer").animate({
       width:'0%',
-      height:'0%'
+      height:'0px'
     }, 500, function() {
       // Animation complete.
   });
@@ -172,12 +198,24 @@ $("#goSettingsBtn").click(function(){
 });
 
 $("#playAgain").click(function(){
-	window.location.reload();
+  $("#listenPrompt").removeAttr("hidden");
+   $("#listenPrompt").html("Pick a Session:");
+
+  $(".sess").animate({
+    width:'50px',
+    height:'50px'
+  }, 500, function() {
+  	$(".sess").removeClass("zero");
+    // Animation complete.
+  });
 });
 
 
 //////------MUSIC PLAYER CODE
 function setupMusicPlayer(music) {
+	if (ap) {
+	ap.destroy();
+	}
 	ap = new APlayer({
     element: document.getElementById('musicPlayer'),                       // Optional, player element
     narrow: false,                                                     // Optional, narrow style
@@ -204,7 +242,7 @@ function setupMusicPlayer(music) {
 	ap.on("ended",function() {
 	  $(".aplayer").animate({
 	      width:'0%',
-		  height:'0%'
+		  height:'0px'
 	  }, 500, function() {
 		   // Animation complete.
 	  });
@@ -219,6 +257,7 @@ function setupMusicPlayer(music) {
 	});
 
 	ap.on("play",function() {
+		toggleLoading(false);
 		startDate = new Date();
 	});
 }
