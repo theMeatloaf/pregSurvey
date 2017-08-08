@@ -91,7 +91,8 @@ function loadInData() {
 }
 
 function toggleLoading(loading) {
-	var target = $("#mainBody");
+	var mainBody = $("#mainBody");
+	var spinBody = $("musicBody");
 
 	if (loading) {
 		var opts = {
@@ -104,12 +105,12 @@ function toggleLoading(loading) {
 		, color: '#000' // #rgb or #rrggbb or array of colors
 		, opacity: 0.25 // Opacity of the lines
 		}
-		target.addClass("loading");
+		mainBody.addClass("loading");
 		spinner = new Spinner(opts).spin();
-		target.append(spinner.el);
+		spinBody.append(spinner.el);
 	} else {
 		spinner.stop();
-		target.removeClass("loading");
+		mainBody.removeClass("loading");
 	}
 }
 
