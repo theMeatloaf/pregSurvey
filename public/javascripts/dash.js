@@ -256,8 +256,10 @@ function setupMusicPlayer(music) {
 	  $("#listenPrompt").removeAttr("hidden");
 	});
 
-	ap.on("canplay",function(){
-		toggleLoading(false);
+	ap.on("playing",function(){
+		if (ap.audio.currentTime > 0) {
+			toggleLoading(false);
+		}
 	});
 
 	ap.on("play",function() {
