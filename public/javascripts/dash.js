@@ -256,8 +256,11 @@ function setupMusicPlayer(music) {
 	  $("#listenPrompt").removeAttr("hidden");
 	});
 
-	ap.on("play",function() {
+	ap.on("canplay",function(){
 		toggleLoading(false);
+	});
+
+	ap.on("play",function() {
 		startDate = new Date();
 	});
 }
