@@ -1,4 +1,5 @@
 var row;
+var didAddDOB = false;
 
 $("#goSurveyEdit").click(function(event) {
     location.replace("/admin_survey");
@@ -19,6 +20,10 @@ function loadInData() {
         //go to login
         location.replace('/');
     });
+}
+
+function dateChanged(e) {
+    didAddDOB = true;
 }
 
 $( "#inviteForm" ).submit(function( event ) {
@@ -85,6 +90,7 @@ $("#searchForm").submit(function(event){
                 if (data[i].birth_date) {
                     var birthDate = new Date(data[i].birth_date);
                     thisRow.find('#birthDateInput').val(birthDate.toISOString().substr(0,10));
+                    thisRow.find('#birthDateInput').on('change',dateChanged);
                 }
                 thisRow.find('.optOutButton').attr("id",data[i].id);
                 thisRow.find('.userEditForm').attr("id",data[i].id);
@@ -128,6 +134,16 @@ $('#resultContainer').delegate('.userEditForm','submit',function(event){
     var phoneValue = form.find("#phoneNumberInput").val();
     var birthValue = form.find("#birthDateInput").val();
     var loginURL = "/api/updateUser";
+
+    if (didAddDOB) {
+        if (confirm("You have changed a date of birth. Are you sure you want to save?")) {
+            //do less
+        } else {
+            //bail!
+            event.preventDefault();
+            return;
+        }
+    }
 
    $.post(loginURL,
     {

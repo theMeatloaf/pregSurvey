@@ -97,9 +97,9 @@ function toggleLoading(loading) {
 	if (loading) {
 		var opts = {
 		  lines: 10 // The number of lines to draw
-		, length: 18 // The length of each line
-		, width: 10 // The line thickness
-		, radius: 25 // The radius of the inner circle
+		, length: 12 // The length of each line
+		, width: 6 // The line thickness
+		, radius: 12 // The radius of the inner circle
 		, scale: 1 // Scales overall size of the spinner
 		, corners: 1.0 // Corner roundness (0..1)
 		, color: '#000' // #rgb or #rrggbb or array of colors
@@ -123,8 +123,8 @@ $("#play").click(function() {
 
   $("#listenPrompt").removeAttr("hidden");
   $(".sess").animate({
-    width:'50px',
-    height:'50px'
+    width:'35px',
+    height:'35px'
   }, 500, function() {
   	$(".sess").removeClass("zero");
     // Animation complete.
