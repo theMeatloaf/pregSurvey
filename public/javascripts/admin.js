@@ -94,6 +94,8 @@ $("#searchForm").submit(function(event){
                 }
                 thisRow.find('.optOutButton').attr("id",data[i].id);
                 thisRow.find('.userEditForm').attr("id",data[i].id);
+                thisRow.find('.inviteButton').attr("id",data[i].id);
+                
                 if(data[i].notifications_email == true) {
                     thisRow.find('#emailCheckbox').attr("checked","checked");
                 }
@@ -101,11 +103,18 @@ $("#searchForm").submit(function(event){
                     thisRow.find('#smsCheckbox').attr("checked","checked");
                 }
 
+                if (!data[i].invite_token) {
+                    thisRow.find('.inviteButton').hide();
+                } else {
+                    thisRow.find('.inviteButton').removeAttr("hidden");
+                }
+
                 if (data[i].permission_level == -1 ) {
                     thisRow.find('.optOutButton').html("OPT IN");
                 } else {
                     thisRow.find('.optOutButton').html("OPT OUT");
                 }
+
                 $("#resultContainer").append(thisRow);
             };
         }).fail(function(data,status) {
@@ -123,6 +132,20 @@ $("#searchForm").submit(function(event){
     event.preventDefault();
 });
 
+$('#resultContainer').delegate('.inviteButton','click',function(event) {
+    $("#errorMessage").html("");
+    $("#successMessage").html("");
+
+    $.post('/api/sendInvite',{toUser:this.id},function(data,status) {
+        $("#successMessage").html("Successfully re-sent invitation email to user");
+    }).fail(function(data,status) {
+       if (data.responseJSON){
+            $("#errorMessage").html(data.responseJSON['error']);
+        } else {
+            $("#errorMessage").html(data);
+        }
+    });
+});
 
 $('#resultContainer').delegate('.userEditForm','submit',function(event){
     $("#errorMessage").html("");

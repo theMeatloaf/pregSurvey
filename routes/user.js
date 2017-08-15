@@ -24,6 +24,7 @@ router.post('/api/optOut',optOut);
 router.post('/api/optIn',optIn);
 router.get('/api/optOutSelf',optOutSelf);
 router.post('/api/addListeningTime',addTime);
+router.post('/api/sendInvite',sendInvite);
 
 const db = require('../server/db').db()
 
@@ -338,6 +339,22 @@ function invite(req,res,next) {
   }).catch(function(err) {
     res.status(500).json(err);
   });
+}
+
+function sendInvite(req,res,next) {
+  if (!req.user || req.user.permission_level != 1) {
+      res.status(401).json({error:'not authorized to view this data'});
+      return;
+  } else if(!req.body.toUser) {
+      res.status(401).json({error:'must pass userID'});
+  }
+
+  db.one(`select * from users where id = $1`,req.body.toUser).then(function (data) {
+        emailInvite(data.username,data.invite_token,res);
+    }).catch(function (err) {
+      return next(err);
+    });
+
 }
 
 function executeForgotPassword(req,res,next) {
