@@ -50,6 +50,14 @@ function setupLoadedData(data) {
 		if(data["notifications_sms"] == true) {
 			$('#smsCheckbox').attr("checked","checked");
 		}
+
+		if(data["notifications_time"] == 9) {
+			$('#morningRadio').prop("checked",true);
+		} else if (data["notifications_time"] == 12) {
+			$('#noonRadio').prop("checked",true);
+		} else if (data["notifications_time"] == 17) {
+			$('#eveningRadio').prop("checked",true);
+		}
 }
 
 $('#showPassCheckbox').change(function() {
@@ -71,6 +79,15 @@ $( "#editForm" ).submit(function( event ) {
         var emailNotifications = $("#emailcheckbox").is(':checked'); 
         var smsNotification = $("#smsCheckbox").is(':checked'); 
 
+        var selectedTime = null;
+        if ($('#morningRadio').prop("checked")) {
+        	selectedTime = 9;
+        } else if ($('#noonRadio').prop("checked")) {
+        	selectedTime = 12;
+        } else if ($('#eveningRadio').prop("checked")) {
+        	selectedTime = 17;
+        }
+
 		if (checkValidation()) {
 			var phonenum = $("#phoneInput").val();
 		
@@ -79,7 +96,8 @@ $( "#editForm" ).submit(function( event ) {
             {
                 phone: phonenum,
                 emailNotifications: emailNotifications,
-                smsNotifications: smsNotification
+                smsNotifications: smsNotification,
+                notificationTime: selectedTime
             },
             function(data,status){
         		$("#successMessage").html("Info saved Successfully");

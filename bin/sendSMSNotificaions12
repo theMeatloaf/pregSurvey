@@ -9,10 +9,11 @@ var connectionString = process.env.DATABASE_URL;
 db = pgp(connectionString);
 
 //get all users who want email notificaitons and who listen to music....
-db.many(`select * from users where notifications_sms = true and invite_token is null and phone is not null and (permission_level != -1 or permission_level is null)`)
+db.many(`select * from users where notifications_sms = true and notifications_time = 9 and invite_token is null and phone is not null and (permission_level != -1 or permission_level is null)`)
 .then(function (data) {
     for (var i = data.length - 1; i >= 0; i--) {
       delete data[i].password;
+
       //determine if they need to fill out a survey...
       var date = new Date();
       var dueDate = new Date(data[i].next_survey_date);

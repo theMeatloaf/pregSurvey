@@ -110,8 +110,8 @@ function updateUser(req,res,next) {
       });
     } else {
       //no date invovled just update user    
-      db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3 where id=$4',
-      [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,id]).then(function () {
+      db.none('update users set phone=$1, notifications_email=$2, notifications_sms=$3, notifications_time=$4 where id=$5',
+      [req.body.phone,req.body.emailNotifications,req.body.smsNotifications,req.body.notificationTime,id]).then(function () {
         res.status(200)
           .json({
             status: 'success',

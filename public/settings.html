@@ -61,14 +61,26 @@
         </div>
       </div>
 
-          <div class="row">
-            <div class="col-xs-1 col-md-4"></div>
-            <div class="col-xs-10 col-md-4">
-                <p id="errorMessage" class="text-danger"></p>
-                <p id="successMessage" class="text-success"></p>
-                <button type="submit" id="saveBtn" class="btn btn-default">Save</button>
+      <div class="row">
+          <div class="col-xs-1 col-md-4"></div>
+          <div class="col-xs-10 col-md-4">
+            <div class="form-group">
+              <p>Prefered Reminder Time:</p>
+              <label class="radio-inline"><input type="radio" id="morningRadio" name="timeRadio">9:00</label>
+              <label class="radio-inline"><input type="radio" id="noonRadio" name="timeRadio">12:00</label>
+              <label class="radio-inline"><input type="radio" id="eveningRadio" name="timeRadio">17:00</label>
             </div>
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="col-xs-1 col-md-4"></div>
+          <div class="col-xs-10 col-md-4">
+              <p id="errorMessage" class="text-danger"></p>
+              <p id="successMessage" class="text-success"></p>
+              <button type="submit" id="saveBtn" class="btn btn-default">Save</button>
           </div>
+        </div>
   </form>
 
 

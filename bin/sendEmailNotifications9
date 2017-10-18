@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+const test = require('dotenv').config()
+const request = require('request');
+
+var pgp = require('pg-promise')();
+var connectionString = process.env.DATABASE_URL;
+db = pgp("postgres://localhost:5432/puppies");
+
+var emailTemplate_firstHalf = "<html><head><style>img {display:block;margin:auto;}h1 {padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:rgb(221, 114, 114);font-size:25px;font-weight:300;letter-spacing:0.015em;}p{padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:#999999;font-size:14px;font-weight:200;letter-spacing:0.015em;}p.footer{font-size:13px;}</style></head><img src='https://maternalmomentsstudy.com/images/logo_circle.png' width=200><h1 style='padding:10px'>Maternal Moments</h1>";
+var emailTemplate_secondHalf = "<p class='footer' style='padding:60px 0px 0px 0px;'>Do not reply to this email.</p><p class='footer'>Send any questions/concerns directly to us at maternalmomentsresearch@gmail.com</p></html>";
+
+//build out the url...
+var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
+
+//get all users who want email notificaitons and who listen to music....
+db.many(`select * from users where notifications_email = true and notifications_time = 9 and invite_token is null and (permission_level != -1 or permission_level is null)`)
+.then(function (data) {
+    for (var i = data.length - 1; i >= 0; i--) {
+      delete data[i].password;
+
+      //determine if they need to fill out a survey...
+      var date = new Date();
+      var dueDate = new Date(data[i].next_survey_date);
+
+      var message = "";
+      var html = "";
+      if (data[i].music_enabled) {
+        message = "<p>Hello from Maternal Moments</p><p>This is just a friendly reminder to remember to listen to your music today. Log in <a href="+process.env.BASE_URL+">here</a> to listen: "+process.env.BASE_URL+" <p>";
+      }
+
+      if (date > dueDate) {
+          //need a survey...
+         if (data[i].music_enabled) {
+            message = message + "<p>You also have a questionnaire due. Remember it takes around 30 minutes to complete, so make sure you leave enough time.<p>"
+          } else {
+            message = "<p>Hello from Maternal Moments</p><p>This is just a friendly reminder that you have a questionnaire due. Remember it takes around 30 minutes to complete, so make sure you leave enough time. Log in <a href="+process.env.BASE_URL+">here</a> to complete it: "+process.env.BASE_URL+" </p>";
+          }
+      }
+
+      if (message.length > 0) {
+          var textMessage = message.replace("<p>","");
+          textMessage = textMessage.replace("<br>","\n");
+          html = emailTemplate_firstHalf+message+emailTemplate_secondHalf;
+      } else {
+        return;
+      }
+
+
+      //send them the email
+      request.post(API_URL,
+        { form: { from: 'MaternalMoments@maternalmomentsstudy.com', to: data[i].username, subject:'Maternal Moments: Your friendly daily reminder', text:textMessage,html:html } },
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+              //do less?...
+            } else {
+               console.error(response);
+            }
+        }
+      );
+    };
+  })
+  .catch(function (err) {
+    console.error(err);
+  });

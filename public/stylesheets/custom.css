@@ -59,7 +59,7 @@ h3.cinz {
   font-size: 20px;
 }
 
-label.checkbox-inline {
+label.checkbox-inline, label.radio-inline {
   font-family: "HelveticaNeue-Light",Helvetica, Arial, sans-serif;
   font-size: 14px;
   letter-spacing: 2.0px;
