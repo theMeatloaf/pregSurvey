@@ -286,7 +286,8 @@ function findUser(req,res,next) {
     res.status(401).json({error:'must pass email'});
     return;
   }
-  db.many(`select * from users where username like $1`,'%'+req.query.email+'%')
+
+  db.many(`select * from users where username like $1`,'%'+req.query.email.toLowerCase()+'%')
     .then(function (data) {
       for (var i = data.length - 1; i >= 0; i--) {
         delete data[i].password;
@@ -323,15 +324,16 @@ function invite(req,res,next) {
   const hashVal = req.body.username+now.toString();
   const hash = bcrypt.hashSync(hashVal, salt);
   var phoneNum = req.body.phoneNumber;
+  var userName = req.body.username.toLowerCase();
 
   db.one(`select * from users where id = (select max(id) from users)`).then(function(data) {
     //got the last user lets toggle
     var theyHadMusic = data.music_enabled;
     db.none(`insert into users(username,notifications_email,next_survey_date,next_survey_position,invite_token,phone,music_enabled,notifications_sms)
      values($1,true,$2,1,$3,$4,$5,$6)`,
-     [req.body.username,new Date(),hash,phoneNum,!theyHadMusic,(phoneNum.length > 0)]).then(function (user) {
+     [userName,new Date(),hash,phoneNum,!theyHadMusic,(phoneNum.length > 0)]).then(function (user) {
          //this worked...lets email them
-         emailInvite(req.body.username,hash,res);
+         emailInvite(userName,hash,res);
     })
     .catch(function (err) {
         res.status(500).json(err);
