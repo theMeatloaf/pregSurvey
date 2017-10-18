@@ -5,7 +5,7 @@ const request = require('request');
 
 var pgp = require('pg-promise')();
 var connectionString = process.env.DATABASE_URL;
-db = pgp("postgres://localhost:5432/puppies");
+db = pgp(connectionString);
 
 var emailTemplate_firstHalf = "<html><head><style>img {display:block;margin:auto;}h1 {padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:rgb(221, 114, 114);font-size:25px;font-weight:300;letter-spacing:0.015em;}p{padding:0;font-family:'Helvetica Neue','Helvetica','Arial',sans-serif;text-align:center;color:#999999;font-size:14px;font-weight:200;letter-spacing:0.015em;}p.footer{font-size:13px;}</style></head><img src='https://maternalmomentsstudy.com/images/logo_circle.png' width=200><h1 style='padding:10px'>Maternal Moments</h1>";
 var emailTemplate_secondHalf = "<p class='footer' style='padding:60px 0px 0px 0px;'>Do not reply to this email.</p><p class='footer'>Send any questions/concerns directly to us at maternalmomentsresearch@gmail.com</p></html>";
