@@ -14,7 +14,7 @@ var emailTemplate_secondHalf = "<p class='footer' style='padding:60px 0px 0px 0p
 var API_URL = "https://api:"+process.env.MAILGUN_API_KEY+"@api.mailgun.net/v3/" + process.env.MAILGUN_DOMAIN + "/messages";
 
 //get all users who want email notificaitons and who listen to music....
-db.many(`select * from users where notifications_email = true and notifications_time = 9 and invite_token is null and (permission_level != -1 or permission_level is null)`)
+db.many(`select * from users where notifications_email = true and notifications_time = 17 and invite_token is null and (permission_level != -1 or permission_level is null)`)
 .then(function (data) {
     for (var i = data.length - 1; i >= 0; i--) {
       delete data[i].password;
