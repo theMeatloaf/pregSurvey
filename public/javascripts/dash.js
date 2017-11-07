@@ -13,7 +13,12 @@ function loadInData() {
 	$.get('/api/loggedIn',function(data,status) {
 		//setup music if should
 		if (data.music_enabled && data.birth_date == null) {
-			$("#musicPrompt").removeClass("hidden");
+			if (data.next_survey_position == 1) {
+				//they can't listen to music yet...
+				$("#intro_prompt").append("<br><b>The Muisc player will appear here.<br>Complete your first questionare below to enable it.</b>");
+			} else {
+				$("#musicPrompt").removeClass("hidden");
+			}
 		} else {
 			$("#musicPrompt").addClass("hidden");
 		}

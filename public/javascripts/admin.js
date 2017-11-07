@@ -62,6 +62,11 @@ $( "#inviteForm" ).submit(function( event ) {
   			});
 });
 
+$("#pastDueBtn").click(function(event) {
+    $("#searchEmailInput").val('past due');
+    $("#searchForm").submit();
+});
+
 $("#searchForm").submit(function(event){
 
     $("#errorMessage").html("");
@@ -69,6 +74,13 @@ $("#searchForm").submit(function(event){
 
     var email = $("#searchEmailInput").val();
     
+    var searchingPastDue = false;
+    //handle searching for past due
+    if (email == "past due") {
+        email = "@";
+        searchingPastDue = true;
+    }
+
     $("#resultContainer").html('');
 
     var searchURL = "/api/findUser";
@@ -81,11 +93,29 @@ $("#searchForm").submit(function(event){
                 var email = data[i].username;
                 var thisRow = row.clone();
                 thisRow.find('.value').html("<b>"+email+"</b>");
-                var dueDate = new Date(data[i].next_survey_date);
                 if (data[i].music_enabled === true) {
                     thisRow.find('.value').append("&nbsp;&nbsp;&nbsp;<span class='glyphicon glyphicon glyphicon-music' aria-hidden='true'></span>")
                 }
-                thisRow.find('.value').append("&nbsp;&nbsp;&nbsp; Survey Due Date: "+dueDate.toDateString());
+                //lets calculate if their sruvey is are past due...
+                var now = new Date();
+                var dueDate = new Date(data[i].next_survey_date);
+                var lastDate = new Date(dueDate);
+                lastDate = lastDate.setDate(lastDate.getDate() + data[i].days_till_next);
+                var numDaysLeft = daydiff(now,lastDate);
+                if (data[i].next_survey_position) {
+                   if (numDaysLeft < 0) {
+                        //past due!
+                        thisRow.find('.value').append("&nbsp;&nbsp;&nbsp;SURVEY "+ -numDaysLeft +" DAYS PAST DUE!");
+                    } else if (searchingPastDue) {
+                        //skip this row we're just earching for past due
+                        continue;
+                    } else {
+                        //lets just show how many days they have left
+                        thisRow.find('.value').append("&nbsp;&nbsp;&nbsp;"+numDaysLeft+" days left to fill our current survey");
+                    }
+                }
+
+
                 thisRow.find('#phoneNumberInput').val(data[i].phone);
                 if (data[i].birth_date) {
                     var birthDate = new Date(data[i].birth_date);
@@ -238,3 +268,7 @@ $('#resultContainer').delegate('.optOutButton','click',function(event) {
         }
     }
 });
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24));
+}
