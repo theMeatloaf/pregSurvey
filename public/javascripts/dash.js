@@ -239,7 +239,7 @@ function setupMusicPlayer(music) {
 		var now = new Date();
 		var difference = (now - startDate)/1000;
 		//need to send up that time...
-		$.post('/api/addListeningTime',{seconds:difference},
+		$.post('/api/createListen',{length:difference,date:now.toUTCString()},
 			function(data,status) {
 				console.log("added time");
 		})

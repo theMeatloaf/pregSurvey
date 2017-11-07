@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 
 var api = require('./routes/user');
 var api2 = require('./routes/survey');
+var api3 = require('./routes/listenSession');
 
 var app = express();
 var passport = require('passport');
@@ -45,6 +46,7 @@ app.use(passport.session());
 
 app.use('/', api);
 app.use('/', api2);
+app.use('/', api3);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

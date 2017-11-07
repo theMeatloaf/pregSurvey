@@ -36,5 +36,12 @@ CREATE TABLE surveys (
   beforeBirth BOOLEAN
 );
 
+CREATE TABLE listen_session (
+  ID SERIAL PRIMARY KEY,
+  length DOUBLE PRECISION,
+  user_id INTEGER,
+  date timestamp
+);
+
 INSERT INTO pups (name, breed, age, sex)
   VALUES ('Tyler', 'Retrieved', 3, 'M');
