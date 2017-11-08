@@ -105,7 +105,7 @@ $("#searchForm").submit(function(event){
                 if (data[i].next_survey_position) {
                    if (numDaysLeft < 0) {
                         //past due!
-                        thisRow.find('.value').append("&nbsp;&nbsp;&nbsp;SURVEY "+ -numDaysLeft +" DAYS PAST DUE!");
+                        thisRow.find('.value').append("&nbsp;&nbsp;&nbsp;<b>SURVEY "+ -numDaysLeft +" DAYS PAST DUE!</b>");
                     } else if (searchingPastDue) {
                         //skip this row we're just earching for past due
                         continue;
@@ -125,6 +125,7 @@ $("#searchForm").submit(function(event){
                 thisRow.find('.optOutButton').attr("id",data[i].id);
                 thisRow.find('.userEditForm').attr("id",data[i].id);
                 thisRow.find('.inviteButton').attr("id",data[i].id);
+                thisRow.find('.listenButton').attr("id",data[i].id);
                 
                 if(data[i].notifications_email == true) {
                     thisRow.find('#emailCheckbox').attr("checked","checked");
@@ -218,6 +219,10 @@ $('#resultContainer').delegate('.userEditForm','submit',function(event){
     });
 
     event.preventDefault();
+});
+
+$('#resultContainer').delegate('.listenButton','click',function(event) {
+    document.location.href = '/listenSessionViewer?userID='+this.id+'&limit=10&offset=0' ;
 });
 
 $('#resultContainer').delegate('.optOutButton','click',function(event) {

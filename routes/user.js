@@ -287,7 +287,7 @@ function findUser(req,res,next) {
     return;
   }
 
-  db.many(`select * from users left join surveys on (surveys.position = users.next_survey_position) and surveys.beforebirth = (users.birth_date is null)  where username like $1`,'%'+req.query.email.toLowerCase()+'%')
+  db.many(`select users.*, surveys.days_till_next from users left join surveys on (surveys.position = users.next_survey_position) and surveys.beforebirth = (users.birth_date is null)  where username like $1`,'%'+req.query.email.toLowerCase()+'%')
     .then(function (data) {
       for (var i = data.length - 1; i >= 0; i--) {
         delete data[i].password;

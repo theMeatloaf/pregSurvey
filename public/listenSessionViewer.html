@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- TheWelcome</title>
+
+    <!-- Bootstrap -->
+    <link href="stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="stylesheets/custom.css" rel="stylesheet">
+  </head>
+
+  <body onload="loadInData()" >
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header col-xs-10">
+        <a class="navbar-brand" href="/dash">
+         <img width=45 alt="Brand" src="/images/logo_circle.png">
+        </a>
+          <h2>Listening times</h2>
+      </div>
+      <div class="col-xs-2">
+          <button type="button" id="goAdmin" class="btn btn-default navbar-btn navbar-right">Admin</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid" id="mainContainer">
+  	<br><br><br><br>
+
+  	<div class="row">
+  		<div class="col-xs-1"></div>
+  		<div class="col-xs-10">
+        <button type="button" id="left" class="btn btn-default">←</button>
+        <button type="button" id="right" class="btn btn-default">→</button>
+  		</div>
+  		<div class="col-xs-1"></div>
+  	</div>
+    <br>
+
+    <p id="errorMessage" class="text-danger"></p>
+    <p id="successMessage" class="text-success"></p>
+
+    <div id="resultContainer">
+      <div class="row" id="searchResult">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="col-xs-10">
+                <h4 class="value"></h4>
+
+              </div>
+            </div>
+          </div>
+        <div class="col-xs-1"></div>
+      </div>
+     </div>
+   </div>
+
+  </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/sessionView.js"></script>
+  </body>
+</html>
