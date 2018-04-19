@@ -28,7 +28,7 @@ db.many(`select * from users where notifications_sms = true and notifications_ti
          if (data[i].music_enabled) {
             message = message + "\n\nYou also have a survey due. Please complete this as soon as possible."
           } else {
-            message = "You are due to fill out a survey for the Maternal Motments Study!\n\nLog in here to complete it: "+process.env.BASE_URL;
+            message = "You are due to fill out a survey for the Maternal Moments Study!\n\nLog in here to complete it: "+process.env.BASE_URL;
           }
       }
 
